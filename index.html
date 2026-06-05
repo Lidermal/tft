@@ -176,7 +176,6 @@
         </div>
         <nav>
             <ul>
-                <!-- Links apontando para páginas separadas -->
                 <li><a href="index.html">Início</a></li>
                 <li><a href="sobre.html">Sobre Nós</a></li>
                 <li><a href="membros.html">Membros</a></li>
@@ -194,27 +193,25 @@
         </div>
     </div>
 
-    <!-- PÁGINA INICIAL: Carrossel e Atalhos -->
     <section class="conteudo">
         <h2 class="titulo-secao" style="display: block; text-align: center; margin-bottom: 40px;">Destaques TFT</h2>
         
-        <!-- Carrossel -->
         <div class="carrossel-container">
             <button class="carrossel-btn btn-prev" onclick="mudarSlide(-1)">&#10094;</button>
             <div class="carrossel-slides" id="slider">
-                <div class="slide" style="background-image: url('https://i95.servimg.com/u/f95/20/65/42/26/07656210.jpg');">
+                <div class="slide" style="background-image: url('https://i.imgur.com/QjN2Vw5.png');">
                     <div class="slide-content">
                         <h3>Atualização de Documentação</h3>
                         <p>O Código de Conduta da FEB foi revisado. Fique atento às novas diretrizes.</p>
                     </div>
                 </div>
-                <div class="slide" style="background-image: url('https://i95.servimg.com/u/f95/20/65/42/26/07656210.jpg');">
+                <div class="slide" style="background-image: url('https://i.imgur.com/L79pB4V.png');">
                     <div class="slide-content">
                         <h3>Novos Membros Efetivados</h3>
                         <p>Confira a lista dos novos oficiais integrados ao Tribunal nesta semana.</p>
                     </div>
                 </div>
-                <div class="slide" style="background-image: url('https://i95.servimg.com/u/f95/20/65/42/26/07656210.jpg');">
+                <div class="slide" style="background-image: url('https://i.imgur.com/8QWv7u0.png');">
                     <div class="slide-content">
                         <h3>Ouvidoria Aberta</h3>
                         <p>Problemas com suprimentos ou planejamento? Use nosso canal de Fale Conosco.</p>
@@ -224,7 +221,6 @@
             <button class="carrossel-btn btn-next" onclick="mudarSlide(1)">&#10095;</button>
         </div>
 
-        <!-- Atalhos para as novas páginas HTML -->
         <div class="atalhos-grid">
             <a href="sobre.html" class="card-atalho">
                 <h3>🏛️ Sobre Nós</h3>
@@ -266,14 +262,12 @@
         </div>
     </footer>
 
-    <!-- Botão Fale Conosco -->
     <a class="btn-fale-conosco" onclick="abrirFaleConosco()">💬 Fale Conosco</a>
 
-    <!-- MODAL FALE CONOSCO -->
     <div id="modalFaleConosco" class="modal-overlay">
         <div class="modal-content">
             <span class="fechar-modal" onclick="fecharFaleConosco()">&times;</span>
-            <h2>Canal de Atendimento Tribunal de Fisc. e Transp.</h2>
+            <h2>Canal de Atendimento TFT</h2>
             <form id="formFaleConosco" onsubmit="enviarFormulario(event)">
                 
                 <div style="display: flex; gap: 15px;">
@@ -324,7 +318,6 @@
         </div>
     </div>
 
-    <!-- SCRIPTS -->
     <script>
         function abrirLogin() {
             alert("Modal de Login será construído nos próximos passos.");
@@ -342,11 +335,74 @@
             document.getElementById('modalFaleConosco').style.display = 'none';
         }
 
-        function enviarFormulario(event) {
+        /* Integração com Google Sheets e Google Drive */
+        async function enviarFormulario(event) {
             event.preventDefault(); 
-            alert("Sua solicitação foi registrada com sucesso! (A integração com o painel admin será feita posteriormente).");
-            fecharFaleConosco();
-            document.getElementById('formFaleConosco').reset();
+            
+            // Alterar o botão para mostrar que está carregando (uploads podem levar alguns segundos)
+            const btnEnviar = document.querySelector('.btn-enviar');
+            const textoOriginal = btnEnviar.innerText;
+            btnEnviar.innerText = "Enviando Provas... Aguarde!";
+            btnEnviar.disabled = true;
+            btnEnviar.style.backgroundColor = "#b21f1f";
+
+            // Coletar dados dos campos
+            const dataVigente = document.getElementById('dataVigente').value;
+            const nick = document.getElementById('nick').value;
+            const patente = document.getElementById('patente').value;
+            const tipoSolicitacao = document.getElementById('tipoSolicitacao').value;
+            const descricao = document.getElementById('descricao').value;
+            const inputArquivo = document.getElementById('anexos');
+            
+            let payload = {
+                dataVigente, nick, patente, tipoSolicitacao, descricao,
+                fileName: "", fileData: ""
+            };
+
+            // Se o usuário selecionou uma imagem, converter para Base64
+            if (inputArquivo.files.length > 0) {
+                const file = inputArquivo.files[0];
+                payload.fileName = file.name;
+                
+                const toBase64 = file => new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = error => reject(error);
+                });
+
+                payload.fileData = await toBase64(file);
+            }
+
+            // URL do Web App atualizada
+            const urlWebApp = "https://script.google.com/macros/s/AKfycbx42n9HJr9shTBHqHPQqTHYmG1qosc5yLKDKZbx8KPw31OikfW9UXKlYiLltTZ07g6l/exec";
+
+            try {
+                // Disparo para o servidor do Google
+                const resposta = await fetch(urlWebApp, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify(payload)
+                });
+                
+                const resultado = await resposta.json();
+                
+                if(resultado.status === "sucesso") {
+                    alert("Solicitação enviada! Os dados e anexos foram registrados no sistema do TFT.");
+                    fecharFaleConosco();
+                    document.getElementById('formFaleConosco').reset();
+                } else {
+                    alert("Houve um erro no servidor: " + resultado.mensagem);
+                }
+            } catch (error) {
+                alert("Erro de conexão. Verifique sua internet ou a URL do Web App.");
+                console.error(error);
+            } finally {
+                // Voltar o botão ao normal
+                btnEnviar.innerText = textoOriginal;
+                btnEnviar.disabled = false;
+                btnEnviar.style.backgroundColor = "#003366";
+            }
         }
 
         /* Funções do Carrossel */
