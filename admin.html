@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - TFT</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --amarelo: #FFD700;
+            --preto: #0a0a0a;
+            --azul: #1a3a6b;
+            --azul-escuro: #0d1f3c;
+            --branco: #ffffff;
+            --cinza: #f5f5f5;
+            --vermelho: #dc3545;
+            --verde: #28a745;
+            --laranja: #fd7e14;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--cinza);
+            color: var(--preto);
+        }
+
+        /* Header */
+        .admin-header {
+            background: linear-gradient(135deg, var(--preto) 0%, var(--azul-escuro) 100%);
+            color: var(--branco);
+            padding: 20px 30px;
+            border-bottom: 3px solid var(--amarelo);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-header h1 {
+            font-size: 1.5rem;
+            color: var(--amarelo);
+        }
+
+        .admin-header a {
+            color: var(--branco);
+            text-decoration: none;
+            padding: 8px 20px;
+            border: 2px solid var(--amarelo);
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .admin-header a:hover {
+            background: var(--amarelo);
+            color: var(--preto);
+        }
+
+        /* Stats */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            background: var(--branco);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            border-left: 4px solid var(--azul);
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            color: var(--azul);
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .stat-card.novas { border-left-color: var(--vermelho); }
+        .stat-card.novas h3 { color: var(--vermelho); }
+
+        .stat-card.lidas { border-left-color: var(--verde); }
+        .stat-card.lidas h3 { color: var(--verde); }
+
+        /* Filtros */
+        .filtros {
+            background: var(--branco);
+            padding: 20px 30px;
+            margin: 0 30px 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filtros label {
+            font-weight: 600;
+            color: var(--azul);
+        }
+
+        .filtros select, .filtros input {
+            padding: 8px 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .filtros button {
+            padding: 8px 20px;
+            background: var(--azul);
+            color: var(--branco);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .filtros button:hover { background: var(--azul-escuro); }
+
+        /* Mensagens */
+        .mensagens-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px 30px;
+        }
+
+        .mensagem-card {
+            background: var(--branco);
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--laranja);
+        }
+
+        .mensagem-card.lida {
+            border-left-color: var(--verde);
+            opacity: 0.8;
+        }
+
+        .mensagem-header {
+            background: linear-gradient(135deg, var(--azul) 0%, var(--azul-escuro) 100%);
+            color: var(--branco);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .mensagem-header h3 {
+            font-size: 1.1rem;
+            color: var(--amarelo);
+        }
+
+        .mensagem-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .mensagem-body {
+            padding: 20px;
+            display: none;
+        }
+
+        .mensagem-body.expandido {
+            display: block;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-item label {
+            display: block;
+            font-weight: 600;
+            color: var(--azul);
+            margin-bottom: 5px;
+            font-size: 0.85rem;
+        }
+
+        .info-item span {
+            display: block;
+            padding: 8px 12px;
+            background: var(--cinza);
+            border-radius: 5px;
+            font-size: 0.95rem;
+        }
+
+        .descricao-box {
+            background: var(--cinza);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .imagem-box {
+            margin-top: 15px;
+        }
+
+        .imagem-box img {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .acoes {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-marcar-lida {
+            background: var(--verde);
+            color: var(--branco);
+        }
+
+        .btn-marcar-lida:hover { background: #218838; }
+
+        .btn-excluir {
+            background: var(--vermelho);
+            color: var(--branco);
+        }
+
+        .btn-excluir:hover { background: #c82333; }
+
+        .btn-exportar {
+            background: var(--azul);
+            color: var(--branco);
+        }
+
+        .btn-exportar:hover { background: var(--azul-escuro); }
+
+        .sem-mensagens {
+            text-align: center;
+            padding: 60px 20px;
+            background: var(--branco);
+            border-radius: 10px;
+            color: #666;
+        }
+
+        .sem-mensagens h2 {
+            color: var(--azul);
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .admin-header { flex-direction: column; gap: 15px; text-align: center; }
+            .filtros { margin: 0 15px 20px; }
+            .mensagens-container { padding: 0 15px 30px; }
+            .mensagem-header { flex-direction: column; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-header">
+        <h1>🔐 Painel Administrativo - TFT</h1>
+        <a href="index.html">← Voltar ao Site</a>
+    </div>
+
+    <div class="stats-container">
+        <div class="stat-card novas">
+            <h3 id="totalNovas">0</h3>
+            <p>Mensagens Não Lidas</p>
+        </div>
+        <div class="stat-card lidas">
+            <h3 id="totalLidas">0</h3>
+            <p>Mensagens Lidas</p>
+        </div>
+        <div class="stat-card">
+            <h3 id="totalGeral">0</h3>
+            <p>Total de Mensagens</p>
+        </div>
+    </div>
+
+    <div class="filtros">
+        <label>Filtrar por:</label>
+        <select id="filtroMotivo" onchange="aplicarFiltros()">
+            <option value="">Todos os Motivos</option>
+            <option value="Denúncia">Denúncia</option>
+            <option value="Dúvida">Dúvida</option>
+            <option value="Sugestão">Sugestão</option>
+            <option value="Solicitação">Solicitação</option>
+            <option value="Reclamação">Reclamação</option>
+            <option value="Elogio">Elogio</option>
+        </select>
+        
+        <select id="filtroStatus" onchange="aplicarFiltros()">
+            <option value="">Todos os Status</option>
+            <option value="nao-lida">Não Lidas</option>
+            <option value="lida">Lidas</option>
+        </select>
+
+        <input type="text" id="filtroNick" placeholder="Buscar por Nick..." onkeyup="aplicarFiltros()">
+        
+        <button onclick="exportarJSON()">📥 Exportar JSON</button>
+        <button onclick="limparTodas()" style="background: var(--vermelho);">🗑️ Limpar Tudo</button>
+    </div>
+
+    <div class="mensagens-container" id="listaMensagens">
+        <!-- Mensagens serão carregadas aqui -->
+    </div>
+
+    <script>
+        let mensagens = [];
+        let filtroAtual = { motivo: '', status: '', nick: '' };
+
+        function carregarMensagens() {
+            mensagens = JSON.parse(localStorage.getItem('tft_mensagens') || '[]');
+            atualizarStats();
+            renderizarMensagens();
+        }
+
+        function atualizarStats() {
+            const novas = mensagens.filter(m => !m.lida).length;
+            const lidas = mensagens.filter(m => m.lida).length;
+            
+            document.getElementById('totalNovas').textContent = novas;
+            document.getElementById('totalLidas').textContent = lidas;
+            document.getElementById('totalGeral').textContent = mensagens.length;
+            
+            localStorage.setItem('tft_novas_mensagens', novas);
+        }
+
+        function renderizarMensagens() {
+            const container = document.getElementById('listaMensagens');
+            
+            let filtradas = mensagens.filter(m => {
+                if (filtroAtual.motivo && m.motivo !== filtroAtual.motivo) return false;
+                if (filtroAtual.status === 'lida' && m.lida !== true) return false;
+                if (filtroAtual.status === 'nao-lida' && m.lida !== false) return false;
+                if (filtroAtual.nick && !m.nick.toLowerCase().includes(filtroAtual.nick.toLowerCase())) return false;
+                return true;
+            });
+
+            if (filtradas.length === 0) {
+                container.innerHTML = `
+                    <div class="sem-mensagens">
+                        <h2>Nenhuma mensagem encontrada</h2>
+                        <p>As mensagens enviadas pelo formulário aparecerão aqui.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtradas.map(m => `
+                <div class="mensagem-card ${m.lida ? 'lida' : ''}" data-id="${m.id}">
+                    <div class="mensagem-header" onclick="toggleMensagem(${m.id})">
+                        <div>
+                            <h3>${m.nick} - ${m.motivo}</h3>
+                            <div class="mensagem-meta">
+                                <span>📅 ${formatarData(m.dataEnvio)}</span>
+                                <span>👤 ${m.patente}</span>
+                                <span>${m.lida ? '✅ Lida' : '⏳ Pendente'}</span>
+                            </div>
+                        </div>
+                        <span style="font-size: 1.5rem;">${m.lida ? '▼' : '▶'}</span>
+                    </div>
+                    <div class="mensagem-body" id="msg-${m.id}">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Nick</label>
+                                <span>${m.nick}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Patente</label>
+                                <span>${m.patente}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Motivo</label>
+                                <span>${m.motivo}</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Data do Contato</label>
+                                <span>${m.dataVigente}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="descricao-box">
+                            <label style="font-weight: 600; color: var(--azul); display: block; margin-bottom: 8px;">Descrição:</label>
+                            ${m.descricao}
+                        </div>
+
+                        ${m.imagemUrl !== 'Nenhuma' ? `
+                            <div class="imagem-box">
+                                <label style="font-weight: 600; color: var(--azul); display: block; margin-bottom: 8px;">Imagem Anexada:</label>
+                                <a href="${m.imagemUrl}" target="_blank">
+                                    <img src="${m.imagemUrl}" alt="Imagem anexada" onerror="this.style.display='none'">
+                                </a>
+                            </div>
+                        ` : ''}
+
+                        <div class="acoes">
+                            <button class="btn btn-marcar-lida" onclick="marcarComoLida(${m.id})">
+                                ${m.lida ? '↩️ Marcar como Não Lida' : '✅ Marcar como Lida'}
+                            </button>
+                            <button class="btn btn-excluir" onclick="excluirMensagem(${m.id})">🗑️ Excluir</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleMensagem(id) {
+            const body = document.getElementById(`msg-${id}`);
+            body.classList.toggle('expandido');
+        }
+
+        function marcarComoLida(id) {
+            const msg = mensagens.find(m => m.id === id);
+            if (msg) {
+                msg.lida = !msg.lida;
+                msg.status = msg.lida ? 'Lida' : 'Pendente';
+                salvarMensagens();
+            }
+        }
+
+        function excluirMensagem(id) {
+            if (confirm('Tem certeza que deseja excluir esta mensagem?')) {
+                mensagens = mensagens.filter(m => m.id !== id);
+                salvarMensagens();
+            }
+        }
+
+        function limparTodas() {
+            if (confirm('⚠️ ATENÇÃO: Isso excluirá TODAS as mensagens. Deseja continuar?')) {
+                if (confirm('Esta ação não pode ser desfeita. Confirmar exclusão total?')) {
+                    mensagens = [];
+                    salvarMensagens();
+                }
+            }
+        }
+
+        function salvarMensagens() {
+            localStorage.setItem('tft_mensagens', JSON.stringify(mensagens));
+            atualizarStats();
+            renderizarMensagens();
+        }
+
+        function aplicarFiltros() {
+            filtroAtual = {
+                motivo: document.getElementById('filtroMotivo').value,
+                status: document.getElementById('filtroStatus').value,
+                nick: document.getElementById('filtroNick').value
+            };
+            renderizarMensagens();
+        }
+
+        function exportarJSON() {
+            const dataStr = JSON.stringify(mensagens, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `tft_mensagens_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+        }
+
+        function formatarData(isoString) {
+            const date = new Date(isoString);
+            return `${String(date.getDate()).padStart(2,'0')}/${String(date.getMonth()+1).padStart(2,'0')}/${date.getFullYear()} ${String(date.getHours()).padStart(2,'0')}:${String(date.getMinutes()).padStart(2,'0')}`;
+        }
+
+        // Carregar mensagens ao iniciar
+        document.addEventListener('DOMContentLoaded', carregarMensagens);
+
+        // Atualizar a cada 5 segundos (para pegar novas mensagens)
+        setInterval(carregarMensagens, 5000);
+    </script>
+</body>
+</html>
