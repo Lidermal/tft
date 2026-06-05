@@ -5,60 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diário TFT - Polícia FEB Habbo</title>
     <style>
-        /* Estilos Globais */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #f5f5dc; color: #111111; scroll-behavior: smooth; }
 
-        /* Cabeçalho */
-        header {
-            background: linear-gradient(135deg, #111111, #003366);
-            color: #ffffff; padding: 15px 50px;
-            display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.8); position: sticky; top: 0; z-index: 1000; border-bottom: 2px solid #ffd700;
-        }
+        header { background: linear-gradient(135deg, #111111, #003366); color: #ffffff; padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.8); position: sticky; top: 0; z-index: 1000; border-bottom: 2px solid #ffd700; }
         .logo-tft-header { display: flex; align-items: center; gap: 15px; }
         .img-logo-header { width: 45px; height: 45px; object-fit: contain; }
-        .logo-tft-header h1 { font-size: 18px; text-transform: uppercase; letter-spacing: 1px; color: #ffd700; }
+        .logo-tft-header h1 { font-size: 18px; text-transform: uppercase; color: #ffd700; }
         nav ul { list-style: none; display: flex; gap: 20px; }
-        nav a { color: #ffffff; text-decoration: none; font-weight: bold; padding: 8px 15px; border-radius: 5px; transition: 0.3s; font-size: 14px; }
-        nav a:hover { background-color: rgba(255, 215, 0, 0.2); color: #ffd700; }
+        nav a { color: #ffffff; text-decoration: none; font-weight: bold; padding: 8px 15px; border-radius: 5px; transition: 0.3s; }
+        nav a:hover { background-color: rgba(255, 255, 255, 0.1); color: #ffd700; }
         .btn-login { background-color: #ffd700; color: #111111; border: none; padding: 8px 25px; font-weight: bold; border-radius: 5px; cursor: pointer; }
 
-        /* Capa */
         .capa-tft { background: radial-gradient(circle at center, #ffdb4d 0%, #d4af37 40%, #8b6508 100%); color: #ffffff; height: 60vh; display: flex; align-items: center; justify-content: center; gap: 50px; border-bottom: 5px solid #111111; }
         .img-logo-capa { width: 230px; height: 230px; object-fit: contain; filter: drop-shadow(0px 15px 20px rgba(0,0,0,0.7)); }
         .texto-capa h2 { font-size: 75px; font-family: 'Times New Roman', serif; text-transform: uppercase; }
 
-        /* Carrossel */
-        .conteudo { padding: 80px 50px; background-color: #ffffff; }
+        .conteudo { padding: 80px 50px; background-color: #ffffff; min-height: 50vh; }
         .carrossel-container { position: relative; max-width: 1000px; margin: 0 auto 50px auto; overflow: hidden; border-radius: 10px; border: 3px solid #003366; }
         .carrossel-slides { display: flex; transition: transform 0.5s ease-in-out; }
-        .slide { 
-            min-width: 100%; height: 300px; background-size: cover; background-position: center; 
-            position: relative; display: flex; align-items: center; justify-content: center; text-align: center; color: white; 
-        }
-        /* Filtro mais leve (0.3) */
+        .slide { min-width: 100%; height: 300px; background-size: cover; background-position: center; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; color: white; }
         .slide::before { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.3); }
         .slide-content { position: relative; z-index: 2; text-shadow: 2px 2px 8px rgba(0,0,0,1); }
         .carrossel-btn { position: absolute; top: 50%; background: #003366; color: white; border: 2px solid #ffd700; padding: 10px; cursor: pointer; z-index: 3; }
         .btn-prev { left: 10px; } .btn-next { right: 10px; }
 
-        /* Atalhos */
         .atalhos-grid { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; }
         .card-atalho { background: #003366; color: white; padding: 30px; border-radius: 10px; width: 280px; text-align: center; text-decoration: none; border-bottom: 5px solid #ffd700; }
         
-        /* Modal */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; }
-        .modal-content { background: #f5f5dc; width: 100%; max-width: 600px; border-radius: 10px; padding: 30px; }
-        .btn-enviar { background: #003366; color: white; width: 100%; padding: 10px; cursor: pointer; }
-        .btn-fale-conosco { position: fixed; bottom: 30px; right: 30px; background: #003366; color: white; padding: 15px; border-radius: 50px; cursor: pointer; }
+        .modal-content { background: #f5f5dc; width: 100%; max-width: 550px; border-radius: 8px; padding: 25px; border: 1px solid #d4af37; position: relative; }
+        .modal-content h2 { font-size: 18px; color: #111; margin-bottom: 20px; }
+        .form-label { font-weight: bold; font-size: 14px; margin-top: 10px; display: block; }
+        .input-style { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; }
+        .obs-text { color: #b21f1f; font-size: 12px; margin-top: 5px; }
+        .desc-text { color: #555; font-size: 12px; margin-top: 5px; margin-bottom: 15px; }
+        .btn-enviar { background: #003366; color: white; width: 100%; padding: 12px; margin-top: 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        
+        .btn-fale-conosco { position: fixed; bottom: 30px; right: 30px; background: #003366; color: white; padding: 15px; border-radius: 50px; cursor: pointer; z-index: 999; border: 2px solid #ffd700; }
+        
+        footer { background: #111111; color: #ffffff; padding: 40px 50px; text-align: center; border-top: 5px solid #003366; }
+        .footer-content { display: flex; justify-content: space-around; flex-wrap: wrap; margin-bottom: 20px; }
+        .footer-bottom { border-top: 1px solid #333; padding-top: 15px; font-size: 12px; color: #888; }
     </style>
 </head>
 <body>
 
     <header>
         <div class="logo-tft-header">
-            <img src="img/tft.png" alt="Logo TFT" class="img-logo-header">
+            <img src="img/tft.png" alt="Logo" class="img-logo-header">
             <div><h1>Tribunal de Fisc. e Transparência</h1><span>Diário Oficial - TFT | FEB®</span></div>
         </div>
         <nav>
@@ -73,18 +68,15 @@
     </header>
 
     <div class="capa-tft">
-        <img src="img/tft1.png" alt="Brasão TFT" class="img-logo-capa">
-        <div class="texto-capa">
-            <h2>Tribunal</h2>
-            <span>Fiscalização & Transparência</span>
-        </div>
+        <img src="img/tft1.png" alt="Brasão" class="img-logo-capa">
+        <div class="texto-capa"><h2>Tribunal</h2><span>Fiscalização & Transparência</span></div>
     </div>
 
     <section class="conteudo">
         <div class="carrossel-container">
             <button class="carrossel-btn btn-prev" onclick="mudarSlide(-1)">&#10094;</button>
             <div class="carrossel-slides" id="slider">
-                <div class="slide" style="background-image: url('https://i95.servimg.com/u/f95/20/65/42/26/07656210.jpg');"><div class="slide-content"><h3>Bem-vindo ao TFT</h3><p>Tribunal de Fiscalização e Transparência.</p></div></div>
+                <div class="slide" style="background-image: url('https://i95.servimg.com/u/f95/20/65/42/26/07656210.jpg');"><div class="slide-content"><h3>Bem-vindo ao TFT</h3><p>Portal Oficial de Fiscalização.</p></div></div>
                 <div class="slide" style="background-image: url('https://i95.servimg.com/u/f95/20/65/42/26/07656210.jpg');"><div class="slide-content"><h3>Notícias</h3><p>Acompanhe as atualizações.</p></div></div>
                 <div class="slide" style="background-image: url('https://i95.servimg.com/u/f95/20/65/42/26/07656210.jpg');"><div class="slide-content"><h3>Ouvidoria</h3><p>Estamos prontos para ouvir você.</p></div></div>
             </div>
@@ -97,78 +89,73 @@
         </div>
     </section>
 
+    <footer>
+        <div class="footer-content">
+            <div style="text-align: left;"><h3>TFT FEB</h3><p>Habbo Hotel BR/PT</p></div>
+            <div><h3>Links Úteis</h3><p><a href="documentos.html" style="color:#fff;">Código de Conduta</a></p></div>
+            <div><h3>Desenvolvimento</h3><p>Sistema exclusivo da Polícia FEB.</p></div>
+        </div>
+        <div class="footer-bottom">&copy; 2026 Tribunal de Fiscalização e Transparência. Desenvolvido por Janaelson667.</div>
+    </footer>
+
     <a class="btn-fale-conosco" onclick="abrirFaleConosco()">💬 Fale Conosco</a>
 
     <div id="modalFaleConosco" class="modal-overlay">
         <div class="modal-content">
+            <span onclick="fecharFaleConosco()" style="float:right; cursor:pointer; font-size:22px; font-weight:bold;">&times;</span>
+            <h2>Canal de Atendimento Tribunal de Fisc. e Transp.</h2>
             <form id="formFaleConosco" onsubmit="enviarFormulario(event)">
-                <input type="text" id="nick" placeholder="Seu Nick" required style="width:100%; margin-bottom:10px;">
-                <input type="text" id="patente" placeholder="Sua Patente" required style="width:100%; margin-bottom:10px;">
-                <input type="date" id="dataVigente" required readonly style="width:100%; margin-bottom:10px;">
-                <select id="tipoSolicitacao" required style="width:100%; margin-bottom:10px;">
-                    <option value="">Motivo...</option>
-                    <option value="Dúvida">Dúvida</option>
-                    <option value="Reclamação">Reclamação</option>
-                    <option value="Denúncia">Denúncia</option>
+                <div style="display:flex; gap:10px;">
+                    <div style="flex:1;"><label class="form-label">Seu Nick:</label><input type="text" id="nick" placeholder="Ex: Fulano123" class="input-style" required></div>
+                    <div style="flex:1;"><label class="form-label">Sua Patente:</label><input type="text" id="patente" placeholder="Ex: Sargento" class="input-style" required></div>
+                </div>
+                <label class="form-label">Data Vigente:</label><input type="date" id="dataVigente" class="input-style" required readonly>
+                <label class="form-label">Motivo do Contato:</label>
+                <select id="tipoSolicitacao" class="input-style" required>
+                    <option value="">-- Selecione uma opção --</option>
+                    <option value="Dúvida">Dúvida</option><option value="Reclamação">Reclamação</option>
+                    <option value="Sugestão">Sugestão</option><option value="Denúncia">Denúncia</option>
+                    <option value="Casos Financeiros">Casos Financeiros</option>
                 </select>
-                <textarea id="descricao" placeholder="Descrição..." required style="width:100%; margin-bottom:10px;"></textarea>
-                <input type="file" id="anexos" accept="image/*">
-                <button type="submit" class="btn-enviar">Enviar</button>
+                <p class="obs-text">Obs: Caso seja problemas envolvendo o setor de suprimentos, planejamento ou financeiro, pedimos que informe em conjunto o motivo citando o setor que deseja se comunicar.</p>
+                <label class="form-label">Descrição detalhada da situação:</label>
+                <textarea id="descricao" class="input-style" rows="4" placeholder="Escreva aqui..." required></textarea>
+                <p class="desc-text">Gentileza informar toda a situação detalhadamente, para que possa assim ser prosseguido com a solicitação.</p>
+                <label class="form-label">Campo de comprovação (Anexos de imagens):</label>
+                <input type="file" id="anexos" accept="image/*" class="input-style">
+                <p class="desc-text">Gentileza informar todas as comprovações para que seja melhor tratado.</p>
+                <button type="submit" class="btn-enviar">Enviar Solicitação</button>
             </form>
         </div>
     </div>
 
     <script>
-        function abrirFaleConosco() {
-            document.getElementById('modalFaleConosco').style.display = 'flex';
-            document.getElementById('dataVigente').value = new Date().toISOString().split('T')[0];
-        }
+        function abrirFaleConosco() { document.getElementById('modalFaleConosco').style.display = 'flex'; document.getElementById('dataVigente').value = new Date().toISOString().split('T')[0]; }
         function fecharFaleConosco() { document.getElementById('modalFaleConosco').style.display = 'none'; }
-
+        
         async function enviarFormulario(event) {
             event.preventDefault();
             const btn = document.querySelector('.btn-enviar');
             btn.innerText = "Enviando...";
-            
             const payload = {
-                dataVigente: document.getElementById('dataVigente').value,
-                nick: document.getElementById('nick').value,
-                patente: document.getElementById('patente').value,
-                tipoSolicitacao: document.getElementById('tipoSolicitacao').value,
-                descricao: document.getElementById('descricao').value,
-                fileName: "", fileData: ""
+                dataVigente: document.getElementById('dataVigente').value, nick: document.getElementById('nick').value,
+                patente: document.getElementById('patente').value, tipoSolicitacao: document.getElementById('tipoSolicitacao').value,
+                descricao: document.getElementById('descricao').value, fileName: "", fileData: ""
             };
-
             const inputArquivo = document.getElementById('anexos');
             if (inputArquivo.files.length > 0) {
                 const file = inputArquivo.files[0];
                 payload.fileName = file.name;
-                payload.fileData = await new Promise(r => {
-                    const reader = new FileReader();
-                    reader.readAsDataURL(file);
-                    reader.onload = () => r(reader.result);
-                });
+                payload.fileData = await new Promise(r => { const reader = new FileReader(); reader.readAsDataURL(file); reader.onload = () => r(reader.result); });
             }
-
             try {
-                await fetch("https://script.google.com/macros/s/AKfycbz1snLEUKWNo3whGFI90q8xzDPuWLPFYjGtvaD3saa050rBVRaoxkg1XiY8pPSWgyeg/exec", {
-                    method: "POST",
-                    mode: "no-cors",
-                    body: JSON.stringify(payload)
-                });
-                alert("Enviado com sucesso!");
-                fecharFaleConosco();
-                document.getElementById('formFaleConosco').reset();
+                await fetch("https://script.google.com/macros/s/AKfycbz1snLEUKWNo3whGFI90q8xzDPuWLPFYjGtvaD3saa050rBVRaoxkg1XiY8pPSWgyeg/exec", { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
+                alert("Enviado com sucesso!"); fecharFaleConosco(); document.getElementById('formFaleConosco').reset();
             } catch (e) { alert("Erro ao enviar"); }
-            btn.innerText = "Enviar";
+            btn.innerText = "Enviar Solicitação";
         }
-
         let slideIndex = 0;
-        function mudarSlide(n) {
-            const slides = document.getElementById('slider');
-            slideIndex = (slideIndex + n + 3) % 3;
-            slides.style.transform = `translateX(${-slideIndex * 100}%)`;
-        }
+        function mudarSlide(n) { const slides = document.getElementById('slider'); slideIndex = (slideIndex + n + 3) % 3; slides.style.transform = `translateX(${-slideIndex * 100}%)`; }
         setInterval(() => mudarSlide(1), 5000);
     </script>
 </body>
