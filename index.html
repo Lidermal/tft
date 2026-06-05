@@ -63,11 +63,17 @@
             gap: 15px;
         }
 
-        .header-left img {
+        .header-left img.logo-nav {
             width: 50px;
             height: 50px;
             object-fit: contain;
             border-radius: 5px;
+            filter: grayscale(100%) opacity(0.6);
+            transition: all 0.3s ease;
+        }
+
+        .header-left img.logo-nav:hover {
+            filter: grayscale(0%) opacity(1);
         }
 
         .header-titles h1 {
@@ -130,7 +136,7 @@
             margin-top: 72px;
             min-height: 90vh;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
             justify-content: center;
             text-align: center;
@@ -138,6 +144,7 @@
             padding: 60px 20px;
             position: relative;
             overflow: hidden;
+            gap: 40px;
         }
 
         .hero::before {
@@ -151,7 +158,37 @@
             opacity: 0.3;
         }
 
-        .hero-logo {
+        .hero-logo-left {
+            width: 180px;
+            height: 180px;
+            object-fit: contain;
+            filter: grayscale(100%) opacity(0.4) drop-shadow(0px 15px 20px rgba(0, 0, 0, 0.7));
+            position: relative;
+            z-index: 2;
+            transition: all 0.4s ease;
+            animation: floatLogo 4s ease-in-out infinite;
+        }
+
+        .hero-logo-left:hover {
+            filter: grayscale(0%) opacity(1) drop-shadow(0px 15px 20px rgba(0, 0, 0, 0.7));
+            transform: scale(1.05);
+        }
+
+        @keyframes floatLogo {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-logo-center {
             width: 200px;
             height: 200px;
             object-fit: contain;
@@ -159,10 +196,10 @@
             margin-bottom: 30px;
             position: relative;
             z-index: 2;
-            animation: floatLogo 4s ease-in-out infinite;
+            animation: floatLogoCenter 4s ease-in-out infinite;
         }
 
-        @keyframes floatLogo {
+        @keyframes floatLogoCenter {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
@@ -726,6 +763,12 @@
             width: 40px;
             height: 40px;
             object-fit: contain;
+            filter: grayscale(100%) opacity(0.6);
+            transition: all 0.3s ease;
+        }
+
+        .footer-col .footer-logo img:hover {
+            filter: grayscale(0%) opacity(1);
         }
 
         .footer-col .footer-logo span {
@@ -766,6 +809,15 @@
                 justify-content: center;
             }
 
+            .hero {
+                flex-direction: column;
+            }
+
+            .hero-logo-left {
+                width: 120px;
+                height: 120px;
+            }
+
             .hero-titles h2 {
                 font-size: 2.2rem;
             }
@@ -774,7 +826,7 @@
                 font-size: 1.1rem;
             }
 
-            .hero-logo {
+            .hero-logo-center {
                 width: 150px;
                 height: 150px;
             }
@@ -829,7 +881,7 @@
          ============================================ -->
     <header>
         <div class="header-left">
-            <img src="img/tft.png" alt="Logo TFT" onerror="this.style.display='none'">
+            <img src="img/tft.png" alt="Logo TFT" class="logo-nav" onerror="this.style.display='none'">
             <div class="header-titles">
                 <h1>Tribunal de Fisc. e Transparência</h1>
                 <p>Diário Oficial - TFT | FEB®</p>
@@ -850,11 +902,14 @@
          HERO / CAPA
          ============================================ -->
     <section class="hero" id="inicio">
-        <img src="img/tft1.png" alt="Logo TFT Grande" class="hero-logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><circle cx=%22100%22 cy=%22100%22 r=%2290%22 fill=%22%23FFD700%22 opacity=%220.3%22/><text x=%22100%22 y=%22110%22 text-anchor=%22middle%22 font-size=%2240%22 fill=%22white%22>TFT</text></svg>'">
-        <div class="hero-titles">
-            <h2>Tribunal</h2>
-            <div class="hero-divider"></div>
-            <h3>Fiscalização & Transparência</h3>
+        <img src="img/tft.png" alt="Logo TFT Lateral" class="hero-logo-left" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><circle cx=%22100%22 cy=%22100%22 r=%2290%22 fill=%22%23FFD700%22 opacity=%220.3%22/><text x=%22100%22 y=%22110%22 text-anchor=%22middle%22 font-size=%2240%22 fill=%22white%22>TFT</text></svg>'">
+        <div class="hero-content">
+            <img src="img/tft1.png" alt="Logo TFT Grande" class="hero-logo-center" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><circle cx=%22100%22 cy=%22100%22 r=%2290%22 fill=%22%23FFD700%22 opacity=%220.3%22/><text x=%22100%22 y=%22110%22 text-anchor=%22middle%22 font-size=%2240%22 fill=%22white%22>TFT</text></svg>'">
+            <div class="hero-titles">
+                <h2>Tribunal</h2>
+                <div class="hero-divider"></div>
+                <h3>Fiscalização & Transparência</h3>
+            </div>
         </div>
     </section>
 
@@ -965,20 +1020,55 @@
                         <p class="form-obs red">* Campo obrigatório. Utilize o nick exato cadastrado no sistema.</p>
                     </div>
 
-                    <!-- Campo: Patente -->
+                    <!-- Campo: Patente (ATUALIZADO CONFORME ORGANOGRAMA) -->
                     <div class="form-group">
                         <label for="patente">Patente *</label>
                         <select id="patente" name="patente" required>
                             <option value="">Selecione sua patente</option>
-                            <option value="Conselheiro-Presidente">Conselheiro-Presidente</option>
-                            <option value="Conselheiro-Vice">Conselheiro-Vice</option>
-                            <option value="Auditor-Chefe">Auditor-Chefe</option>
-                            <option value="Auditor-Sênior">Auditor-Sênior</option>
-                            <option value="Auditor">Auditor</option>
-                            <option value="Inspetor-Chefe">Inspetor-Chefe</option>
-                            <option value="Inspetor">Inspetor</option>
-                            <option value="Fiscal">Fiscal</option>
-                            <option value="Outro">Outro</option>
+                            <optgroup label="CDE - Chefia de Estado">
+                                <option value="Chefe de Estado">Chefe de Estado</option>
+                            </optgroup>
+                            <optgroup label="Corpo Militar - Estado-Maior">
+                                <option value="Comandante">Comandante</option>
+                                <option value="Subcomandante">Subcomandante</option>
+                            </optgroup>
+                            <optgroup label="Corpo Militar - Oficiais">
+                                <option value="Coronel">Coronel</option>
+                                <option value="Tenente-Coronel">Tenente-Coronel</option>
+                                <option value="Major">Major</option>
+                                <option value="Capitão">Capitão</option>
+                                <option value="1º Tenente">1º Tenente</option>
+                                <option value="2º Tenente">2º Tenente</option>
+                            </optgroup>
+                            <optgroup label="Corpo Militar - Praças">
+                                <option value="Aspirante a Oficial">Aspirante a Oficial</option>
+                                <option value="Subtenente">Subtenente</option>
+                                <option value="Sargento">Sargento</option>
+                                <option value="Cabo">Cabo</option>
+                                <option value="Soldado">Soldado</option>
+                            </optgroup>
+                            <optgroup label="Corpo Empresarial - Superintendente">
+                                <option value="Superintendente">Superintendente</option>
+                            </optgroup>
+                            <optgroup label="Corpo Empresarial - Estado-Maior">
+                                <option value="Chanceler">Chanceler</option>
+                                <option value="Presidente">Presidente</option>
+                            </optgroup>
+                            <optgroup label="Corpo Empresarial - Oficiais">
+                                <option value="Vice-Presidente">Vice-Presidente</option>
+                                <option value="Dirigente">Dirigente</option>
+                                <option value="Supervisor">Supervisor</option>
+                                <option value="Promotor">Promotor</option>
+                                <option value="Investigador">Investigador</option>
+                                <option value="Comissário">Comissário</option>
+                            </optgroup>
+                            <optgroup label="Corpo Empresarial - Praças">
+                                <option value="Delegado">Delegado</option>
+                                <option value="Advogado">Advogado</option>
+                                <option value="Perito">Perito</option>
+                                <option value="Escrivão">Escrivão</option>
+                                <option value="Agente">Agente</option>
+                            </optgroup>
                         </select>
                         <p class="form-obs gray">Selecione a patente que você ocupa atualmente no órgão.</p>
                     </div>
@@ -1045,7 +1135,7 @@
                     <img src="img/tft.png" alt="Logo TFT" onerror="this.style.display='none'">
                     <span>TFT - Polícia FEB®</span>
                 </div>
-                <p>O Tribunal de Fiscalização e Transparência (TFT) é um órgão administrativo especializado, criado com o propósito de fortalecer a transparência, a organização e a eficiência institucional por meio de mecanismos de fiscalização, planejamento, controle e gestão estratégica. </p>
+                <p>Tribunal de Fiscalização e Transparência. Órgão responsável pela auditoria, fiscalização e promoção da transparência no âmbito da Polícia FEB no Habbo Hotel.</p>
             </div>
 
             <!-- Coluna 2: Links -->
