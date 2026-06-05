@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="img/tft.png">
     <title>Membros - Tribunal de Fiscalização e Transparência</title>
     <style>
         /* ============================================
@@ -97,9 +96,7 @@
             font-weight: 600;
         }
 
-        .membro-logado.ativo {
-            display: flex;
-        }
+        .membro-logado.ativo { display: flex; }
 
         .membro-logado .avatar {
             width: 28px;
@@ -124,9 +121,7 @@
             transition: all 0.3s;
         }
 
-        .membro-logado .btn-logout:hover {
-            background: #a71d2a;
-        }
+        .membro-logado .btn-logout:hover { background: #a71d2a; }
 
         .header-center {
             display: flex;
@@ -211,9 +206,7 @@
             color: var(--amarelo);
         }
 
-        nav ul li a.ativo::after {
-            width: 80%;
-        }
+        nav ul li a.ativo::after { width: 80%; }
 
         /* ============================================
            HERO DA PÁGINA
@@ -257,9 +250,7 @@
             transition: color 0.3s;
         }
 
-        .hero-membros .breadcrumb a:hover {
-            color: var(--amarelo);
-        }
+        .hero-membros .breadcrumb a:hover { color: var(--amarelo); }
 
         .hero-membros h1 {
             font-size: 2.8rem;
@@ -337,7 +328,7 @@
         /* Cards de membros */
         .membros-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
             margin-top: 40px;
         }
@@ -367,34 +358,30 @@
             z-index: 0;
         }
 
-        .membro-card:hover::before {
-            opacity: 1;
-        }
+        .membro-card:hover::before { opacity: 1; }
 
         .membro-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
         }
 
-        .membro-card > * {
-            position: relative;
-            z-index: 1;
-        }
+        .membro-card > * { position: relative; z-index: 1; }
 
         .membro-avatar {
-            width: 120px;
-            height: 150px;
+            width: 150px;
+            height: 180px;
             margin: 0 auto 20px;
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             transition: all 0.4s ease;
             background: var(--bege);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .membro-card:hover .membro-avatar {
-            transform: scale(1.05);
-        }
+        .membro-card:hover .membro-avatar { transform: scale(1.05); }
 
         .membro-avatar img {
             width: 100%;
@@ -403,39 +390,88 @@
         }
 
         .membro-card h4 {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: var(--azul-escuro);
             margin-bottom: 8px;
             font-weight: 700;
             transition: color 0.4s ease;
         }
 
-        .membro-card:hover h4 {
-            color: var(--amarelo);
-        }
+        .membro-card:hover h4 { color: var(--amarelo); }
 
         .membro-card .cargo {
-            font-size: 0.9rem;
-            color: var(--cinza);
+            font-size: 0.95rem;
+            color: var(--amarelo-escuro);
             font-weight: 600;
-            margin-bottom: 5px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             transition: color 0.4s ease;
         }
 
-        .membro-card:hover .cargo {
-            color: var(--branco);
-        }
+        .membro-card:hover .cargo { color: var(--amarelo); }
 
         .membro-card .descricao {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--cinza);
-            line-height: 1.5;
+            line-height: 1.6;
             transition: color 0.4s ease;
         }
 
-        .membro-card:hover .descricao {
-            color: var(--branco);
+        .membro-card:hover .descricao { color: var(--branco); }
+
+        /* Card especial para Direção (maior destaque) */
+        .membro-card.direcao {
+            border-top: 4px solid var(--amarelo);
+            background: linear-gradient(180deg, var(--branco) 0%, #fffef5 100%);
         }
+
+        .membro-card.direcao .membro-avatar {
+            width: 180px;
+            height: 220px;
+        }
+
+        .membro-card.direcao .funcoes-lista {
+            text-align: left;
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid var(--amarelo);
+        }
+
+        .membro-card.direcao .funcoes-lista h5 {
+            color: var(--azul-escuro);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .membro-card.direcao .funcoes-lista ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .membro-card.direcao .funcoes-lista ul li {
+            font-size: 0.85rem;
+            color: var(--cinza);
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .membro-card.direcao .funcoes-lista ul li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--amarelo);
+            font-weight: bold;
+        }
+
+        .membro-card:hover .funcoes-lista ul li { color: var(--branco); }
+        .membro-card:hover .funcoes-lista { background: rgba(255, 215, 0, 0.2); }
+        .membro-card:hover .funcoes-lista h5 { color: var(--amarelo); }
 
         /* Seção destacada */
         .secao-destaque {
@@ -445,14 +481,8 @@
             color: var(--branco);
         }
 
-        .secao-destaque .section-header h2 {
-            color: var(--amarelo);
-        }
-
-        .secao-destaque .section-header p {
-            color: var(--branco);
-            opacity: 0.9;
-        }
+        .secao-destaque .section-header h2 { color: var(--amarelo); }
+        .secao-destaque .section-header p { color: var(--branco); opacity: 0.9; }
 
         /* Seção de ajuda */
         .ajuda-section {
@@ -462,10 +492,7 @@
             margin-top: 40px;
         }
 
-        .ajuda-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
+        .ajuda-container { max-width: 800px; margin: 0 auto; }
 
         .ajuda-section h2 {
             font-size: 2.2rem;
@@ -556,14 +583,8 @@
         }
 
         @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-50px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            from { opacity: 0; transform: translateY(-50px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .modal-header {
@@ -793,9 +814,7 @@
 
             .header-left,
             .header-center,
-            .header-right {
-                justify-content: center;
-            }
+            .header-right { justify-content: center; }
 
             nav ul {
                 gap: 10px;
@@ -812,8 +831,13 @@
             .ajuda-section h2 { font-size: 1.8rem; }
 
             .membros-grid {
-                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
                 gap: 20px;
+            }
+
+            .membro-card.direcao .membro-avatar {
+                width: 150px;
+                height: 180px;
             }
         }
 
@@ -829,7 +853,6 @@
          CABEÇALHO FIXO - 3 COLUNAS
          ============================================ -->
     <header>
-        <!-- COLUNA ESQUERDA: Login Membros / Status -->
         <div class="header-left">
             <button class="btn-login-membros" id="btnLoginMembros" onclick="abrirModalLoginMembros()">
                 <span class="icon">👤</span>
@@ -842,7 +865,6 @@
             </div>
         </div>
 
-        <!-- COLUNA CENTRAL: Logo + Títulos -->
         <div class="header-center">
             <img src="img/tft.png" alt="Logo TFT" onerror="this.style.display='none'">
             <div class="header-titles">
@@ -851,7 +873,6 @@
             </div>
         </div>
 
-        <!-- COLUNA DIREITA: Navegação -->
         <div class="header-right">
             <nav>
                 <ul>
@@ -907,22 +928,54 @@
             </div>
             
             <div class="membros-grid">
-                <div class="membro-card">
+                <!-- DIRETOR -->
+                <div class="membro-card direcao">
                     <div class="membro-avatar">
-                        <img src="https://www.habbo.com.br/habbo-imaging/avatarimage?user=-S%40muell&action=wav&direction=2&head_direction=3&img_format=png&gesture=spk&headonly=0&size=l" alt="Avatar -S@muell">
+                        <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUDdlWCeQUuLV2eN3sl5HucJ-cpfbyNDnpxSlobmDQzmLvU2BKz96XM90UJb58GK1BQdNJKvOdMzffUu88iDIM4ND1WjfZ28VTwtBy_iNianBuFickmRw9CoNYWSBrwPveSI-ktrGQvGUTaK76_TuZ_y_5yzDJd1-V1suW_QhzXxjRdwJTe6mLSxkcSnWO_VBTNhHrxwJ8ylQM7jQrsJwmgsvaUm6IlYXei_mZmsAC8=w1280" alt="Avatar -S@muell">
                     </div>
                     <h4>-S@muell</h4>
                     <div class="cargo">Diretor</div>
-                    <div class="descricao">Gestão estratégica e coordenação geral</div>
+                    <div class="descricao">
+                        Responsável pela liderança estratégica e gestão geral do Tribunal.
+                    </div>
+                    <div class="funcoes-lista">
+                        <h5> Funções do Diretor:</h5>
+                        <ul>
+                            <li>Definir diretrizes estratégicas e objetivos institucionais do TFT</li>
+                            <li>Representar o Tribunal perante a Polícia FEB e órgãos externos</li>
+                            <li>Aprovar decisões administrativas, financeiras e operacionais</li>
+                            <li>Supervisionar todas as áreas técnicas e coordenadores</li>
+                            <li>Garantir o cumprimento da missão e dos princípios do órgão</li>
+                            <li>Validar relatórios, pareceres e documentos oficiais</li>
+                            <li>Conduzir reuniões de planejamento e avaliação de resultados</li>
+                            <li>Promover o desenvolvimento institucional e crescimento da equipe</li>
+                        </ul>
+                    </div>
                 </div>
                 
-                <div class="membro-card">
+                <!-- GERENTE -->
+                <div class="membro-card direcao">
                     <div class="membro-avatar">
-                        <img src="https://www.habbo.com.br/habbo-imaging/avatarimage?user=Falha007&action=wav&direction=2&head_direction=3&img_format=png&gesture=spk&headonly=0&size=l" alt="Avatar Falha007">
+                        <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUBtaUkHLxJw3JNCOTgsdP6MqoaObrkT4fGz8_bRpSqgZFEOQTk3cyKjVnNW14qmZijNlsBs7DIsZ_GEbfl3p4ebnfusWn0IT5SVpMWFi29X-frQleztaP9rVSDvswS7HltrzNGEC9_4HsKcCbtMGmxWiCv2uYEhoJSiAJIzAk5f_UnfJq2u25QYRc35MSJjDpnPG065v7fB7Qr-V7NxaqHxzuvpJBqIrc5A9niLsmE=w1280" alt="Avatar Falha007">
                     </div>
                     <h4>Falha007</h4>
                     <div class="cargo">Gerente</div>
-                    <div class="descricao">Supervisão operacional e administrativa</div>
+                    <div class="descricao">
+                        Responsável pela supervisão operacional e administração diária do Tribunal.
+                    </div>
+                    <div class="funcoes-lista">
+                        <h5>📋 Funções do Gerente:</h5>
+                        <ul>
+                            <li>Gerenciar as operações diárias e fluxos de trabalho do TFT</li>
+                            <li>Coordenar a execução das atividades das áreas técnicas</li>
+                            <li>Monitorar indicadores de desempenho e metas institucionais</li>
+                            <li>Administrar recursos, prazos e prioridades da equipe</li>
+                            <li>Elaborar relatórios gerenciais para a Direção</li>
+                            <li>Mediar conflitos e garantir a integração entre as equipes</li>
+                            <li>Implementar melhorias nos processos administrativos</li>
+                            <li>Apoiar os Coordenadores no acompanhamento das equipes</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -944,7 +997,7 @@
         <div class="membros-grid">
             <div class="membro-card">
                 <div class="membro-avatar">
-                    <img src="https://www.habbo.com.br/habbo-imaging/avatarimage?user=hxpnotic1&action=wav&direction=2&head_direction=3&img_format=png&gesture=spk&headonly=0&size=l" alt="Avatar hxpnotic1">
+                    <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUARGK7eaw3g9fOH8r0T28kWWKJrEjOuSOWDC_oCmo1ddGyXe6cfFdAAR_fLoEL8_Jk8X8Z3lyiODr9dbSpmrsaODNxLToCIjMy0tsIKMlMvfnFIbNdU6s2XNHkbQBRUdzRp2oVy5SSoLHGd5GhOpnB7AnTFq5fNvR2HYwsw1LOXb_85Yp8qYQ7-WAJ388l7djkprEJrLN891wDVQYL2gOYF2wu_X-W4tLYopl2Q=w1280" alt="Avatar hxpnotic1">
                 </div>
                 <h4>hxpnotic1</h4>
                 <div class="cargo">Coordenador</div>
@@ -953,7 +1006,7 @@
             
             <div class="membro-card">
                 <div class="membro-avatar">
-                    <img src="https://www.habbo.com.br/habbo-imaging/avatarimage?user=Mar1x&action=wav&direction=2&head_direction=3&img_format=png&gesture=spk&headonly=0&size=l" alt="Avatar Mar1x">
+                    <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUBZKtIcJoQ230-o3hyQWmqejN2Ejl1pIQdeG33ERQy_SBtjE-3KrYAERsG4KeA_uGGXjhnKtr4JGTnNO-R_Yod5KixM6v-NfL1TjXzCeyupmsLGnJ41NktJ2oaKc00nBP-olYngmSg7Y-JS6J_Q67L_DNHnljM9CGoRehgu6ftcBulAb1wriD0S0GeRscACVLWoM2VvED3bJnTD9KQprqz-8l1-KEczUNdvRvGlW_A=w1280" alt="Avatar Mar1x">
                 </div>
                 <h4>Mar1x</h4>
                 <div class="cargo">Coordenadora</div>
@@ -966,7 +1019,7 @@
         <div class="membros-grid">
             <div class="membro-card">
                 <div class="membro-avatar">
-                    <img src="https://www.habbo.com.br/habbo-imaging/avatarimage?user=zLord&action=wav&direction=2&head_direction=3&img_format=png&gesture=spk&headonly=0&size=l" alt="Avatar zLord">
+                    <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUBVfx3OqB3I1nVlo2gWQpVi_Ay3PI67GW8dI5FU7iirc6K5dE3hpQZ3dor6QHXiO6k-yfcyr3tERvTAWGB0oIA9sV4ADR94us_0hQ2G_OllLXB3_PJnTZ91-s8TxfX4GvdNeANLXs547Qg4wXgX8-U9Cnl3fXSTVO6m2mZW0R3k20JNwP3GOnNtmx7g7PvJyzPcWbrLc0yLP3FYjz7KvlFvGQc0_vSepqn0MPn0=w1280" alt="Avatar zLord">
                 </div>
                 <h4>zLord</h4>
                 <div class="cargo">Analista</div>
@@ -975,7 +1028,7 @@
             
             <div class="membro-card">
                 <div class="membro-avatar">
-                    <img src="https://www.habbo.com.br/habbo-imaging/avatarimage?user=joaosao&action=wav&direction=2&head_direction=3&img_format=png&gesture=spk&headonly=0&size=l" alt="Avatar joaosao">
+                    <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUCizQcwUpQ5_idkCLPRegcsw0wNq0tdsfxOziTnl-O55ytPMrID2ow4cOql8bT52g9OMIAGjYCfjbOevnnYVpSjl3G-tw13k_dhDYo2z8JIKPd8Gn7g3yLzyfsLOZk7iJJTm_ZTot8Kt30S7fvuw-HrRaaQL_1Td-EFmWHh8hzdFccN_aWwFl4Els3-pkP0RFv84JUESM8yjlRifA9aMDplAW02rmYYN0UcRY7fwcg=w1280" alt="Avatar joaosao">
                 </div>
                 <h4>joaosao</h4>
                 <div class="cargo">Analista</div>
@@ -984,7 +1037,7 @@
             
             <div class="membro-card">
                 <div class="membro-avatar">
-                    <img src="https://www.habbo.com.br/habbo-imaging/avatarimage?user=thurbarbw&action=wav&direction=2&head_direction=3&img_format=png&gesture=spk&headonly=0&size=l" alt="Avatar thurbarbw">
+                    <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUCW6xOHBsIJ9i-6CAkDTqYp2PsA9W2Rt12yvh8d4GAEvv0xoRB96AIBlXt2_qE_Epl24W_guSSIvatBG3tUCVi0NcDYfRWP2u4C2l7GAktu5EjNCQgIhWxP506TnWGfc0J9DFUjV7d9ITmLgt4YUjiiVyYaZU2esHMx3Y7TYyK3gMrdzhNcBDYUuOEnU63JDo4hzv58tEt-uvi2qyZWKRDq7gDgpgHCniNUb6dM78w=w1280" alt="Avatar thurbarbw">
                 </div>
                 <h4>thurbarbw</h4>
                 <div class="cargo">Analista</div>
@@ -993,7 +1046,7 @@
             
             <div class="membro-card">
                 <div class="membro-avatar">
-                    <img src="https://www.habbo.com.br/habbo-imaging/avatarimage?user=daniel72393&action=wav&direction=2&head_direction=3&img_format=png&gesture=spk&headonly=0&size=l" alt="Avatar daniel72393">
+                    <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUCJsbASBz_bDouWm7zBuYbaJqTiQX7Q5x7VmEuTl6s_nLQ7Xbfs08bY6OjXg49TttopS5bnhctvynltC8znrWatQhP1UJrqLnzKRZXZjSFLu15S3MHmPVfl_ENZEVVMeeD6lbgl5L5b7lBw6s5VQ5HwF7o8Lo6mi8Uu58wgn2zghsuaZpJ8s5yJknY4Ezr4wEg3g3uayW1IVDWU2K6jThV-dIDBVmxIswRadXbD=w1280" alt="Avatar daniel72393">
                 </div>
                 <h4>daniel72393</h4>
                 <div class="cargo">Analista</div>
@@ -1002,7 +1055,7 @@
             
             <div class="membro-card">
                 <div class="membro-avatar">
-                    <img src="https://www.habbo.com.br/habbo-imaging/avatarimage?user=SrLuxo&action=wav&direction=2&head_direction=3&img_format=png&gesture=spk&headonly=0&size=l" alt="Avatar SrLuxo">
+                    <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUBqmRjoAlplHaxD3mMubl6pCgRTNQ3Y5ZFwwB4TopKbR12QfrnwYJguJ2D_3f5haDNey3gCYMopxBqR21dTamII38n0_mJ9zGfEUphxWfMhF7kAJJloDxZpKkkG0VnNV8zfC048yPxCsQ4BSoYhPXCJ7tiHfV3ZSTNFTDrSx37GW8utIRzK6xc7qJPoyZdNf4rnbg1S7vBNSZfDq-JdOPdoBh6tOL-y--WQ4ORy9Ac=w1280" alt="Avatar SrLuxo">
                 </div>
                 <h4>SrLuxo</h4>
                 <div class="cargo">Analista</div>
@@ -1011,7 +1064,7 @@
             
             <div class="membro-card">
                 <div class="membro-avatar">
-                    <img src="https://www.habbo.com.br/habbo-imaging/avatarimage?user=lbm&action=wav&direction=2&head_direction=3&img_format=png&gesture=spk&headonly=0&size=l" alt="Avatar lbm">
+                    <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUCnZ346HcUqRJzwwRbMIGQMv8pQrSETA4HyWSIBKZ1FhkJDrjNIzzcjUqEVmUMZE2zdFOLYUIoeecp7-92oL3X-uYp6dKBI5_Yc_CZZrLBbBK9Ej4K0DsLAiDWj_q0S8z-rgCho457c_1q0IfSKcRm9ep8gn8Fbd-n8Z8wJ2GHPclX-YMfzx3wxTdUxsm9OY8Qi9xOephizzrH_3z1E0A2crpyFS206K6VMs6rOEIc=w1280" alt="Avatar lbm">
                 </div>
                 <h4>lbm</h4>
                 <div class="cargo">Analista</div>
@@ -1020,7 +1073,7 @@
             
             <div class="membro-card">
                 <div class="membro-avatar">
-                    <img src="https://www.habbo.com.br/habbo-imaging/avatarimage?user=Joao153_&action=wav&direction=2&head_direction=3&img_format=png&gesture=spk&headonly=0&size=l" alt="Avatar Joao153_">
+                    <img src="https://lh3.googleusercontent.com/sitesv/AA5AbUCazBAaSW11ggGLYSo_b960UN_EmrvpogLb8y1_hmm9WGP4xv-r-u3g80XOkqQ1APmDMGlPjIlE5Ipdkz4_gmMZLVv5EY6k_N2P3f_E73DLvPM84me7NJqj1NaTV5NoBTJhsjbh-KE5M8p9vNkRAOsK2JcG20qyV172PXrkyXfXG5p3CF3Jd-7BHvW5pLY5JzeG7gT8fQFk6GYNdO0EEVehYdrNdl8cGAOce83v=w1280" alt="Avatar Joao153_">
                 </div>
                 <h4>Joao153_</h4>
                 <div class="cargo">Analista</div>
@@ -1080,7 +1133,7 @@
                 <button class="modal-close" onclick="fecharModalLoginMembros()">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="membros-icon">🎖️</div>
+                <div class="membros-icon">️</div>
                 <div class="membros-info">
                     <strong>📋 Área do Membro</strong>
                     Acesse sua área para visualizar documentos, comunicados e informações exclusivas para membros do órgão.
@@ -1117,7 +1170,7 @@
                 <h4>Links Importantes</h4>
                 <a href="documentos.html">📜 Código de Conduta</a>
                 <a href="index.html#contato">📢 Ouvidoria</a>
-                <a href="index.html#admin">🔐 Área Administrativa</a>
+                <a href="index.html#admin"> Área Administrativa</a>
             </div>
             <div class="footer-col">
                 <h4>Desenvolvimento</h4>
@@ -1163,7 +1216,6 @@
             }
         }
 
-        // Verificar login ao carregar a página
         document.addEventListener('DOMContentLoaded', verificarLoginMembro);
 
         // ============================================
@@ -1221,12 +1273,10 @@
             }, 800);
         }
 
-        // Fechar modal ao clicar fora
         document.getElementById('modalLoginMembros').addEventListener('click', function(e) {
             if (e.target === this) fecharModalLoginMembros();
         });
 
-        // Fechar modal com ESC
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 fecharModalLoginMembros();
