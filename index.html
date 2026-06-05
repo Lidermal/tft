@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="img/tft.png">
     <title>Diário Oficial - TFT | Polícia FEB®</title>
     <style>
         /* ============================================
@@ -35,7 +36,10 @@
         }
 
         /* ============================================
-           CABEÇALHO FIXO - LOGO CENTRALIZADA
+           CABEÇALHO FIXO - 3 COLUNAS
+           Esquerda: Login Membros
+           Centro: Logo + Títulos
+           Direita: Navegação
            ============================================ */
         header {
             position: fixed;
@@ -46,29 +50,65 @@
             background: linear-gradient(135deg, var(--preto) 0%, var(--azul-escuro) 100%);
             border-bottom: 2px solid var(--amarelo);
             padding: 10px 30px;
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
             align-items: center;
-            justify-content: center;
-            position: relative;
+            gap: 20px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
 
-        .header-logo-center {
+        /* Coluna Esquerda - Login Membros */
+        .header-left {
             display: flex;
+            justify-content: flex-start;
             align-items: center;
-            gap: 20px;
         }
 
-        .header-logo-center img {
-            width: 60px;
-            height: 60px;
+        .btn-login-membros {
+            background: linear-gradient(135deg, var(--verde) 0%, #1e7e34 100%);
+            color: var(--branco);
+            border: 2px solid var(--amarelo);
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-login-membros:hover {
+            background: var(--amarelo);
+            color: var(--preto);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-login-membros .icon {
+            font-size: 1.1rem;
+        }
+
+        /* Coluna Central - Logo + Títulos */
+        .header-center {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .header-center img {
+            width: 55px;
+            height: 55px;
             object-fit: contain;
             border-radius: 8px;
             filter: grayscale(100%) opacity(0.6);
             transition: all 0.3s ease;
         }
 
-        .header-logo-center img:hover {
+        .header-center img:hover {
             filter: grayscale(0%) opacity(1);
             transform: scale(1.05);
         }
@@ -76,24 +116,24 @@
         .header-titles { text-align: center; }
 
         .header-titles h1 {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             color: var(--amarelo);
             font-weight: 700;
             letter-spacing: 1px;
         }
 
         .header-titles p {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--branco);
             opacity: 0.85;
             letter-spacing: 0.5px;
         }
 
-        nav {
-            position: absolute;
-            right: 30px;
-            top: 50%;
-            transform: translateY(-50%);
+        /* Coluna Direita - Navegação */
+        .header-right {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
         }
 
         nav ul {
@@ -136,7 +176,7 @@
            HERO / CAPA
            ============================================ */
         .hero {
-            margin-top: 80px;
+            margin-top: 75px;
             min-height: 90vh;
             display: flex;
             flex-direction: row;
@@ -453,7 +493,7 @@
         }
 
         /* ============================================
-           BOTÕES FLUTUANTES (FAB) - MENU EXPANSÍVEL
+           BOTÕES FLUTUANTES SEPARADOS (FAB)
            ============================================ */
         .fab-container {
             position: fixed;
@@ -462,118 +502,40 @@
             z-index: 999;
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
             gap: 15px;
+            align-items: flex-end;
         }
 
-        /* Botão principal (toggle) */
-        .fab-main {
-            width: 65px;
-            height: 65px;
+        .fab-contato {
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--azul) 0%, var(--azul-escuro) 100%);
+            background: linear-gradient(135deg, var(--verde) 0%, #1e7e34 100%);
             border: 2px solid var(--amarelo);
-            color: var(--amarelo);
-            font-size: 1.8rem;
+            color: var(--branco);
+            font-size: 1.5rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
-            transition: all 0.4s ease;
+            transition: all 0.3s ease;
             animation: pulse 2s infinite;
             position: relative;
-            z-index: 1001;
         }
 
         @keyframes pulse {
             0% { box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4); }
-            50% { box-shadow: 0 5px 30px rgba(255, 215, 0, 0.4); }
+            50% { box-shadow: 0 5px 30px rgba(40, 167, 69, 0.4); }
             100% { box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4); }
         }
 
-        .fab-main:hover {
+        .fab-contato:hover {
             transform: scale(1.1);
             background: var(--amarelo);
             color: var(--preto);
         }
 
-        .fab-main.active {
-            transform: rotate(45deg);
-            animation: none;
-        }
-
-        /* Botões secundários */
-        .fab-options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            align-items: flex-end;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-        }
-
-        .fab-options.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .fab-option {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .fab-option:hover {
-            transform: translateX(-5px);
-        }
-
-        .fab-option-label {
-            background: var(--preto);
-            color: var(--branco);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            white-space: nowrap;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--amarelo);
-        }
-
-        .fab-option-btn {
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            border: 2px solid var(--amarelo);
-            color: var(--branco);
-            font-size: 1.4rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .fab-option-btn.contato {
-            background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
-        }
-
-        .fab-option-btn.login {
-            background: linear-gradient(135deg, var(--azul) 0%, var(--azul-escuro) 100%);
-        }
-
-        .fab-option-btn:hover {
-            transform: scale(1.15);
-            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
-        }
-
-        /* Badge de notificação no botão de contato */
         .badge-notificacao {
             position: absolute;
             top: -5px;
@@ -590,6 +552,29 @@
             justify-content: center;
             border: 2px solid var(--branco);
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .fab-login-admin {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--azul) 0%, var(--azul-escuro) 100%);
+            border: 2px solid var(--amarelo);
+            color: var(--amarelo);
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .fab-login-admin:hover {
+            transform: scale(1.1) rotate(10deg);
+            background: var(--amarelo);
+            color: var(--preto);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
         }
 
         /* ============================================
@@ -713,11 +698,7 @@
             line-height: 1.4;
         }
 
-        .form-obs.red {
-            color: var(--vermelho);
-            font-weight: 500;
-        }
-
+        .form-obs.red { color: var(--vermelho); font-weight: 500; }
         .form-obs.gray { color: var(--cinza); }
 
         .btn-enviar {
@@ -761,9 +742,7 @@
             vertical-align: middle;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         .form-message {
             display: none;
@@ -789,15 +768,11 @@
         }
 
         /* ============================================
-           MODAL DE LOGIN
+           MODAL DE LOGIN ADMINISTRATIVO
            ============================================ */
         .modal-login .modal-content {
             max-width: 450px;
             border-top: 4px solid var(--amarelo);
-        }
-
-        .modal-login .modal-header {
-            background: linear-gradient(135deg, var(--preto) 0%, var(--azul-escuro) 100%);
         }
 
         .login-icon {
@@ -859,6 +834,68 @@
         }
 
         .login-error.show { display: block; }
+
+        /* ============================================
+           MODAL LOGIN MEMBROS
+           ============================================ */
+        .modal-login-membros .modal-content {
+            max-width: 500px;
+            border-top: 4px solid var(--verde);
+        }
+
+        .modal-login-membros .modal-header {
+            background: linear-gradient(135deg, var(--verde) 0%, #1e7e34 100%);
+        }
+
+        .modal-login-membros .modal-header h2 {
+            color: var(--branco);
+        }
+
+        .membros-icon {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: var(--verde);
+        }
+
+        .membros-info {
+            background: #d4edda;
+            border-left: 4px solid var(--verde);
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+            color: #155724;
+        }
+
+        .membros-info strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #0c3d16;
+        }
+
+        .btn-login-membros-modal {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--verde) 0%, #1e7e34 100%);
+            color: var(--branco);
+            border: 2px solid var(--amarelo);
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .btn-login-membros-modal:hover {
+            background: var(--amarelo);
+            color: var(--preto);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
 
         /* ============================================
            RODAPÉ
@@ -941,17 +978,23 @@
         /* ============================================
            RESPONSIVIDADE
            ============================================ */
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             header {
-                padding: 10px 15px;
-                flex-direction: column;
+                grid-template-columns: 1fr;
                 gap: 10px;
+                padding: 10px 15px;
             }
 
-            nav {
-                position: static;
-                transform: none;
-                width: 100%;
+            .header-left {
+                justify-content: center;
+            }
+
+            .header-center {
+                justify-content: center;
+            }
+
+            .header-right {
+                justify-content: center;
             }
 
             nav ul {
@@ -959,7 +1002,9 @@
                 flex-wrap: wrap;
                 justify-content: center;
             }
+        }
 
+        @media (max-width: 768px) {
             .hero { flex-direction: column; }
 
             .hero-logo-left {
@@ -986,16 +1031,11 @@
                 right: 20px;
             }
 
-            .fab-main {
-                width: 58px;
-                height: 58px;
-                font-size: 1.6rem;
-            }
-
-            .fab-option-btn {
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
+            .fab-contato,
+            .fab-login-admin {
+                width: 55px;
+                height: 55px;
+                font-size: 1.3rem;
             }
         }
 
@@ -1009,29 +1049,43 @@
 </head>
 <body>
 
-    <!-- CABEÇALHO -->
+    <!-- ============================================
+         CABEÇALHO FIXO - 3 COLUNAS
+         ============================================ -->
     <header>
-        <div class="header-logo-center">
+        <!-- COLUNA ESQUERDA: Login Membros -->
+        <div class="header-left">
+            <button class="btn-login-membros" onclick="abrirModalLoginMembros()">
+                <span class="icon"></span>
+                <span>Login TFT</span>
+            </button>
+        </div>
+
+        <!-- COLUNA CENTRAL: Logo + Títulos -->
+        <div class="header-center">
             <img src="img/tft.png" alt="Logo TFT" onerror="this.style.display='none'">
             <div class="header-titles">
                 <h1>Tribunal de Fisc. e Transparência</h1>
                 <p>Diário Oficial - TFT | FEB®</p>
             </div>
         </div>
-        <nav>
-            <ul>
-                <li><a href="#inicio">Início</a></li>
-                <li><a href="#noticias">Notícias</a></li>
-                <li><a href="sobre.html">Sobre</a></li>
-                <li><a href="membros.html">Membros</a></li>
-                <li><a href="documentos.html">Documentos</a></li>
-            </ul>
-        </nav>
+
+        <!-- COLUNA DIREITA: Navegação -->
+        <div class="header-right">
+            <nav>
+                <ul>
+                    <li><a href="#inicio">Início</a></li>
+                    <li><a href="#noticias">Notícias</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="membros.html">Membros</a></li>
+                    <li><a href="documentos.html">Documentos</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
     <!-- HERO -->
-    <section class="hero" id="inicio">
-        <img src="img/tft.png" alt="Logo TFT Lateral" class="hero-logo-left" onerror="this.style.display='none'">
+    <section class="hero" id="inicio">        
         <div class="hero-content">
             <img src="img/tft1.png" alt="Logo TFT Grande" class="hero-logo-center" onerror="this.style.display='none'">
             <div class="hero-titles">
@@ -1091,7 +1145,7 @@
         <h2 class="section-title">Acesso Rápido</h2>
         <div class="atalhos-grid">
             <a href="sobre.html" class="atalho-card">
-                <span class="card-icon">️</span>
+                <span class="card-icon">🏛️</span>
                 <h4>Sobre o TFT</h4>
                 <p>Conheça a história e missão do Tribunal.</p>
             </a>
@@ -1113,37 +1167,18 @@
         </div>
     </section>
 
-    <!-- ============================================
-         BOTÕES FLUTUANTES (FAB) - MENU EXPANSÍVEL
-         ============================================ -->
+    <!-- BOTÕES FLUTUANTES SEPARADOS -->
     <div class="fab-container">
-        <!-- Opções (aparecem ao clicar no botão principal) -->
-        <div class="fab-options" id="fabOptions">
-            <!-- Botão Login -->
-            <div class="fab-option">
-                <span class="fab-option-label"> Área Administrativa</span>
-                <button class="fab-option-btn login" onclick="abrirModalLogin()" title="Login Administrativo">
-                    
-                </button>
-            </div>
-            <!-- Botão Fale Conosco -->
-            <div class="fab-option">
-                <span class="fab-option-label">📩 Fale Conosco</span>
-                <button class="fab-option-btn contato" onclick="abrirModalContato()" title="Fale Conosco" style="position: relative;">
-                    ✉
-                    <span class="badge-notificacao" id="badgeNotificacao" style="display: none;">0</span>
-                </button>
-            </div>
-        </div>
-        <!-- Botão Principal (Toggle) -->
-        <button class="fab-main" id="fabMain" onclick="toggleFab()" title="Menu de Ações">
-            +
+        <button class="fab-login-admin" onclick="abrirModalLoginAdmin()" title="Área Administrativa">
+            🔐
+        </button>
+        <button class="fab-contato" onclick="abrirModalContato()" title="Fale Conosco">
+            ✉
+            <span class="badge-notificacao" id="badgeNotificacao" style="display: none;">0</span>
         </button>
     </div>
 
-    <!-- ============================================
-         MODAL FALE CONOSCO
-         ============================================ -->
+    <!-- MODAL FALE CONOSCO -->
     <div class="modal-overlay" id="modalContato">
         <div class="modal-content">
             <div class="modal-header">
@@ -1240,14 +1275,12 @@
         </div>
     </div>
 
-    <!-- ============================================
-         MODAL DE LOGIN ADMINISTRATIVO
-         ============================================ -->
-    <div class="modal-overlay modal-login" id="modalLogin">
+    <!-- MODAL LOGIN ADMIN -->
+    <div class="modal-overlay modal-login" id="modalLoginAdmin">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>🔐 Acesso Administrativo<br>Tribunal de Fisc. e Transp.</h2>
-                <button class="modal-close" onclick="fecharModalLogin()">&times;</button>
+                <h2> Acesso Administrativo<br>Tribunal de Fisc. e Transp.</h2>
+                <button class="modal-close" onclick="fecharModalLoginAdmin()">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="login-icon">🛡️</div>
@@ -1255,24 +1288,46 @@
                     <strong>️ Área Restrita</strong>
                     Este acesso é exclusivo para membros autorizados da administração do Tribunal.
                 </div>
-                <form id="formLogin" onsubmit="realizarLogin(event)">
+                <form id="formLoginAdmin" onsubmit="realizarLoginAdmin(event)">
                     <div class="form-group">
                         <label for="loginUsuario">Usuário *</label>
                         <input type="text" id="loginUsuario" name="usuario" placeholder="Digite seu usuário" required autocomplete="username">
                     </div>
-
                     <div class="form-group">
                         <label for="loginSenha">Senha *</label>
                         <input type="password" id="loginSenha" name="senha" placeholder="Digite sua senha" required autocomplete="current-password">
                     </div>
+                    <button type="submit" class="btn-login" id="btnLoginAdmin">Entrar no Sistema</button>
+                    <div class="login-error" id="loginErrorAdmin">❌ Usuário ou senha incorretos!</div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-                    <button type="submit" class="btn-login" id="btnLogin">
-                        Entrar no Sistema
-                    </button>
-
-                    <div class="login-error" id="loginError">
-                        ❌ Usuário ou senha incorretos!
+    <!-- MODAL LOGIN MEMBROS -->
+    <div class="modal-overlay modal-login-membros" id="modalLoginMembros">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>👤 Acesso de Membros<br>Tribunal de Fisc. e Transp.</h2>
+                <button class="modal-close" onclick="fecharModalLoginMembros()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="membros-icon">🎖️</div>
+                <div class="membros-info">
+                    <strong> Área do Membro</strong>
+                    Acesse sua área para visualizar documentos, comunicados e informações exclusivas para membros do órgão.
+                </div>
+                <form id="formLoginMembros" onsubmit="realizarLoginMembros(event)">
+                    <div class="form-group">
+                        <label for="membrosNick">Nick (Habbo) *</label>
+                        <input type="text" id="membrosNick" name="nick" placeholder="Digite seu nick no Habbo" required autocomplete="username">
                     </div>
+                    <div class="form-group">
+                        <label for="membrosSenha">Senha *</label>
+                        <input type="password" id="membrosSenha" name="senha" placeholder="Digite sua senha" required autocomplete="current-password">
+                    </div>
+                    <button type="submit" class="btn-login-membros-modal" id="btnLoginMembros">Acessar Área do Membro</button>
+                    <div class="login-error" id="loginErrorMembros">❌ Nick ou senha incorretos!</div>
                 </form>
             </div>
         </div>
@@ -1291,8 +1346,8 @@
             <div class="footer-col">
                 <h4>Links Importantes</h4>
                 <a href="documentos.html">📜 Código de Conduta</a>
-                <a href="#" onclick="abrirModalContato(); return false;">📢 Ouvidoria</a>
-                <a href="#" onclick="abrirModalLogin(); return false;" style="color: var(--amarelo);">🔐 Área Administrativa</a>
+                <a href="#" onclick="abrirModalContato(); return false;"> Ouvidoria</a>
+                <a href="#" onclick="abrirModalLoginAdmin(); return false;" style="color: var(--amarelo);">🔐 Área Administrativa</a>
             </div>
             <div class="footer-col">
                 <h4>Desenvolvimento</h4>
@@ -1308,9 +1363,7 @@
          JAVASCRIPT
          ============================================ -->
     <script>
-        // ============================================
-        // CARROSSEL DE NOTÍCIAS
-        // ============================================
+        // CARROSSEL
         let slideAtual = 0;
         const slides = document.querySelectorAll('.carrossel-slide');
         const indicadores = document.querySelectorAll('.carrossel-indicators span');
@@ -1352,50 +1405,8 @@
 
         iniciarIntervalo();
 
-        // ============================================
-        // FAB - MENU EXPANSÍVEL
-        // ============================================
-        let fabAberto = false;
-
-        /**
-         * Abre/fecha o menu de opções do FAB
-         */
-        function toggleFab() {
-            fabAberto = !fabAberto;
-            const fabMain = document.getElementById('fabMain');
-            const fabOptions = document.getElementById('fabOptions');
-
-            if (fabAberto) {
-                fabMain.classList.add('active');
-                fabOptions.classList.add('show');
-            } else {
-                fabMain.classList.remove('active');
-                fabOptions.classList.remove('show');
-            }
-        }
-
-        /**
-         * Fecha o FAB automaticamente ao clicar em uma opção
-         */
-        function fecharFab() {
-            fabAberto = false;
-            document.getElementById('fabMain').classList.remove('active');
-            document.getElementById('fabOptions').classList.remove('show');
-        }
-
-        // Fechar FAB ao clicar fora
-        document.addEventListener('click', function(e) {
-            const fabContainer = document.querySelector('.fab-container');
-            if (!fabContainer.contains(e.target) && fabAberto) {
-                fecharFab();
-            }
-        });
-
-        // ============================================
         // MODAL FALE CONOSCO
-        // ============================================
         function abrirModalContato() {
-            fecharFab();
             document.getElementById('modalContato').classList.add('active');
             document.body.style.overflow = 'hidden';
             preencherDataVigente();
@@ -1407,67 +1418,45 @@
             document.getElementById('formMessage').style.display = 'none';
         }
 
-        // ============================================
-        // MODAL DE LOGIN
-        // ============================================
-        
-        /**
-         * CREDENCIAIS DE ACESSO (DEMONSTRAÇÃO)
-         * ⚠️ EM PRODUÇÃO: Use backend seguro com hash de senha!
-         */
-        const CREDENCIAIS_ADMIN = {
-            usuario: 'admin',
-            senha: 'tft2026'
-        };
+        // MODAL LOGIN ADMIN
+        const CREDENCIAIS_ADMIN = { usuario: 'admin', senha: 'tft2026' };
 
-        function abrirModalLogin() {
-            fecharFab();
-            document.getElementById('modalLogin').classList.add('active');
+        function abrirModalLoginAdmin() {
+            document.getElementById('modalLoginAdmin').classList.add('active');
             document.body.style.overflow = 'hidden';
-            document.getElementById('loginError').classList.remove('show');
-            document.getElementById('formLogin').reset();
+            document.getElementById('loginErrorAdmin').classList.remove('show');
+            document.getElementById('formLoginAdmin').reset();
         }
 
-        function fecharModalLogin() {
-            document.getElementById('modalLogin').classList.remove('active');
+        function fecharModalLoginAdmin() {
+            document.getElementById('modalLoginAdmin').classList.remove('active');
             document.body.style.overflow = 'auto';
         }
 
-        /**
-         * Realiza o login e redireciona para admin.html
-         */
-        function realizarLogin(event) {
+        function realizarLoginAdmin(event) {
             event.preventDefault();
-
             const usuario = document.getElementById('loginUsuario').value.trim();
             const senha = document.getElementById('loginSenha').value;
-            const btnLogin = document.getElementById('btnLogin');
-            const loginError = document.getElementById('loginError');
+            const btnLogin = document.getElementById('btnLoginAdmin');
+            const loginError = document.getElementById('loginErrorAdmin');
 
-            // Validação básica
             if (!usuario || !senha) {
                 loginError.textContent = '❌ Preencha usuário e senha!';
                 loginError.classList.add('show');
                 return;
             }
 
-            // Simular loading
             btnLogin.disabled = true;
             btnLogin.innerHTML = '<span class="spinner"></span> Verificando...';
             loginError.classList.remove('show');
 
             setTimeout(() => {
-                // Verificar credenciais
                 if (usuario === CREDENCIAIS_ADMIN.usuario && senha === CREDENCIAIS_ADMIN.senha) {
-                    // Login bem-sucedido
                     localStorage.setItem('tft_admin_logado', 'true');
                     localStorage.setItem('tft_admin_usuario', usuario);
                     localStorage.setItem('tft_admin_login_time', new Date().toISOString());
-
-                    // Redirecionar para painel administrativo
                     window.location.href = 'admin.html';
                 } else {
-                    // Login falhou
                     loginError.textContent = '❌ Usuário ou senha incorretos!';
                     loginError.classList.add('show');
                     btnLogin.disabled = false;
@@ -1476,26 +1465,79 @@
             }, 800);
         }
 
+        // MODAL LOGIN MEMBROS
+        const CREDENCIAIS_MEMBROS = { nick: 'membro', senha: 'tft2026' };
+
+        function abrirModalLoginMembros() {
+            document.getElementById('modalLoginMembros').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            document.getElementById('loginErrorMembros').classList.remove('show');
+            document.getElementById('formLoginMembros').reset();
+        }
+
+        function fecharModalLoginMembros() {
+            document.getElementById('modalLoginMembros').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function realizarLoginMembros(event) {
+            event.preventDefault();
+            const nick = document.getElementById('membrosNick').value.trim();
+            const senha = document.getElementById('membrosSenha').value;
+            const btnLogin = document.getElementById('btnLoginMembros');
+            const loginError = document.getElementById('loginErrorMembros');
+
+            if (!nick || !senha) {
+                loginError.textContent = '❌ Preencha nick e senha!';
+                loginError.classList.add('show');
+                return;
+            }
+
+            btnLogin.disabled = true;
+            btnLogin.innerHTML = '<span class="spinner"></span> Verificando...';
+            loginError.classList.remove('show');
+
+            setTimeout(() => {
+                if (nick === CREDENCIAIS_MEMBROS.nick && senha === CREDENCIAIS_MEMBROS.senha) {
+                    localStorage.setItem('tft_membro_logado', 'true');
+                    localStorage.setItem('tft_membro_nick', nick);
+                    localStorage.setItem('tft_membro_login_time', new Date().toISOString());
+                    
+                    alert('✅ Login realizado com sucesso!\n\nEm breve você será redirecionado para a Área do Membro.');
+                    
+                    btnLogin.disabled = false;
+                    btnLogin.innerHTML = 'Acessar Área do Membro';
+                    fecharModalLoginMembros();
+                } else {
+                    loginError.textContent = '❌ Nick ou senha incorretos!';
+                    loginError.classList.add('show');
+                    btnLogin.disabled = false;
+                    btnLogin.innerHTML = 'Acessar Área do Membro';
+                }
+            }, 800);
+        }
+
         // Fechar modais ao clicar fora
         document.getElementById('modalContato').addEventListener('click', function(e) {
             if (e.target === this) fecharModalContato();
         });
-
-        document.getElementById('modalLogin').addEventListener('click', function(e) {
-            if (e.target === this) fecharModalLogin();
+        document.getElementById('modalLoginAdmin').addEventListener('click', function(e) {
+            if (e.target === this) fecharModalLoginAdmin();
+        });
+        document.getElementById('modalLoginMembros').addEventListener('click', function(e) {
+            if (e.target === this) fecharModalLoginMembros();
         });
 
         // Fechar modais com ESC
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 fecharModalContato();
-                fecharModalLogin();
+                fecharModalLoginAdmin();
+                fecharModalLoginMembros();
             }
         });
 
-        // ============================================
         // FORMULÁRIO FALE CONOSCO
-        // ============================================
         function preencherDataVigente() {
             const hoje = new Date();
             const dataFormatada = `${String(hoje.getDate()).padStart(2,'0')}/${String(hoje.getMonth()+1).padStart(2,'0')}/${hoje.getFullYear()} - ${String(hoje.getHours()).padStart(2,'0')}:${String(hoje.getMinutes()).padStart(2,'0')}`;
@@ -1504,7 +1546,6 @@
 
         function enviarFormulario(event) {
             event.preventDefault();
-
             const btnEnviar = document.getElementById('btnEnviar');
             const formMessage = document.getElementById('formMessage');
             const form = document.getElementById('formContato');
@@ -1538,12 +1579,10 @@
                     status: 'Pendente'
                 };
 
-                // Salvar no localStorage
                 let mensagens = JSON.parse(localStorage.getItem('tft_mensagens') || '[]');
                 mensagens.unshift(mensagem);
                 localStorage.setItem('tft_mensagens', JSON.stringify(mensagens));
 
-                // Atualizar badge de notificação
                 atualizarBadgeNotificacao();
 
                 exibirMensagem('✅ Mensagem enviada com sucesso! Ela foi salva no sistema e será analisada pela administração.', 'success');
@@ -1552,7 +1591,6 @@
                 preencherDataVigente();
                 btnEnviar.disabled = false;
                 btnEnviar.innerHTML = 'Enviar Solicitação';
-
             }, 1000);
         }
 
@@ -1564,9 +1602,7 @@
             setTimeout(() => { msg.style.display = 'none'; }, 8000);
         }
 
-        // ============================================
         // BADGE DE NOTIFICAÇÃO
-        // ============================================
         function atualizarBadgeNotificacao() {
             const mensagens = JSON.parse(localStorage.getItem('tft_mensagens') || '[]');
             const naoLidas = mensagens.filter(m => !m.lida).length;
@@ -1580,14 +1616,10 @@
             }
         }
 
-        // ============================================
         // INICIALIZAÇÃO
-        // ============================================
         document.addEventListener('DOMContentLoaded', function() {
             preencherDataVigente();
             atualizarBadgeNotificacao();
-
-            // Atualizar badge a cada 3 segundos
             setInterval(atualizarBadgeNotificacao, 3000);
         });
     </script>
