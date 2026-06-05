@@ -9,73 +9,98 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #f5f5dc; /* Bege */ color: #111111; /* Preto */ scroll-behavior: smooth; }
 
-        /* Cabeçalho Diferenciado */
+        /* Cabeçalho Fixo Escuro */
         header {
             background: linear-gradient(135deg, #111111, #003366); /* Preto e Azul Escuro */
-            color: #ffffff; /* Branco */
+            color: #ffffff;
             padding: 15px 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.8);
             position: sticky;
             top: 0;
             z-index: 1000;
-            border-bottom: 3px solid #ffd700; /* Amarelo */
+            border-bottom: 2px solid #ffd700; /* Linha Dourada */
         }
         
-        .logo-tft { display: flex; align-items: center; gap: 15px; }
-        
-        /* Estilização da Imagem da Logo */
-        .img-logo {
-            width: 55px; /* Tamanho ideal para emblemas/logos do Habbo */
-            height: 55px;
-            object-fit: contain;
-            /* Caso sua logo seja transparente, ela se adaptará perfeitamente ao fundo */
-        }
-
-        .logo-tft h1 { font-size: 24px; text-transform: uppercase; letter-spacing: 2px; color: #ffd700; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); line-height: 1.2; }
-        .logo-tft span { font-size: 14px; font-weight: normal; color: #ffffff; opacity: 0.9; display: block; }
+        .logo-tft-header { display: flex; align-items: center; gap: 15px; }
+        .img-logo-header { width: 45px; height: 45px; object-fit: contain; }
+        .logo-tft-header h1 { font-size: 20px; text-transform: uppercase; letter-spacing: 1px; color: #ffd700; }
         
         nav ul { list-style: none; display: flex; gap: 20px; }
         nav a { color: #ffffff; text-decoration: none; font-weight: bold; padding: 8px 15px; border-radius: 5px; transition: 0.3s; }
-        nav a:hover { background-color: rgba(255, 255, 255, 0.1); color: #ffd700; }
+        nav a:hover { background-color: rgba(255, 215, 0, 0.2); color: #ffd700; }
         
         .btn-login { background-color: #ffd700; color: #111111; border: none; padding: 8px 20px; font-weight: bold; border-radius: 5px; cursor: pointer; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         .btn-login:hover { background-color: #ffffff; color: #111111; }
 
-        /* Seções da Página Única */
-        section { min-height: 100vh; padding: 80px 50px; }
-        section:nth-child(odd) { background-color: #f5f5dc; } 
-        section:nth-child(even) { background-color: #ffffff; }
+        /* CAPA (Hero Section baseada na imagem) */
+        .capa-tft {
+            background: radial-gradient(circle, #eebb22, #b8860b); /* Tons Dourados inspirados na imagem */
+            color: #ffffff;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            box-shadow: inset 0 -5px 15px rgba(0,0,0,0.3);
+            border-bottom: 5px solid #111111;
+        }
+        .img-logo-capa { width: 200px; height: 200px; object-fit: contain; filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.6)); }
+        .texto-capa { display: flex; flex-direction: column; }
+        .texto-capa h2 { font-size: 70px; font-family: 'Times New Roman', serif; text-transform: uppercase; color: #ffffff; letter-spacing: 5px; text-shadow: 3px 3px 6px rgba(0,0,0,0.7); margin: 0; border: none; padding: 0; }
+        .texto-capa span { font-size: 22px; text-transform: uppercase; letter-spacing: 4px; color: #ffffff; border-top: 2px solid rgba(255,255,255,0.5); border-bottom: 2px solid rgba(255,255,255,0.5); padding: 5px 0; margin-top: 5px; text-shadow: 2px 2px 4px rgba(0,0,0,0.7); text-align: center; }
 
-        h2 { font-size: 32px; color: #003366; /* Azul */ margin-bottom: 20px; text-transform: uppercase; border-bottom: 3px solid #ffd700; display: inline-block; padding-bottom: 5px; }
+        /* Seções da Página Única */
+        section.conteudo { min-height: 80vh; padding: 80px 50px; }
+        section.conteudo:nth-child(even) { background-color: #f5f5dc; } /* Bege */
+        section.conteudo:nth-child(odd) { background-color: #ffffff; }  /* Branco */
+
+        .titulo-secao { font-size: 32px; color: #003366; margin-bottom: 20px; text-transform: uppercase; border-bottom: 3px solid #ffd700; display: inline-block; padding-bottom: 5px; }
+
+        /* Rodapé Diferenciado */
+        footer {
+            background: #111111;
+            color: #ffffff;
+            padding: 40px 50px 20px;
+            text-align: center;
+            border-top: 5px solid #003366;
+            position: relative;
+        }
+        .footer-content { display: flex; justify-content: space-around; align-items: center; margin-bottom: 20px; flex-wrap: wrap; }
+        .footer-logo { display: flex; align-items: center; gap: 15px; }
+        .footer-logo img { width: 60px; filter: grayscale(100%) brightness(200%); opacity: 0.7; transition: 0.3s; }
+        .footer-logo img:hover { filter: none; opacity: 1; }
+        .footer-info h3 { color: #ffd700; margin-bottom: 10px; font-size: 20px; }
+        .footer-info p { opacity: 0.8; font-size: 14px; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; margin-top: 20px; font-size: 12px; color: #888; }
 
         /* Botão Flutuante Fale Conosco */
         .btn-fale-conosco {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            background-color: #003366; /* Azul */
+            background-color: #003366;
             color: #ffffff;
             padding: 15px 25px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
             transition: 0.3s;
             z-index: 999;
-            border: 2px solid #ffd700; /* Amarelo */
+            border: 2px solid #ffd700;
         }
-        .btn-fale-conosco:hover { background-color: #111111; color: #ffd700; transform: scale(1.05); }
+        .btn-fale-conosco:hover { background-color: #ffd700; color: #111111; transform: scale(1.05); }
 
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo-tft">
-            <img src="img/tft1.png" alt="Logo TFT" class="img-logo">
+        <div class="logo-tft-header">
+            <img src="img/tft.png" alt="Logo TFT" class="img-logo-header">
             <div>
                 <h1>Tribunal de Fisc. e Transparência</h1>
                 <span>Diário Oficial - TFT | FEB®</span>
@@ -89,28 +114,61 @@
                 <li><a href="#documentacao">Documentação</a></li>
             </ul>
         </nav>
-        <button class="btn-login" onclick="abrirLogin()">Login/Admin</button>
+        <button class="btn-login" onclick="abrirLogin()">Login</button>
     </header>
 
-    <section id="inicio">
-        <h2>Página Inicial</h2>
-        <p>Espaço reservado para o banner de notícias em formato roda gigante.</p>
+    <div class="capa-tft" id="inicio">
+        <img src="img/tft1.png" alt="Brasão TFT" class="img-logo-capa">
+        <div class="texto-capa">
+            <h2>Tribunal</h2>
+            <span>Fiscalização & Transparência</span>
+        </div>
+    </div>
+
+    <section class="conteudo">
+        <h2 class="titulo-secao">Últimas Notícias</h2>
+        <p>Espaço reservado para o banner de notícias em formato roda gigante (Carrossel).</p>
     </section>
 
-    <section id="sobre">
-        <h2>Sobre Nós</h2>
+    <section id="sobre" class="conteudo">
+        <h2 class="titulo-secao">Sobre Nós</h2>
         <p>Informações sobre o Tribunal de Fiscalização e Transparência da FEB.</p>
     </section>
 
-    <section id="membros">
-        <h2>Membros do TFT</h2>
+    <section id="membros" class="conteudo">
+        <h2 class="titulo-secao">Membros do TFT</h2>
         <p>Lista e hierarquia dos membros atuantes no tribunal.</p>
     </section>
 
-    <section id="documentacao">
-        <h2>Documentação</h2>
+    <section id="documentacao" class="conteudo">
+        <h2 class="titulo-secao">Documentação</h2>
         <p>Manuais, regras, atas e tutoriais da polícia FEB.</p>
     </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="img/tft.png" alt="Logo Monocromática TFT">
+                <div style="text-align: left;">
+                    <h3 style="color: #ffd700; margin:0;">TFT FEB</h3>
+                    <p style="margin:0; font-size:12px;">Habbo Hotel BR/PT</p>
+                </div>
+            </div>
+            <div class="footer-info">
+                <h3>Links Úteis</h3>
+                <p><a href="#documentacao" style="color: #fff; text-decoration: none;">Código de Conduta</a></p>
+                <p><a href="#fale-conosco" style="color: #fff; text-decoration: none;">Ouvidoria Geral</a></p>
+            </div>
+            <div class="footer-info">
+                <h3>Desenvolvimento</h3>
+                <p>Sistema desenvolvido para uso exclusivo</p>
+                <p>da Polícia FEB.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Tribunal de Fiscalização e Transparência - Polícia FEB. Todos os direitos reservados.
+        </div>
+    </footer>
 
     <a href="#fale-conosco" class="btn-fale-conosco" onclick="abrirFaleConosco()">💬 Fale Conosco</a>
 
