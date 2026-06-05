@@ -7,11 +7,11 @@
     <style>
         /* Estilos Globais */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #f5f5dc; /* Bege */ color: #111111; /* Preto */ scroll-behavior: smooth; }
+        body { background-color: #f5f5dc; color: #111111; scroll-behavior: smooth; }
 
         /* Cabeçalho Fixo Escuro */
         header {
-            background: linear-gradient(135deg, #111111, #003366); /* Preto e Azul Escuro */
+            background: linear-gradient(135deg, #111111, #003366);
             color: #ffffff;
             padding: 15px 50px;
             display: flex;
@@ -21,7 +21,7 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            border-bottom: 2px solid #ffd700; /* Linha Dourada */
+            border-bottom: 2px solid #ffd700;
         }
         
         .logo-tft-header { display: flex; align-items: center; gap: 15px; }
@@ -36,9 +36,8 @@
         .btn-login { background-color: #ffd700; color: #111111; border: none; padding: 8px 25px; font-weight: bold; border-radius: 5px; cursor: pointer; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
         .btn-login:hover { background-color: #ffffff; color: #111111; }
 
-        /* CAPA (O "UP" aplicado aqui) */
+        /* CAPA */
         .capa-tft {
-            /* Degradê radial: centro claro iluminando a logo, bordas escuras dando profundidade */
             background: radial-gradient(circle at center, #ffdb4d 0%, #d4af37 40%, #8b6508 100%);
             color: #ffffff;
             height: 60vh;
@@ -46,72 +45,116 @@
             align-items: center;
             justify-content: center;
             gap: 50px;
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.6); /* Sombra interna nas bordas do banner */
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.6);
             border-bottom: 5px solid #111111;
             position: relative;
             overflow: hidden;
         }
         
-        /* Drop-shadow mágico para logos sem fundo */
         .img-logo-capa { 
-            width: 230px; 
-            height: 230px; 
-            object-fit: contain; 
-            filter: drop-shadow(0px 15px 20px rgba(0,0,0,0.7)); /* Isso faz a logo "pular" da tela */
+            width: 230px; height: 230px; object-fit: contain; 
+            filter: drop-shadow(0px 15px 20px rgba(0,0,0,0.7)); 
             transition: transform 0.4s ease;
         }
-        .img-logo-capa:hover {
-            transform: scale(1.05);
-        }
+        .img-logo-capa:hover { transform: scale(1.05); }
 
         .texto-capa { display: flex; flex-direction: column; z-index: 2; }
-        .texto-capa h2 { 
-            font-size: 75px; 
-            font-family: 'Times New Roman', serif; 
-            text-transform: uppercase; 
-            color: #ffffff; 
-            letter-spacing: 5px; 
-            text-shadow: 3px 3px 10px rgba(0,0,0,0.6); 
-            margin: 0; 
-        }
-        .texto-capa span { 
-            font-size: 20px; 
-            text-transform: uppercase; 
-            letter-spacing: 5px; 
-            color: #ffffff; 
-            text-align: center; 
-            margin-top: 5px;
-            padding-top: 15px;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
-            position: relative;
-        }
+        .texto-capa h2 { font-size: 75px; font-family: 'Times New Roman', serif; text-transform: uppercase; color: #ffffff; letter-spacing: 5px; text-shadow: 3px 3px 10px rgba(0,0,0,0.6); margin: 0; }
+        .texto-capa span { font-size: 20px; text-transform: uppercase; letter-spacing: 5px; color: #ffffff; text-align: center; margin-top: 5px; padding-top: 15px; text-shadow: 2px 2px 5px rgba(0,0,0,0.7); position: relative; }
         
-        /* Linha divisória fina e com degradê */
-        .texto-capa span::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 10%;
-            width: 80%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
-        }
+        .texto-capa span::before { content: ''; position: absolute; top: 0; left: 10%; width: 80%; height: 2px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent); }
 
-        /* Seções da Página Única */
-        section.conteudo { min-height: 80vh; padding: 80px 50px; }
-        section.conteudo:nth-child(even) { background-color: #f5f5dc; }
-        section.conteudo:nth-child(odd) { background-color: #ffffff; }
-
+        /* Seção de Conteúdo */
+        section.conteudo { min-height: 50vh; padding: 80px 50px; background-color: #ffffff; }
         .titulo-secao { font-size: 32px; color: #003366; margin-bottom: 20px; text-transform: uppercase; border-bottom: 3px solid #ffd700; display: inline-block; padding-bottom: 5px; }
 
-        /* Rodapé */
-        footer {
-            background: #111111;
-            color: #ffffff;
-            padding: 40px 50px 20px;
-            text-align: center;
-            border-top: 5px solid #003366;
+        /* CARROSSEL DE NOTÍCIAS (Roda Gigante) */
+        .carrossel-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto 50px auto;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            border: 3px solid #003366;
         }
+        .carrossel-slides { display: flex; transition: transform 0.5s ease-in-out; }
+        .slide {
+            min-width: 100%;
+            background-color: #111;
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        /* Overlay escuro */
+        .slide::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1; }
+        .slide-content { position: relative; z-index: 2; }
+        .slide h3 { color: #ffd700; font-size: 28px; margin-bottom: 10px; }
+        .slide p { font-size: 16px; }
+        
+        .carrossel-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background-color: rgba(0, 51, 102, 0.8); color: white;
+            border: 2px solid #ffd700; padding: 10px 15px; cursor: pointer;
+            font-size: 18px; border-radius: 50%; z-index: 10; transition: 0.3s;
+        }
+        .carrossel-btn:hover { background-color: #ffd700; color: #003366; }
+        .btn-prev { left: 10px; }
+        .btn-next { right: 10px; }
+
+        /* GRID DE ATALHOS */
+        .atalhos-grid { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+        .card-atalho {
+            background: linear-gradient(135deg, #003366, #111);
+            color: white; padding: 30px; border-radius: 10px; width: 280px; text-align: center;
+            text-decoration: none; border-bottom: 5px solid #ffd700;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: 0.3s;
+        }
+        .card-atalho h3 { color: #ffd700; margin-bottom: 10px; font-size: 22px; }
+        .card-atalho p { font-size: 14px; opacity: 0.9; }
+        .card-atalho:hover { transform: translateY(-10px); box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
+
+        /* MODAL FALE CONOSCO */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.8); z-index: 2000;
+            justify-content: center; align-items: center; padding: 20px;
+        }
+        .modal-content {
+            background-color: #f5f5dc; width: 100%; max-width: 600px;
+            border-radius: 10px; padding: 30px; position: relative;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5); border-top: 5px solid #003366;
+            max-height: 90vh; overflow-y: auto;
+        }
+        .fechar-modal { position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; color: #111; transition: 0.3s; }
+        .fechar-modal:hover { color: #b21f1f; }
+        
+        .modal-content h2 { color: #003366; margin-bottom: 20px; border-bottom: 2px solid #ffd700; padding-bottom: 5px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; color: #111; }
+        .form-group input[type="text"], .form-group input[type="date"], .form-group select, .form-group textarea {
+            width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;
+        }
+        .form-group textarea { resize: vertical; min-height: 100px; }
+        .instrucao { font-size: 12px; color: #555; margin-top: 5px; background: #eee; padding: 8px; border-left: 3px solid #003366; }
+        .instrucao-atencao { color: #b21f1f; font-weight: bold; }
+        
+        .btn-enviar { background-color: #003366; color: white; border: none; padding: 12px 20px; width: 100%; font-weight: bold; font-size: 16px; border-radius: 5px; cursor: pointer; transition: 0.3s; border-bottom: 3px solid #ffd700; }
+        .btn-enviar:hover { background-color: #111; color: #ffd700; }
+
+        /* Botão Flutuante */
+        .btn-fale-conosco {
+            position: fixed; bottom: 30px; right: 30px; background-color: #003366; color: #ffffff;
+            padding: 15px 25px; border-radius: 50px; text-decoration: none; font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: 0.3s; z-index: 999; border: 2px solid #ffd700; cursor: pointer;
+        }
+        .btn-fale-conosco:hover { background-color: #ffd700; color: #111111; transform: scale(1.05); }
+
+        /* Rodapé */
+        footer { background: #111111; color: #ffffff; padding: 40px 50px 20px; text-align: center; border-top: 5px solid #003366; }
         .footer-content { display: flex; justify-content: space-around; align-items: center; margin-bottom: 20px; flex-wrap: wrap; }
         .footer-logo { display: flex; align-items: center; gap: 15px; }
         .footer-logo img { width: 60px; filter: grayscale(100%) brightness(200%); opacity: 0.7; transition: 0.3s; }
@@ -119,25 +162,6 @@
         .footer-info h3 { color: #ffd700; margin-bottom: 10px; font-size: 20px; }
         .footer-info p { opacity: 0.8; font-size: 14px; }
         .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; margin-top: 20px; font-size: 12px; color: #888; }
-
-        /* Botão Flutuante Fale Conosco */
-        .btn-fale-conosco {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background-color: #003366;
-            color: #ffffff;
-            padding: 15px 25px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            transition: 0.3s;
-            z-index: 999;
-            border: 2px solid #ffd700;
-        }
-        .btn-fale-conosco:hover { background-color: #ffd700; color: #111111; transform: scale(1.05); }
-
     </style>
 </head>
 <body>
@@ -152,16 +176,17 @@
         </div>
         <nav>
             <ul>
-                <li><a href="#inicio">Início</a></li>
-                <li><a href="#sobre">Sobre Nós</a></li>
-                <li><a href="#membros">Membros</a></li>
-                <li><a href="#documentacao">Documentação</a></li>
+                <!-- Links apontando para páginas separadas -->
+                <li><a href="index.html">Início</a></li>
+                <li><a href="sobre.html">Sobre Nós</a></li>
+                <li><a href="membros.html">Membros</a></li>
+                <li><a href="documentos.html">Documentação</a></li>
             </ul>
         </nav>
         <button class="btn-login" onclick="abrirLogin()">Login</button>
     </header>
 
-    <div class="capa-tft" id="inicio">
+    <div class="capa-tft">
         <img src="img/tft1.png" alt="Brasão TFT" class="img-logo-capa">
         <div class="texto-capa">
             <h2>Tribunal</h2>
@@ -169,24 +194,51 @@
         </div>
     </div>
 
+    <!-- PÁGINA INICIAL: Carrossel e Atalhos -->
     <section class="conteudo">
-        <h2 class="titulo-secao">Últimas Notícias</h2>
-        <p>Espaço reservado para o banner de notícias em formato roda gigante (Carrossel).</p>
-    </section>
+        <h2 class="titulo-secao" style="display: block; text-align: center; margin-bottom: 40px;">Destaques TFT</h2>
+        
+        <!-- Carrossel -->
+        <div class="carrossel-container">
+            <button class="carrossel-btn btn-prev" onclick="mudarSlide(-1)">&#10094;</button>
+            <div class="carrossel-slides" id="slider">
+                <div class="slide" style="background-image: url('https://i95.servimg.com/u/f95/20/65/42/26/07656210.jpg');">
+                    <div class="slide-content">
+                        <h3>Atualização de Documentação</h3>
+                        <p>O Código de Conduta da FEB foi revisado. Fique atento às novas diretrizes.</p>
+                    </div>
+                </div>
+                <div class="slide" style="background-image: url('https://i.imgur.com/L79pB4V.png');">
+                    <div class="slide-content">
+                        <h3>Novos Membros Efetivados</h3>
+                        <p>Confira a lista dos novos oficiais integrados ao Tribunal nesta semana.</p>
+                    </div>
+                </div>
+                <div class="slide" style="background-image: url('https://i.imgur.com/8QWv7u0.png');">
+                    <div class="slide-content">
+                        <h3>Ouvidoria Aberta</h3>
+                        <p>Problemas com suprimentos ou planejamento? Use nosso canal de Fale Conosco.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carrossel-btn btn-next" onclick="mudarSlide(1)">&#10095;</button>
+        </div>
 
-    <section id="sobre" class="conteudo">
-        <h2 class="titulo-secao">Sobre Nós</h2>
-        <p>Informações sobre o Tribunal de Fiscalização e Transparência da FEB.</p>
-    </section>
-
-    <section id="membros" class="conteudo">
-        <h2 class="titulo-secao">Membros do TFT</h2>
-        <p>Lista e hierarquia dos membros atuantes no tribunal.</p>
-    </section>
-
-    <section id="documentacao" class="conteudo">
-        <h2 class="titulo-secao">Documentação</h2>
-        <p>Manuais, regras, atas e tutoriais da polícia FEB.</p>
+        <!-- Atalhos para as novas páginas HTML -->
+        <div class="atalhos-grid">
+            <a href="sobre.html" class="card-atalho">
+                <h3>🏛️ Sobre Nós</h3>
+                <p>Conheça a história e o propósito do Tribunal de Fiscalização da FEB.</p>
+            </a>
+            <a href="membros.html" class="card-atalho">
+                <h3>👥 Membros</h3>
+                <p>Consulte a hierarquia e os oficiais que compõem nosso tribunal.</p>
+            </a>
+            <a href="documentos.html" class="card-atalho">
+                <h3>📄 Documentação</h3>
+                <p>Acesse regras, atas e os manuais de procedimento padrão.</p>
+            </a>
+        </div>
     </section>
 
     <footer>
@@ -200,8 +252,8 @@
             </div>
             <div class="footer-info">
                 <h3>Links Úteis</h3>
-                <p><a href="#documentacao" style="color: #fff; text-decoration: none;">Código de Conduta</a></p>
-                <p><a href="#fale-conosco" style="color: #fff; text-decoration: none;">Ouvidoria Geral</a></p>
+                <p><a href="documentos.html" style="color: #fff; text-decoration: none;">Código de Conduta</a></p>
+                <p><a href="#" onclick="abrirFaleConosco()" style="color: #fff; text-decoration: none;">Ouvidoria Geral</a></p>
             </div>
             <div class="footer-info">
                 <h3>Desenvolvimento</h3>
@@ -214,15 +266,103 @@
         </div>
     </footer>
 
-    <a href="#fale-conosco" class="btn-fale-conosco" onclick="abrirFaleConosco()">💬 Fale Conosco</a>
+    <!-- Botão Fale Conosco -->
+    <a class="btn-fale-conosco" onclick="abrirFaleConosco()">💬 Fale Conosco</a>
 
+    <!-- MODAL FALE CONOSCO -->
+    <div id="modalFaleConosco" class="modal-overlay">
+        <div class="modal-content">
+            <span class="fechar-modal" onclick="fecharFaleConosco()">&times;</span>
+            <h2>Canal de Atendimento Tribunal de Fisc. e Transp.</h2>
+            <form id="formFaleConosco" onsubmit="enviarFormulario(event)">
+                
+                <div style="display: flex; gap: 15px;">
+                    <div class="form-group" style="flex: 1;">
+                        <label for="nick">Seu Nick:</label>
+                        <input type="text" id="nick" placeholder="Ex: Fulano123" required>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label for="patente">Sua Patente:</label>
+                        <input type="text" id="patente" placeholder="Ex: Sargento" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="dataVigente">Data Vigente:</label>
+                    <input type="date" id="dataVigente" required readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="tipoSolicitacao">Motivo do Contato:</label>
+                    <select id="tipoSolicitacao" required>
+                        <option value="">-- Selecione uma opção --</option>
+                        <option value="Dúvida">Dúvida</option>
+                        <option value="Reclamação">Reclamação</option>
+                        <option value="Sugestão">Sugestão</option>
+                        <option value="Denúncia">Denúncia</option>
+                        <option value="Casos Financeiros">Casos Financeiros</option>
+                    </select>
+                    <div class="instrucao">
+                        <span class="instrucao-atencao">Obs:</span> Caso seja problemas envolvendo o setor de suprimentos, planejamento ou financeiro, pedimos que informe em conjunto o motivo citando o setor que deseja se comunicar.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="descricao">Descrição detalhada da situação:</label>
+                    <textarea id="descricao" placeholder="Escreva aqui..." required></textarea>
+                    <div class="instrucao">Gentileza informar toda a situação detalhadamente, para que possa assim ser prosseguido com a solicitação.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="anexos">Campo de comprovação (Anexos de imagens):</label>
+                    <input type="file" id="anexos" accept="image/*" multiple>
+                    <div class="instrucao">Gentileza informar todas as comprovações para que seja melhor tratado.</div>
+                </div>
+
+                <button type="submit" class="btn-enviar">Enviar Solicitação</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
     <script>
         function abrirLogin() {
             alert("Modal de Login será construído nos próximos passos.");
         }
+
+        /* Funções do Modal Fale Conosco */
         function abrirFaleConosco() {
-            alert("Aba de Fale Conosco será construída nos próximos passos.");
+            document.getElementById('modalFaleConosco').style.display = 'flex';
+            // Preencher data atual automaticamente
+            const hoje = new Date().toISOString().split('T')[0];
+            document.getElementById('dataVigente').value = hoje;
         }
+
+        function fecharFaleConosco() {
+            document.getElementById('modalFaleConosco').style.display = 'none';
+        }
+
+        function enviarFormulario(event) {
+            event.preventDefault(); 
+            alert("Sua solicitação foi registrada com sucesso! (A integração com o painel admin será feita posteriormente).");
+            fecharFaleConosco();
+            document.getElementById('formFaleConosco').reset();
+        }
+
+        /* Funções do Carrossel */
+        let slideIndex = 0;
+        const slides = document.getElementById('slider');
+        const totalSlides = document.querySelectorAll('.slide').length;
+
+        function mudarSlide(n) {
+            slideIndex += n;
+            if (slideIndex >= totalSlides) { slideIndex = 0; }
+            if (slideIndex < 0) { slideIndex = totalSlides - 1; }
+            slides.style.transform = `translateX(${-slideIndex * 100}%)`;
+        }
+
+        // Auto-play do carrossel a cada 5 segundos
+        setInterval(() => { mudarSlide(1); }, 5000);
     </script>
 
 </body>
