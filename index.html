@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="img/tft.png">
     <title>Diário Oficial - TFT | Polícia FEB®</title>
     <style>
         /* ============================================
@@ -882,7 +881,7 @@
          ============================================ -->
     <header>
         <div class="header-left">
-            <img src="img/tft.png" alt="Logo TFT" class="logo-nav">
+            <img src="img/tft.png" alt="Logo TFT" class="logo-nav" onerror="this.style.display='none'">
             <div class="header-titles">
                 <h1>Tribunal de Fisc. e Transparência</h1>
                 <p>Diário Oficial - TFT | FEB®</p>
@@ -902,7 +901,8 @@
     <!-- ============================================
          HERO / CAPA
          ============================================ -->
-    <section class="hero" id="inicio">      
+    <section class="hero" id="inicio">
+        <img src="img/tft.png" alt="Logo TFT Lateral" class="hero-logo-left" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><circle cx=%22100%22 cy=%22100%22 r=%2290%22 fill=%22%23FFD700%22 opacity=%220.3%22/><text x=%22100%22 y=%22110%22 text-anchor=%22middle%22 font-size=%2240%22 fill=%22white%22>TFT</text></svg>'">
         <div class="hero-content">
             <img src="img/tft1.png" alt="Logo TFT Grande" class="hero-logo-center" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><circle cx=%22100%22 cy=%22100%22 r=%2290%22 fill=%22%23FFD700%22 opacity=%220.3%22/><text x=%22100%22 y=%22110%22 text-anchor=%22middle%22 font-size=%2240%22 fill=%22white%22>TFT</text></svg>'">
             <div class="hero-titles">
@@ -1104,12 +1104,15 @@
                         <p class="form-obs gray">Mínimo de 20 caracteres recomendados para melhor análise.</p>
                     </div>
 
-                    <!-- Campo: Anexo -->
+                    <!-- Campo: URL da Imagem (Imgur) -->
                     <div class="form-group">
-                        <label for="anexo">Anexar Arquivo (Opcional)</label>
-                        <input type="file" id="anexo" name="anexo" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx">
-                        <p class="form-obs gray">Formatos aceitos: JPG, PNG, GIF, PDF, DOC. Tamanho máximo: 5MB.</p>
-                        <p class="form-obs red">Não envie dados sensíveis sem necessidade. O anexo será convertido e salvo em nosso sistema.</p>
+                        <label for="imagemUrl">URL da Imagem (Opcional)</label>
+                        <input type="url" id="imagemUrl" name="imagemUrl" placeholder="https://i.imgur.com/exemplo.jpg">
+                        <p class="form-obs gray">Cole o link direto da imagem (Imgur, por exemplo).</p>
+                        <p class="form-obs red">Formatos aceitos: JPG, PNG, GIF. Certifique-se de que o link é direto (termina em .jpg, .png, etc).</p>
+                        <p class="form-obs gray" style="margin-top: 8px;">
+                            <strong>Como obter:</strong> Faça upload no Imgur.com, clique com botão direito na imagem e selecione "Copiar endereço da imagem".
+                        </p>
                     </div>
 
                     <!-- Botão de Envio -->
@@ -1135,7 +1138,7 @@
                     <img src="img/tft.png" alt="Logo TFT" onerror="this.style.display='none'">
                     <span>TFT - Polícia FEB®</span>
                 </div>
-                <p>O Tribunal de Fiscalização e Transparência (TFT) é um órgão administrativo especializado, criado com o propósito de fortalecer a transparência, a organização e a eficiência institucional por meio de mecanismos de fiscalização, planejamento, controle e gestão estratégica. </p>
+                <p>Tribunal de Fiscalização e Transparência. Órgão responsável pela auditoria, fiscalização e promoção da transparência no âmbito da Polícia FEB no Habbo Hotel.</p>
             </div>
 
             <!-- Coluna 2: Links -->
@@ -1296,43 +1299,25 @@
         });
 
         // ============================================
-        // ENVIO DO FORMULÁRIO VIA GOOGLE APPS SCRIPT
+        // ENVIO DO FORMULÁRIO PARA GOOGLE SHEETS
         // ============================================
 
         /**
          * URL do endpoint do Google Apps Script para processamento do formulário.
-         * O script no GAS deve estar configurado para:
-         * 1. Receber os dados do formulário via POST
-         * 2. Converter o arquivo anexo de Base64 para Blob
-         * 3. Salvar o arquivo na pasta do Google Drive
-         * 4. Registrar todos os dados na Planilha Google vinculada
+         * 
+         * CONFIGURAÇÃO NECESSÁRIA NO GOOGLE APPS SCRIPT:
+         * 1. Acesse https://script.google.com/
+         * 2. Crie um novo projeto
+         * 3. Cole o código do Google Apps Script (fornecido abaixo)
+         * 4. Substitua 'ID_DA_SUA_PLANILHA' pelo ID da sua planilha Google
+         * 5. Implante como Web App (Acesso: Qualquer pessoa)
+         * 6. Copie a URL gerada e substitua abaixo
          */
         const URL_GAS = 'https://script.google.com/macros/s/AKfycbz1snLEUKWNo3whGFI90q8xzDPuWLPFYjGtvaD3saa050rBVRaoxkg1XiY8pPSWgyeg/exec';
 
         /**
-         * Converte um arquivo (File) para string Base64.
-         * Retorna uma Promise com a string Base64 resultante.
-         * @param {File} arquivo - O arquivo a ser convertido
-         * @returns {Promise<string>} - String Base64 do arquivo
-         */
-        function converterArquivoParaBase64(arquivo) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = function() {
-                    // Remove o prefixo data:...;base64, do resultado
-                    const base64 = reader.result.split(',')[1];
-                    resolve(base64);
-                };
-                reader.onerror = function(error) {
-                    reject(error);
-                };
-                reader.readAsDataURL(arquivo);
-            });
-        }
-
-        /**
          * Função principal de envio do formulário.
-         * Coleta os dados, converte o anexo para Base64 e envia via fetch POST.
+         * Coleta os dados e envia via fetch POST para o Google Apps Script.
          * @param {Event} event - Evento de submit do formulário
          */
         async function enviarFormulario(event) {
@@ -1349,12 +1334,21 @@
             const dataVigente = document.getElementById('dataVigente').value;
             const motivo = document.getElementById('motivo').value;
             const descricao = document.getElementById('descricao').value.trim();
-            const anexoInput = document.getElementById('anexo');
+            const imagemUrl = document.getElementById('imagemUrl').value.trim();
 
             // Validação básica
             if (!nick || !patente || !motivo || !descricao) {
                 exibirMensagem('Por favor, preencha todos os campos obrigatórios.', 'error');
                 return;
+            }
+
+            // Validação da URL da imagem (se fornecida)
+            if (imagemUrl) {
+                const urlPattern = /^(https?:\/\/.*\.(?:jpg|jpeg|png|gif|webp))/i;
+                if (!urlPattern.test(imagemUrl)) {
+                    exibirMensagem('URL da imagem inválida. Use links diretos terminados em .jpg, .png, .gif ou .webp', 'error');
+                    return;
+                }
             }
 
             // Ativar estado de loading no botão
@@ -1363,33 +1357,15 @@
 
             try {
                 // Preparar dados para envio
-                let dadosEnvio = {
+                const dadosEnvio = {
                     nick: nick,
                     patente: patente,
                     dataVigente: dataVigente,
                     motivo: motivo,
-                    descricao: descricao
+                    descricao: descricao,
+                    imagemUrl: imagemUrl || 'Nenhuma imagem',
+                    timestamp: new Date().toISOString()
                 };
-
-                // Se houver anexo, converter para Base64
-                if (anexoInput.files && anexoInput.files[0]) {
-                    const arquivo = anexoInput.files[0];
-
-                    // Verificar tamanho (máximo 5MB)
-                    if (arquivo.size > 5 * 1024 * 1024) {
-                        exibirMensagem('O arquivo excede o tamanho máximo de 5MB.', 'error');
-                        restaurarBotao();
-                        return;
-                    }
-
-                    // Converter arquivo para Base64
-                    const arquivoBase64 = await converterArquivoParaBase64(arquivo);
-
-                    // Adicionar dados do arquivo ao payload
-                    dadosEnvio.arquivoNome = arquivo.name;
-                    dadosEnvio.arquivoTipo = arquivo.type;
-                    dadosEnvio.arquivoBase64 = arquivoBase64;
-                }
 
                 // Enviar dados via fetch POST para o Google Apps Script
                 const resposta = await fetch(URL_GAS, {
@@ -1403,7 +1379,7 @@
 
                 // Como usamos no-cors, não podemos ler a resposta diretamente
                 // Assumimos sucesso se não houve exceção no fetch
-                exibirMensagem('✅ Solicitação enviada com sucesso! Seu protocolo será analisado em breve.', 'success');
+                exibirMensagem('✅ Solicitação enviada com sucesso! Os dados foram registrados na planilha.', 'success');
 
                 // Limpar formulário
                 form.reset();
