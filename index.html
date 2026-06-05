@@ -4,25 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diário Oficial - TFT | Polícia FEB®</title>
-    
-    <!-- EmailJS SDK -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function() {
-            // Inicializa o EmailJS (substitua 'YOUR_PUBLIC_KEY' pela sua chave pública)
-            emailjs.init("YOUR_PUBLIC_KEY");
-        })();
-    </script>
-    
     <style>
         /* ============================================
            RESET E VARIÁVEIS GLOBAIS
            ============================================ */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --amarelo: #FFD700;
@@ -34,12 +20,11 @@
             --bege: #f5f0e8;
             --cinza: #666666;
             --vermelho: #cc0000;
+            --verde: #28a745;
             --fonte-principal: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: var(--fonte-principal);
@@ -88,9 +73,7 @@
             transform: scale(1.05);
         }
 
-        .header-titles {
-            text-align: center;
-        }
+        .header-titles { text-align: center; }
 
         .header-titles h1 {
             font-size: 1.4rem;
@@ -106,7 +89,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Navegação - posicionada à direita */
         nav {
             position: absolute;
             right: 30px;
@@ -148,9 +130,7 @@
             transition: width 0.3s ease;
         }
 
-        nav ul li a:hover::after {
-            width: 80%;
-        }
+        nav ul li a:hover::after { width: 80%; }
 
         /* ============================================
            HERO / CAPA
@@ -217,8 +197,6 @@
             object-fit: contain;
             filter: drop-shadow(0px 15px 20px rgba(0, 0, 0, 0.7));
             margin-bottom: 30px;
-            position: relative;
-            z-index: 2;
             animation: floatLogoCenter 4s ease-in-out infinite;
         }
 
@@ -227,10 +205,7 @@
             50% { transform: translateY(-10px); }
         }
 
-        .hero-titles {
-            position: relative;
-            z-index: 2;
-        }
+        .hero-titles { position: relative; z-index: 2; }
 
         .hero-titles h2 {
             font-size: 3.5rem;
@@ -311,11 +286,8 @@
             background-position: center;
         }
 
-        .carrossel-slide.active {
-            opacity: 1;
-        }
+        .carrossel-slide.active { opacity: 1; }
 
-        /* Filtro escuro sobre a imagem de fundo */
         .carrossel-slide::before {
             content: '';
             position: absolute;
@@ -361,7 +333,6 @@
             margin-bottom: 15px;
         }
 
-        /* Indicadores do carrossel */
         .carrossel-indicators {
             position: absolute;
             bottom: 20px;
@@ -386,7 +357,6 @@
             transform: scale(1.3);
         }
 
-        /* Setas de navegação */
         .carrossel-btn {
             position: absolute;
             top: 50%;
@@ -411,13 +381,8 @@
             color: var(--preto);
         }
 
-        .carrossel-btn.prev {
-            left: 15px;
-        }
-
-        .carrossel-btn.next {
-            right: 15px;
-        }
+        .carrossel-btn.prev { left: 15px; }
+        .carrossel-btn.next { right: 15px; }
 
         /* ============================================
            SEÇÃO ATALHOS / CARDS
@@ -460,9 +425,7 @@
             transition: opacity 0.4s ease;
         }
 
-        .atalho-card:hover::before {
-            opacity: 1;
-        }
+        .atalho-card:hover::before { opacity: 1; }
 
         .atalho-card:hover {
             transform: translateY(-8px);
@@ -490,27 +453,37 @@
         }
 
         /* ============================================
-           BOTÃO FLUTUANTE FALE CONOSCO
+           BOTÕES FLUTUANTES (FAB) - MENU EXPANSÍVEL
            ============================================ */
-        .fab-contato {
+        .fab-container {
             position: fixed;
             bottom: 30px;
             right: 30px;
             z-index: 999;
-            width: 60px;
-            height: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 15px;
+        }
+
+        /* Botão principal (toggle) */
+        .fab-main {
+            width: 65px;
+            height: 65px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--azul) 0%, var(--azul-escuro) 100%);
             border: 2px solid var(--amarelo);
             color: var(--amarelo);
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             animation: pulse 2s infinite;
+            position: relative;
+            z-index: 1001;
         }
 
         @keyframes pulse {
@@ -519,10 +492,104 @@
             100% { box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4); }
         }
 
-        .fab-contato:hover {
-            transform: scale(1.1) rotate(10deg);
+        .fab-main:hover {
+            transform: scale(1.1);
             background: var(--amarelo);
             color: var(--preto);
+        }
+
+        .fab-main.active {
+            transform: rotate(45deg);
+            animation: none;
+        }
+
+        /* Botões secundários */
+        .fab-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: flex-end;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .fab-options.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .fab-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .fab-option:hover {
+            transform: translateX(-5px);
+        }
+
+        .fab-option-label {
+            background: var(--preto);
+            color: var(--branco);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--amarelo);
+        }
+
+        .fab-option-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            border: 2px solid var(--amarelo);
+            color: var(--branco);
+            font-size: 1.4rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .fab-option-btn.contato {
+            background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+        }
+
+        .fab-option-btn.login {
+            background: linear-gradient(135deg, var(--azul) 0%, var(--azul-escuro) 100%);
+        }
+
+        .fab-option-btn:hover {
+            transform: scale(1.15);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Badge de notificação no botão de contato */
+        .badge-notificacao {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--vermelho);
+            color: var(--branco);
+            font-size: 0.7rem;
+            font-weight: 700;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--branco);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
 
         /* ============================================
@@ -543,9 +610,7 @@
             backdrop-filter: blur(5px);
         }
 
-        .modal-overlay.active {
-            display: flex;
-        }
+        .modal-overlay.active { display: flex; }
 
         .modal-content {
             background: var(--branco);
@@ -603,13 +668,9 @@
             transform: rotate(90deg);
         }
 
-        .modal-body {
-            padding: 30px;
-        }
+        .modal-body { padding: 30px; }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+        .form-group { margin-bottom: 20px; }
 
         .form-group label {
             display: block;
@@ -646,12 +707,6 @@
             resize: vertical;
         }
 
-        .form-group input[type="file"] {
-            padding: 10px;
-            background-color: var(--branco);
-            cursor: pointer;
-        }
-
         .form-obs {
             font-size: 0.75rem;
             margin-top: 5px;
@@ -663,9 +718,7 @@
             font-weight: 500;
         }
 
-        .form-obs.gray {
-            color: var(--cinza);
-        }
+        .form-obs.gray { color: var(--cinza); }
 
         .btn-enviar {
             width: 100%;
@@ -712,7 +765,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Mensagem de sucesso/erro */
         .form-message {
             display: none;
             padding: 15px;
@@ -735,6 +787,78 @@
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
+
+        /* ============================================
+           MODAL DE LOGIN
+           ============================================ */
+        .modal-login .modal-content {
+            max-width: 450px;
+            border-top: 4px solid var(--amarelo);
+        }
+
+        .modal-login .modal-header {
+            background: linear-gradient(135deg, var(--preto) 0%, var(--azul-escuro) 100%);
+        }
+
+        .login-icon {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: var(--amarelo);
+        }
+
+        .login-info {
+            background: #fff3cd;
+            border-left: 4px solid var(--amarelo);
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+            color: #856404;
+        }
+
+        .login-info strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #664d03;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--azul) 0%, var(--azul-escuro) 100%);
+            color: var(--branco);
+            border: 2px solid var(--amarelo);
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            background: var(--amarelo);
+            color: var(--preto);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .login-error {
+            display: none;
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            text-align: center;
+            font-weight: 500;
+            border: 1px solid #f5c6cb;
+        }
+
+        .login-error.show { display: block; }
 
         /* ============================================
            RODAPÉ
@@ -771,9 +895,7 @@
             transition: color 0.3s ease;
         }
 
-        .footer-col a:hover {
-            color: var(--amarelo);
-        }
+        .footer-col a:hover { color: var(--amarelo); }
 
         .footer-col .footer-logo {
             display: flex;
@@ -838,76 +960,56 @@
                 justify-content: center;
             }
 
-            .hero {
-                flex-direction: column;
-            }
+            .hero { flex-direction: column; }
 
             .hero-logo-left {
                 width: 120px;
                 height: 120px;
             }
 
-            .hero-titles h2 {
-                font-size: 2.2rem;
-            }
-
-            .hero-titles h3 {
-                font-size: 1.1rem;
-            }
+            .hero-titles h2 { font-size: 2.2rem; }
+            .hero-titles h3 { font-size: 1.1rem; }
 
             .hero-logo-center {
                 width: 150px;
                 height: 150px;
             }
 
-            .carrossel-container {
-                height: 350px;
-            }
+            .carrossel-container { height: 350px; }
+            .carrossel-content h3 { font-size: 1.3rem; }
 
-            .carrossel-content h3 {
-                font-size: 1.3rem;
-            }
+            .modal-content { max-height: 95vh; }
+            .modal-body { padding: 20px; }
 
-            .modal-content {
-                max-height: 95vh;
-            }
-
-            .modal-body {
-                padding: 20px;
-            }
-
-            .fab-contato {
+            .fab-container {
                 bottom: 20px;
                 right: 20px;
-                width: 55px;
-                height: 55px;
+            }
+
+            .fab-main {
+                width: 58px;
+                height: 58px;
+                font-size: 1.6rem;
+            }
+
+            .fab-option-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
             }
         }
 
         @media (max-width: 480px) {
-            .hero-titles h2 {
-                font-size: 1.8rem;
-            }
-
-            .header-titles h1 {
-                font-size: 1rem;
-            }
-
-            .header-titles p {
-                font-size: 0.7rem;
-            }
-
-            .atalhos-grid {
-                grid-template-columns: 1fr;
-            }
+            .hero-titles h2 { font-size: 1.8rem; }
+            .header-titles h1 { font-size: 1rem; }
+            .header-titles p { font-size: 0.7rem; }
+            .atalhos-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ============================================
-         CABEÇALHO FIXO - LOGO CENTRALIZADA
-         ============================================ -->
+    <!-- CABEÇALHO -->
     <header>
         <div class="header-logo-center">
             <img src="img/tft.png" alt="Logo TFT" onerror="this.style.display='none'">
@@ -927,12 +1029,11 @@
         </nav>
     </header>
 
-    <!-- ============================================
-         HERO / CAPA
-         ============================================ -->
-    <section class="hero" id="inicio">        
+    <!-- HERO -->
+    <section class="hero" id="inicio">
+        <img src="img/tft.png" alt="Logo TFT Lateral" class="hero-logo-left" onerror="this.style.display='none'">
         <div class="hero-content">
-            <img src="img/tft1.png" alt="Logo TFT Grande" class="hero-logo-center" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><circle cx=%22100%22 cy=%22100%22 r=%2290%22 fill=%22%23FFD700%22 opacity=%220.3%22/><text x=%22100%22 y=%22110%22 text-anchor=%22middle%22 font-size=%2240%22 fill=%22white%22>TFT</text></svg>'">
+            <img src="img/tft1.png" alt="Logo TFT Grande" class="hero-logo-center" onerror="this.style.display='none'">
             <div class="hero-titles">
                 <h2>Tribunal</h2>
                 <div class="hero-divider"></div>
@@ -941,50 +1042,41 @@
         </div>
     </section>
 
-    <!-- ============================================
-         SEÇÃO CARROSSEL DE NOTÍCIAS
-         ============================================ -->
+    <!-- CARROSSEL -->
     <section class="noticias-section" id="noticias">
         <h2 class="section-title">Últimas Publicações</h2>
         <div class="carrossel-container">
-            <!-- Slide 1 -->
             <div class="carrossel-slide active">
                 <div class="carrossel-content">
                     <span class="data-noticia">06 de Junho, 2026</span>
                     <h3>Portaria Nº 001/2026 - TFT</h3>
-                    <p>Fica estabelecido o novo regulamento interno do Tribunal de Fiscalização e Transparência, com vigência imediata a todos os membros ativos da corporação.</p>
+                    <p>Fica estabelecido o novo regulamento interno do Tribunal de Fiscalização e Transparência.</p>
                 </div>
             </div>
-            <!-- Slide 2 -->
             <div class="carrossel-slide">
                 <div class="carrossel-content">
                     <span class="data-noticia">03 de Junho, 2026</span>
                     <h3>Relatório Mensal de Atividades</h3>
-                    <p>O Tribunal apresenta o relatório de fiscalização do mês de Maio de 2026, contendo todas as auditorias realizadas e pareceres emitidos neste período.</p>
+                    <p>O Tribunal apresenta o relatório de fiscalização do mês de Maio de 2026.</p>
                 </div>
             </div>
-            <!-- Slide 3 -->
             <div class="carrossel-slide">
                 <div class="carrossel-content">
                     <span class="data-noticia">28 de Maio, 2026</span>
-                    <h3>Convocação Geral - Reunião Ordinária</h3>
-                    <p>Todos os membros com patente superior são convocados para a reunião ordinária que tratará sobre as novas diretrizes de transparência e prestação de contas.</p>
+                    <h3>Convocação Geral</h3>
+                    <p>Todos os membros são convocados para a reunião ordinária.</p>
                 </div>
             </div>
-            <!-- Slide 4 -->
             <div class="carrossel-slide">
                 <div class="carrossel-content">
                     <span class="data-noticia">20 de Maio, 2026</span>
                     <h3>Nota de Esclarecimento</h3>
-                    <p>O Tribunal vem a público esclarecer procedimentos relacionados à denúncia de irregularidades, reforçando o compromisso com a lisura e a legalidade dos atos.</p>
+                    <p>O Tribunal vem a público esclarecer procedimentos.</p>
                 </div>
             </div>
 
-            <!-- Botões de navegação -->
             <button class="carrossel-btn prev" onclick="mudarSlide(-1)">&#10094;</button>
             <button class="carrossel-btn next" onclick="mudarSlide(1)">&#10095;</button>
-
-            <!-- Indicadores -->
             <div class="carrossel-indicators">
                 <span class="active" onclick="irParaSlide(0)"></span>
                 <span onclick="irParaSlide(1)"></span>
@@ -994,41 +1086,60 @@
         </div>
     </section>
 
-    <!-- ============================================
-         SEÇÃO ATALHOS / CARDS
-         ============================================ -->
+    <!-- ATALHOS -->
     <section class="atalhos-section" id="atalhos">
         <h2 class="section-title">Acesso Rápido</h2>
         <div class="atalhos-grid">
             <a href="sobre.html" class="atalho-card">
-                <span class="card-icon">🏛️</span>
+                <span class="card-icon">️</span>
                 <h4>Sobre o TFT</h4>
-                <p>Conheça a história, missão e competências do Tribunal de Fiscalização e Transparência.</p>
+                <p>Conheça a história e missão do Tribunal.</p>
             </a>
             <a href="membros.html" class="atalho-card">
                 <span class="card-icon">👥</span>
                 <h4>Membros</h4>
-                <p>Consulte a lista atualizada de todos os membros ativos e suas respectivas patentes.</p>
+                <p>Lista de membros ativos e patentes.</p>
             </a>
             <a href="documentos.html" class="atalho-card">
                 <span class="card-icon">📋</span>
                 <h4>Documentos</h4>
-                <p>Acesse portarias, regulamentos, relatórios e demais documentos oficiais do Tribunal.</p>
+                <p>Portarias e regulamentos oficiais.</p>
             </a>
-            <a href="#" class="atalho-card" onclick="abrirModal(); return false;">
+            <a href="#" class="atalho-card" onclick="abrirModalContato(); return false;">
                 <span class="card-icon">📩</span>
                 <h4>Fale Conosco</h4>
-                <p>Canal direto de comunicação para denúncias, dúvidas, sugestões e solicitações diversas.</p>
+                <p>Canal direto de comunicação.</p>
             </a>
         </div>
     </section>
 
     <!-- ============================================
-         BOTÃO FLUTUANTE FALE CONOSCO (FAB)
+         BOTÕES FLUTUANTES (FAB) - MENU EXPANSÍVEL
          ============================================ -->
-    <button class="fab-contato" onclick="abrirModal()" title="Fale Conosco">
-        ✉
-    </button>
+    <div class="fab-container">
+        <!-- Opções (aparecem ao clicar no botão principal) -->
+        <div class="fab-options" id="fabOptions">
+            <!-- Botão Login -->
+            <div class="fab-option">
+                <span class="fab-option-label"> Área Administrativa</span>
+                <button class="fab-option-btn login" onclick="abrirModalLogin()" title="Login Administrativo">
+                    
+                </button>
+            </div>
+            <!-- Botão Fale Conosco -->
+            <div class="fab-option">
+                <span class="fab-option-label">📩 Fale Conosco</span>
+                <button class="fab-option-btn contato" onclick="abrirModalContato()" title="Fale Conosco" style="position: relative;">
+                    ✉
+                    <span class="badge-notificacao" id="badgeNotificacao" style="display: none;">0</span>
+                </button>
+            </div>
+        </div>
+        <!-- Botão Principal (Toggle) -->
+        <button class="fab-main" id="fabMain" onclick="toggleFab()" title="Menu de Ações">
+            +
+        </button>
+    </div>
 
     <!-- ============================================
          MODAL FALE CONOSCO
@@ -1037,30 +1148,21 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Canal de Atendimento<br>Tribunal de Fisc. e Transp.</h2>
-                <button class="modal-close" onclick="fecharModal()">&times;</button>
+                <button class="modal-close" onclick="fecharModalContato()">&times;</button>
             </div>
             <div class="modal-body">
                 <form id="formContato" onsubmit="enviarFormulario(event)">
-                    <!-- Campo: Nick -->
                     <div class="form-group">
                         <label for="nick">Nick (Nome no Habbo) *</label>
-                        <input type="text" id="nick" name="nick" placeholder="Digite seu nick no jogo" required>
-                        <p class="form-obs red">* Campo obrigatório. Utilize o nick exato cadastrado no sistema.</p>
+                        <input type="text" id="nick" name="nick" placeholder="Digite seu nick" required>
+                        <p class="form-obs red">* Campo obrigatório</p>
                     </div>
 
-                    <!-- Campo: Email -->
-                    <div class="form-group">
-                        <label for="email">Email para contato *</label>
-                        <input type="email" id="email" name="email" placeholder="seuemail@exemplo.com" required>
-                        <p class="form-obs gray">Usaremos este email para retornar seu contato.</p>
-                    </div>
-
-                    <!-- Campo: Patente (ATUALIZADO CONFORME ORGANOGRAMA) -->
                     <div class="form-group">
                         <label for="patente">Patente *</label>
                         <select id="patente" name="patente" required>
-                            <option value="">Selecione sua patente</option>
-                            <optgroup label="CDE - Chefia de Estado">
+                            <option value="">Selecione</option>
+                            <optgroup label="CDE">
                                 <option value="Chefe de Estado">Chefe de Estado</option>
                             </optgroup>
                             <optgroup label="Corpo Militar - Estado-Maior">
@@ -1082,22 +1184,16 @@
                                 <option value="Cabo">Cabo</option>
                                 <option value="Soldado">Soldado</option>
                             </optgroup>
-                            <optgroup label="Corpo Empresarial - Superintendente">
+                            <optgroup label="Corpo Empresarial">
                                 <option value="Superintendente">Superintendente</option>
-                            </optgroup>
-                            <optgroup label="Corpo Empresarial - Estado-Maior">
                                 <option value="Chanceler">Chanceler</option>
                                 <option value="Presidente">Presidente</option>
-                            </optgroup>
-                            <optgroup label="Corpo Empresarial - Oficiais">
                                 <option value="Vice-Presidente">Vice-Presidente</option>
                                 <option value="Dirigente">Dirigente</option>
                                 <option value="Supervisor">Supervisor</option>
                                 <option value="Promotor">Promotor</option>
                                 <option value="Investigador">Investigador</option>
                                 <option value="Comissário">Comissário</option>
-                            </optgroup>
-                            <optgroup label="Corpo Empresarial - Praças">
                                 <option value="Delegado">Delegado</option>
                                 <option value="Advogado">Advogado</option>
                                 <option value="Perito">Perito</option>
@@ -1105,54 +1201,39 @@
                                 <option value="Agente">Agente</option>
                             </optgroup>
                         </select>
-                        <p class="form-obs gray">Selecione a patente que você ocupa atualmente no órgão.</p>
                     </div>
 
-                    <!-- Campo: Data Vigente (preenchimento automático via JS) -->
                     <div class="form-group">
                         <label for="dataVigente">Data Vigente</label>
                         <input type="text" id="dataVigente" name="dataVigente" readonly>
-                        <p class="form-obs gray">Data preenchida automaticamente com a data atual do sistema.</p>
                     </div>
 
-                    <!-- Campo: Motivo do Contato -->
                     <div class="form-group">
                         <label for="motivo">Motivo do Contato *</label>
                         <select id="motivo" name="motivo" required>
-                            <option value="">Selecione o motivo</option>
+                            <option value="">Selecione</option>
                             <option value="Denúncia">Denúncia</option>
                             <option value="Dúvida">Dúvida</option>
                             <option value="Sugestão">Sugestão</option>
-                            <option value="Solicitação de Documento">Solicitação de Documento</option>
+                            <option value="Solicitação">Solicitação de Documento</option>
                             <option value="Reclamação">Reclamação</option>
                             <option value="Elogio">Elogio</option>
-                            <option value="Outro Assunto">Outro Assunto</option>
+                            <option value="Outro">Outro Assunto</option>
                         </select>
-                        <p class="obs red">* Escolha o motivo que melhor descreve sua solicitação.</p>
                     </div>
 
-                    <!-- Campo: Descrição Detalhada -->
                     <div class="form-group">
                         <label for="descricao">Descrição Detalhada *</label>
-                        <textarea id="descricao" name="descricao" placeholder="Descreva com detalhes o motivo do seu contato..." required></textarea>
-                        <p class="form-obs red">* Seja claro e objetivo. Informações insuficientes podem atrasar o atendimento.</p>
-                        <p class="form-obs gray">Mínimo de 20 caracteres recomendados para melhor análise.</p>
+                        <textarea id="descricao" name="descricao" placeholder="Descreva detalhadamente..." required></textarea>
                     </div>
 
-                    <!-- Campo: URL da Imagem (Imgur) -->
                     <div class="form-group">
                         <label for="imagemUrl">URL da Imagem (Opcional)</label>
                         <input type="url" id="imagemUrl" name="imagemUrl" placeholder="https://i.imgur.com/exemplo.jpg">
-                        <p class="form-obs gray">Cole o link direto da imagem (Imgur, por exemplo).</p>
-                        <p class="form-obs red">Formatos aceitos: JPG, PNG, GIF. Certifique-se de que o link é direto (termina em .jpg, .png, etc).</p>
+                        <p class="form-obs gray">Link direto de imagem (Imgur, etc)</p>
                     </div>
 
-                    <!-- Botão de Envio -->
-                    <button type="submit" class="btn-enviar" id="btnEnviar">
-                        Enviar Solicitação
-                    </button>
-
-                    <!-- Mensagem de feedback -->
+                    <button type="submit" class="btn-enviar" id="btnEnviar">Enviar Solicitação</button>
                     <div class="form-message" id="formMessage"></div>
                 </form>
             </div>
@@ -1160,41 +1241,66 @@
     </div>
 
     <!-- ============================================
-         RODAPÉ
+         MODAL DE LOGIN ADMINISTRATIVO
          ============================================ -->
+    <div class="modal-overlay modal-login" id="modalLogin">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔐 Acesso Administrativo<br>Tribunal de Fisc. e Transp.</h2>
+                <button class="modal-close" onclick="fecharModalLogin()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="login-icon">🛡️</div>
+                <div class="login-info">
+                    <strong>️ Área Restrita</strong>
+                    Este acesso é exclusivo para membros autorizados da administração do Tribunal.
+                </div>
+                <form id="formLogin" onsubmit="realizarLogin(event)">
+                    <div class="form-group">
+                        <label for="loginUsuario">Usuário *</label>
+                        <input type="text" id="loginUsuario" name="usuario" placeholder="Digite seu usuário" required autocomplete="username">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginSenha">Senha *</label>
+                        <input type="password" id="loginSenha" name="senha" placeholder="Digite sua senha" required autocomplete="current-password">
+                    </div>
+
+                    <button type="submit" class="btn-login" id="btnLogin">
+                        Entrar no Sistema
+                    </button>
+
+                    <div class="login-error" id="loginError">
+                        ❌ Usuário ou senha incorretos!
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- RODAPÉ -->
     <footer>
         <div class="footer-content">
-            <!-- Coluna 1: Logo/Nome -->
             <div class="footer-col">
                 <div class="footer-logo">
-                    <img src="img/tft.png" alt="Logo TFT" onerror="this.style.display='none'">
+                    <img src="img/tft.png" alt="Logo" onerror="this.style.display='none'">
                     <span>TFT - Polícia FEB®</span>
                 </div>
-                <p>Tribunal de Fiscalização e Transparência. Órgão responsável pela auditoria, fiscalização e promoção da transparência no âmbito da Polícia FEB no Habbo Hotel.</p>
+                <p>O Tribunal de Fiscalização e Transparência (TFT) é um órgão administrativo especializado, criado com o propósito de fortalecer a transparência, a organização e a eficiência institucional por meio de mecanismos de fiscalização, planejamento, controle e gestão estratégica. </p>
             </div>
-
-            <!-- Coluna 2: Links -->
             <div class="footer-col">
                 <h4>Links Importantes</h4>
-                <a href="documentos.html#conduta">📜 Código de Conduta</a>
-                <a href="#" onclick="abrirModal(); return false;">📢 Ouvidoria</a>
-                <a href="sobre.html">🏛️ Sobre o Tribunal</a>
-                <a href="membros.html">👥 Quadro de Membros</a>
-                <a href="documentos.html">📋 Documentos Oficiais</a>
+                <a href="documentos.html">📜 Código de Conduta</a>
+                <a href="#" onclick="abrirModalContato(); return false;">📢 Ouvidoria</a>
+                <a href="#" onclick="abrirModalLogin(); return false;" style="color: var(--amarelo);">🔐 Área Administrativa</a>
             </div>
-
-            <!-- Coluna 3: Desenvolvimento -->
             <div class="footer-col">
                 <h4>Desenvolvimento</h4>
                 <p>Sistema exclusivo da Polícia FEB</p>
-                <p>Plataforma desenvolvida para uso institucional do Tribunal de Fiscalização e Transparência.</p>
-                <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">Todos os direitos reservados à instituição.</p>
             </div>
         </div>
-
-        <!-- Rodapé inferior: Copyright -->
         <div class="footer-bottom">
-            <p>&copy; Copyright, 2026 - Tribunal de Fiscalização e Transparência | Polícia FEB® | <span>Desenvolvido por Janaelson667</span></p>
+            <p>&copy; 2026 TFT | Polícia FEB® | <span>Desenvolvido por Janaelson667</span></p>
         </div>
     </footer>
 
@@ -1211,312 +1317,278 @@
         const totalSlides = slides.length;
         let intervaloCarrossel;
 
-        /**
-         * Exibe o slide correspondente ao índice fornecido.
-         * Atualiza a classe 'active' nos slides e indicadores.
-         * @param {number} indice - Índice do slide a ser exibido
-         */
         function exibirSlide(indice) {
-            // Remove a classe active de todos os slides
             slides.forEach(slide => slide.classList.remove('active'));
             indicadores.forEach(ind => ind.classList.remove('active'));
-
-            // Garante que o índice esteja dentro do intervalo válido (loop circular)
             if (indice >= totalSlides) slideAtual = 0;
             if (indice < 0) slideAtual = totalSlides - 1;
-
-            // Adiciona a classe active ao slide e indicador atuais
             slides[slideAtual].classList.add('active');
             indicadores[slideAtual].classList.add('active');
         }
 
-        /**
-         * Avança ou retrocede os slides conforme a direção.
-         * @param {number} direcao - 1 para próximo, -1 para anterior
-         */
         function mudarSlide(direcao) {
             slideAtual += direcao;
             exibirSlide(slideAtual);
             reiniciarIntervalo();
         }
 
-        /**
-         * Vai diretamente para um slide específico.
-         * @param {number} indice - Índice do slide de destino
-         */
         function irParaSlide(indice) {
             slideAtual = indice;
             exibirSlide(slideAtual);
             reiniciarIntervalo();
         }
 
-        /**
-         * Inicia o intervalo automático do carrossel (5 segundos).
-         */
         function iniciarIntervalo() {
             intervaloCarrossel = setInterval(() => {
                 slideAtual++;
                 exibirSlide(slideAtual);
-            }, 5000); // 5 segundos
+            }, 5000);
         }
 
-        /**
-         * Reinicia o intervalo automático (usado após interação manual).
-         */
         function reiniciarIntervalo() {
             clearInterval(intervaloCarrossel);
             iniciarIntervalo();
         }
 
-        // Inicia o carrossel automaticamente ao carregar a página
         iniciarIntervalo();
+
+        // ============================================
+        // FAB - MENU EXPANSÍVEL
+        // ============================================
+        let fabAberto = false;
+
+        /**
+         * Abre/fecha o menu de opções do FAB
+         */
+        function toggleFab() {
+            fabAberto = !fabAberto;
+            const fabMain = document.getElementById('fabMain');
+            const fabOptions = document.getElementById('fabOptions');
+
+            if (fabAberto) {
+                fabMain.classList.add('active');
+                fabOptions.classList.add('show');
+            } else {
+                fabMain.classList.remove('active');
+                fabOptions.classList.remove('show');
+            }
+        }
+
+        /**
+         * Fecha o FAB automaticamente ao clicar em uma opção
+         */
+        function fecharFab() {
+            fabAberto = false;
+            document.getElementById('fabMain').classList.remove('active');
+            document.getElementById('fabOptions').classList.remove('show');
+        }
+
+        // Fechar FAB ao clicar fora
+        document.addEventListener('click', function(e) {
+            const fabContainer = document.querySelector('.fab-container');
+            if (!fabContainer.contains(e.target) && fabAberto) {
+                fecharFab();
+            }
+        });
 
         // ============================================
         // MODAL FALE CONOSCO
         // ============================================
-
-        /**
-         * Abre o modal de contato e preenche automaticamente a data vigente.
-         */
-        function abrirModal() {
-            const modal = document.getElementById('modalContato');
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Impede scroll do body
-
-            // Preenchimento automático da data vigente
+        function abrirModalContato() {
+            fecharFab();
+            document.getElementById('modalContato').classList.add('active');
+            document.body.style.overflow = 'hidden';
             preencherDataVigente();
         }
 
-        /**
-         * Fecha o modal de contato e restaura o scroll do body.
-         */
-        function fecharModal() {
-            const modal = document.getElementById('modalContato');
-            modal.classList.remove('active');
+        function fecharModalContato() {
+            document.getElementById('modalContato').classList.remove('active');
             document.body.style.overflow = 'auto';
+            document.getElementById('formMessage').style.display = 'none';
+        }
 
-            // Limpa mensagens de feedback
-            const msg = document.getElementById('formMessage');
-            msg.className = 'form-message';
-            msg.style.display = 'none';
+        // ============================================
+        // MODAL DE LOGIN
+        // ============================================
+        
+        /**
+         * CREDENCIAIS DE ACESSO (DEMONSTRAÇÃO)
+         * ⚠️ EM PRODUÇÃO: Use backend seguro com hash de senha!
+         */
+        const CREDENCIAIS_ADMIN = {
+            usuario: 'admin',
+            senha: 'tft2026'
+        };
+
+        function abrirModalLogin() {
+            fecharFab();
+            document.getElementById('modalLogin').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            document.getElementById('loginError').classList.remove('show');
+            document.getElementById('formLogin').reset();
+        }
+
+        function fecharModalLogin() {
+            document.getElementById('modalLogin').classList.remove('active');
+            document.body.style.overflow = 'auto';
         }
 
         /**
-         * Preenche o campo "Data Vigente" com a data atual formatada.
+         * Realiza o login e redireciona para admin.html
          */
+        function realizarLogin(event) {
+            event.preventDefault();
+
+            const usuario = document.getElementById('loginUsuario').value.trim();
+            const senha = document.getElementById('loginSenha').value;
+            const btnLogin = document.getElementById('btnLogin');
+            const loginError = document.getElementById('loginError');
+
+            // Validação básica
+            if (!usuario || !senha) {
+                loginError.textContent = '❌ Preencha usuário e senha!';
+                loginError.classList.add('show');
+                return;
+            }
+
+            // Simular loading
+            btnLogin.disabled = true;
+            btnLogin.innerHTML = '<span class="spinner"></span> Verificando...';
+            loginError.classList.remove('show');
+
+            setTimeout(() => {
+                // Verificar credenciais
+                if (usuario === CREDENCIAIS_ADMIN.usuario && senha === CREDENCIAIS_ADMIN.senha) {
+                    // Login bem-sucedido
+                    localStorage.setItem('tft_admin_logado', 'true');
+                    localStorage.setItem('tft_admin_usuario', usuario);
+                    localStorage.setItem('tft_admin_login_time', new Date().toISOString());
+
+                    // Redirecionar para painel administrativo
+                    window.location.href = 'admin.html';
+                } else {
+                    // Login falhou
+                    loginError.textContent = '❌ Usuário ou senha incorretos!';
+                    loginError.classList.add('show');
+                    btnLogin.disabled = false;
+                    btnLogin.innerHTML = 'Entrar no Sistema';
+                }
+            }, 800);
+        }
+
+        // Fechar modais ao clicar fora
+        document.getElementById('modalContato').addEventListener('click', function(e) {
+            if (e.target === this) fecharModalContato();
+        });
+
+        document.getElementById('modalLogin').addEventListener('click', function(e) {
+            if (e.target === this) fecharModalLogin();
+        });
+
+        // Fechar modais com ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                fecharModalContato();
+                fecharModalLogin();
+            }
+        });
+
+        // ============================================
+        // FORMULÁRIO FALE CONOSCO
+        // ============================================
         function preencherDataVigente() {
             const hoje = new Date();
-            const dia = String(hoje.getDate()).padStart(2, '0');
-            const mes = String(hoje.getMonth() + 1).padStart(2, '0');
-            const ano = hoje.getFullYear();
-            const horas = String(hoje.getHours()).padStart(2, '0');
-            const minutos = String(hoje.getMinutes()).padStart(2, '0');
-
-            const dataFormatada = `${dia}/${mes}/${ano} - ${horas}:${minutos}`;
+            const dataFormatada = `${String(hoje.getDate()).padStart(2,'0')}/${String(hoje.getMonth()+1).padStart(2,'0')}/${hoje.getFullYear()} - ${String(hoje.getHours()).padStart(2,'0')}:${String(hoje.getMinutes()).padStart(2,'0')}`;
             document.getElementById('dataVigente').value = dataFormatada;
         }
 
-        // Fechar modal ao clicar fora do conteúdo (no overlay)
-        document.getElementById('modalContato').addEventListener('click', function(e) {
-            if (e.target === this) {
-                fecharModal();
-            }
-        });
-
-        // Fechar modal com a tecla ESC
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                fecharModal();
-            }
-        });
-
-        // ============================================
-        // ENVIO DO FORMULÁRIO VIA EMAILJS
-        // ============================================
-
-        /**
-         * CONFIGURAÇÃO DO EMAILJS:
-         * 
-         * 1. Acesse https://www.emailjs.com/ e crie uma conta gratuita
-         * 2. Crie um Email Service (conecte seu Gmail, Outlook, etc)
-         * 3. Crie um Email Template com as variáveis:
-         *    - {{nick}}
-         *    - {{email}}
-         *    - {{patente}}
-         *    - {{dataVigente}}
-         *    - {{motivo}}
-         *    - {{descricao}}
-         *    - {{imagemUrl}}
-         * 4. Copie suas credenciais e substitua abaixo:
-         */
-        
-        const EMAILJS_CONFIG = {
-            publicKey: 'YOUR_PUBLIC_KEY',      // Sua Public Key do EmailJS
-            serviceId: 'YOUR_SERVICE_ID',      // ID do seu Email Service
-            templateId: 'YOUR_TEMPLATE_ID'     // ID do seu Email Template
-        };
-
-        /**
-         * Função principal de envio do formulário via EmailJS.
-         * @param {Event} event - Evento de submit do formulário
-         */
-        async function enviarFormulario(event) {
+        function enviarFormulario(event) {
             event.preventDefault();
 
-            // Elementos do DOM
             const btnEnviar = document.getElementById('btnEnviar');
             const formMessage = document.getElementById('formMessage');
             const form = document.getElementById('formContato');
 
-            // Coletar dados dos campos
             const nick = document.getElementById('nick').value.trim();
-            const email = document.getElementById('email').value.trim();
             const patente = document.getElementById('patente').value;
             const dataVigente = document.getElementById('dataVigente').value;
             const motivo = document.getElementById('motivo').value;
             const descricao = document.getElementById('descricao').value.trim();
             const imagemUrl = document.getElementById('imagemUrl').value.trim();
 
-            // Validação básica
-            if (!nick || !email || !patente || !motivo || !descricao) {
-                exibirMensagem('Por favor, preencha todos os campos obrigatórios.', 'error');
+            if (!nick || !patente || !motivo || !descricao) {
+                exibirMensagem('Preencha todos os campos obrigatórios.', 'error');
                 return;
             }
 
-            // Validação de email
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(email)) {
-                exibirMensagem('Por favor, insira um email válido.', 'error');
-                return;
-            }
-
-            // Validação da URL da imagem (se fornecida)
-            if (imagemUrl) {
-                const urlPattern = /^(https?:\/\/.*\.(?:jpg|jpeg|png|gif|webp))/i;
-                if (!urlPattern.test(imagemUrl)) {
-                    exibirMensagem('URL da imagem inválida. Use links diretos terminados em .jpg, .png, .gif ou .webp', 'error');
-                    return;
-                }
-            }
-
-            // Ativar estado de loading no botão
             btnEnviar.disabled = true;
             btnEnviar.innerHTML = '<span class="spinner"></span> Enviando...';
 
-            try {
-                // Preparar template parameters para o EmailJS
-                const templateParams = {
+            setTimeout(() => {
+                const mensagem = {
+                    id: Date.now(),
                     nick: nick,
-                    email: email,
                     patente: patente,
                     dataVigente: dataVigente,
                     motivo: motivo,
                     descricao: descricao,
-                    imagemUrl: imagemUrl || 'Nenhuma imagem anexada',
-                    to_email: 'seuemail@exemplo.com' // Email que receberá as mensagens
+                    imagemUrl: imagemUrl || 'Nenhuma',
+                    dataEnvio: new Date().toISOString(),
+                    lida: false,
+                    status: 'Pendente'
                 };
 
-                // Enviar email via EmailJS
-                const response = await emailjs.send(
-                    EMAILJS_CONFIG.serviceId,
-                    EMAILJS_CONFIG.templateId,
-                    templateParams
-                );
+                // Salvar no localStorage
+                let mensagens = JSON.parse(localStorage.getItem('tft_mensagens') || '[]');
+                mensagens.unshift(mensagem);
+                localStorage.setItem('tft_mensagens', JSON.stringify(mensagens));
 
-                // Sucesso
-                exibirMensagem('✅ Mensagem enviada com sucesso! Entraremos em contato em breve.', 'success');
+                // Atualizar badge de notificação
+                atualizarBadgeNotificacao();
 
-                // Salvar no localStorage também (backup local)
-                salvarMensagemLocalmente(templateParams);
+                exibirMensagem('✅ Mensagem enviada com sucesso! Ela foi salva no sistema e será analisada pela administração.', 'success');
 
-                // Limpar formulário
                 form.reset();
                 preencherDataVigente();
+                btnEnviar.disabled = false;
+                btnEnviar.innerHTML = 'Enviar Solicitação';
 
-            } catch (erro) {
-                console.error('Erro ao enviar formulário:', erro);
-                
-                // Fallback: salvar apenas no localStorage se EmailJS falhar
-                exibirMensagem('⚠️ EmailJS não configurado. Mensagem salva localmente (modo demonstração).', 'error');
-                
-                const templateParams = {
-                    nick: nick,
-                    email: email,
-                    patente: patente,
-                    dataVigente: dataVigente,
-                    motivo: motivo,
-                    descricao: descricao,
-                    imagemUrl: imagemUrl || 'Nenhuma imagem'
-                };
-                
-                salvarMensagemLocalmente(templateParams);
-                form.reset();
-                preencherDataVigente();
-            } finally {
-                // Restaurar botão independente do resultado
-                restaurarBotao();
-            }
+            }, 1000);
         }
 
-        /**
-         * Salva a mensagem no localStorage (backup local).
-         * @param {Object} dados - Dados da mensagem
-         */
-        function salvarMensagemLocalmente(dados) {
-            // Recuperar mensagens existentes
-            let mensagens = JSON.parse(localStorage.getItem('tft_mensagens') || '[]');
-            
-            // Adicionar timestamp e ID
-            dados.id = Date.now();
-            dados.timestamp = new Date().toISOString();
-            dados.lida = false;
-            
-            // Adicionar nova mensagem
-            mensagens.push(dados);
-            
-            // Salvar no localStorage
-            localStorage.setItem('tft_mensagens', JSON.stringify(mensagens));
-            
-            console.log('Mensagem salva localmente:', dados);
-        }
-
-        /**
-         * Exibe mensagem de feedback (sucesso ou erro) abaixo do botão.
-         * @param {string} texto - Texto da mensagem
-         * @param {string} tipo - 'success' ou 'error'
-         */
         function exibirMensagem(texto, tipo) {
             const msg = document.getElementById('formMessage');
             msg.textContent = texto;
             msg.className = 'form-message ' + tipo;
             msg.style.display = 'block';
-
-            // Ocultar mensagem após 8 segundos
-            setTimeout(() => {
-                msg.style.display = 'none';
-            }, 8000);
+            setTimeout(() => { msg.style.display = 'none'; }, 8000);
         }
 
-        /**
-         * Restaura o botão de envio ao estado original (sem loading).
-         */
-        function restaurarBotao() {
-            const btnEnviar = document.getElementById('btnEnviar');
-            btnEnviar.disabled = false;
-            btnEnviar.innerHTML = 'Enviar Solicitação';
+        // ============================================
+        // BADGE DE NOTIFICAÇÃO
+        // ============================================
+        function atualizarBadgeNotificacao() {
+            const mensagens = JSON.parse(localStorage.getItem('tft_mensagens') || '[]');
+            const naoLidas = mensagens.filter(m => !m.lida).length;
+            const badge = document.getElementById('badgeNotificacao');
+
+            if (naoLidas > 0) {
+                badge.textContent = naoLidas > 99 ? '99+' : naoLidas;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
         }
 
         // ============================================
         // INICIALIZAÇÃO
         // ============================================
-
-        // Preencher data vigente ao carregar a página
         document.addEventListener('DOMContentLoaded', function() {
             preencherDataVigente();
-            
-            // Verificar se há mensagens salvas (para debug)
-            const mensagens = JSON.parse(localStorage.getItem('tft_mensagens') || '[]');
-            console.log(`Total de mensagens salvas localmente: ${mensagens.length}`);
+            atualizarBadgeNotificacao();
+
+            // Atualizar badge a cada 3 segundos
+            setInterval(atualizarBadgeNotificacao, 3000);
         });
     </script>
 </body>
