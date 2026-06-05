@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diário TFT - Polícia FEB Habbo</title>
+    <style>
+        /* Estilos Globais */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f5f5dc; /* Bege */ color: #111111; /* Preto */ scroll-behavior: smooth; }
+
+        /* Cabeçalho Diferenciado */
+        header {
+            background: linear-gradient(135deg, #111111, #003366); /* Preto e Azul Escuro */
+            color: #ffffff; /* Branco */
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 3px solid #ffd700; /* Amarelo */
+        }
+        
+        .logo-tft { display: flex; align-items: center; gap: 15px; }
+        
+        /* Estilização da Imagem da Logo */
+        .img-logo {
+            width: 55px; /* Tamanho ideal para emblemas/logos do Habbo */
+            height: 55px;
+            object-fit: contain;
+            /* Caso sua logo seja transparente, ela se adaptará perfeitamente ao fundo */
+        }
+
+        .logo-tft h1 { font-size: 24px; text-transform: uppercase; letter-spacing: 2px; color: #ffd700; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); line-height: 1.2; }
+        .logo-tft span { font-size: 14px; font-weight: normal; color: #ffffff; opacity: 0.9; display: block; }
+        
+        nav ul { list-style: none; display: flex; gap: 20px; }
+        nav a { color: #ffffff; text-decoration: none; font-weight: bold; padding: 8px 15px; border-radius: 5px; transition: 0.3s; }
+        nav a:hover { background-color: rgba(255, 255, 255, 0.1); color: #ffd700; }
+        
+        .btn-login { background-color: #ffd700; color: #111111; border: none; padding: 8px 20px; font-weight: bold; border-radius: 5px; cursor: pointer; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .btn-login:hover { background-color: #ffffff; color: #111111; }
+
+        /* Seções da Página Única */
+        section { min-height: 100vh; padding: 80px 50px; }
+        section:nth-child(odd) { background-color: #f5f5dc; } 
+        section:nth-child(even) { background-color: #ffffff; }
+
+        h2 { font-size: 32px; color: #003366; /* Azul */ margin-bottom: 20px; text-transform: uppercase; border-bottom: 3px solid #ffd700; display: inline-block; padding-bottom: 5px; }
+
+        /* Botão Flutuante Fale Conosco */
+        .btn-fale-conosco {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #003366; /* Azul */
+            color: #ffffff;
+            padding: 15px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            transition: 0.3s;
+            z-index: 999;
+            border: 2px solid #ffd700; /* Amarelo */
+        }
+        .btn-fale-conosco:hover { background-color: #111111; color: #ffd700; transform: scale(1.05); }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-tft">
+            <img src="https://images.habbo.com/c_images/Official_Badges/ADM.png" alt="Logo TFT" class="img-logo">
+            <div>
+                <h1>TFT Diário</h1>
+                <span>Polícia FEB - Habbo Hotel BR</span>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#sobre">Sobre Nós</a></li>
+                <li><a href="#membros">Membros</a></li>
+                <li><a href="#documentacao">Documentação</a></li>
+            </ul>
+        </nav>
+        <button class="btn-login" onclick="abrirLogin()">Login/Admin</button>
+    </header>
+
+    <section id="inicio">
+        <h2>Página Inicial</h2>
+        <p>Espaço reservado para o banner de notícias em formato roda gigante.</p>
+    </section>
+
+    <section id="sobre">
+        <h2>Sobre Nós</h2>
+        <p>Informações sobre o Tribunal de Fiscalização e Transparência da FEB.</p>
+    </section>
+
+    <section id="membros">
+        <h2>Membros do TFT</h2>
+        <p>Lista e hierarquia dos membros atuantes no tribunal.</p>
+    </section>
+
+    <section id="documentacao">
+        <h2>Documentação</h2>
+        <p>Manuais, regras, atas e tutoriais da polícia FEB.</p>
+    </section>
+
+    <a href="#fale-conosco" class="btn-fale-conosco" onclick="abrirFaleConosco()">💬 Fale Conosco</a>
+
+    <script>
+        function abrirLogin() {
+            alert("Modal de Login será construído nos próximos passos.");
+        }
+        function abrirFaleConosco() {
+            alert("Aba de Fale Conosco será construída nos próximos passos.");
+        }
+    </script>
+
+</body>
+</html>
