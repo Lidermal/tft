@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diário Oficial - TFT | Polícia FEB®</title>
+    
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            // Inicializa o EmailJS (substitua 'YOUR_PUBLIC_KEY' pela sua chave pública)
+            emailjs.init("YOUR_PUBLIC_KEY");
+        })();
+    </script>
+    
     <style>
         /* ============================================
            RESET E VARIÁVEIS GLOBAIS
@@ -40,7 +50,7 @@
         }
 
         /* ============================================
-           CABEÇALHO FIXO
+           CABEÇALHO FIXO - LOGO CENTRALIZADA
            ============================================ */
         header {
             position: fixed;
@@ -53,44 +63,57 @@
             padding: 10px 30px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
+            position: relative;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
 
-        .header-left {
+        .header-logo-center {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
         }
 
-        .header-left img.logo-nav {
-            width: 50px;
-            height: 50px;
+        .header-logo-center img {
+            width: 60px;
+            height: 60px;
             object-fit: contain;
-            border-radius: 5px;
+            border-radius: 8px;
             filter: grayscale(100%) opacity(0.6);
             transition: all 0.3s ease;
         }
 
-        .header-left img.logo-nav:hover {
+        .header-logo-center img:hover {
             filter: grayscale(0%) opacity(1);
+            transform: scale(1.05);
+        }
+
+        .header-titles {
+            text-align: center;
         }
 
         .header-titles h1 {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             color: var(--amarelo);
             font-weight: 700;
             letter-spacing: 1px;
         }
 
         .header-titles p {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--branco);
             opacity: 0.85;
             letter-spacing: 0.5px;
         }
 
-        /* Navegação interna */
+        /* Navegação - posicionada à direita */
+        nav {
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
         nav ul {
             display: flex;
             list-style: none;
@@ -133,7 +156,7 @@
            HERO / CAPA
            ============================================ */
         .hero {
-            margin-top: 72px;
+            margin-top: 80px;
             min-height: 90vh;
             display: flex;
             flex-direction: row;
@@ -803,6 +826,12 @@
                 gap: 10px;
             }
 
+            nav {
+                position: static;
+                transform: none;
+                width: 100%;
+            }
+
             nav ul {
                 gap: 10px;
                 flex-wrap: wrap;
@@ -877,11 +906,11 @@
 <body>
 
     <!-- ============================================
-         CABEÇALHO FIXO
+         CABEÇALHO FIXO - LOGO CENTRALIZADA
          ============================================ -->
     <header>
-        <div class="header-left">
-            <img src="img/tft.png" alt="Logo TFT" class="logo-nav" onerror="this.style.display='none'">
+        <div class="header-logo-center">
+            <img src="img/tft.png" alt="Logo TFT" onerror="this.style.display='none'">
             <div class="header-titles">
                 <h1>Tribunal de Fisc. e Transparência</h1>
                 <p>Diário Oficial - TFT | FEB®</p>
@@ -901,7 +930,7 @@
     <!-- ============================================
          HERO / CAPA
          ============================================ -->
-    <section class="hero" id="inicio">       
+    <section class="hero" id="inicio">        
         <div class="hero-content">
             <img src="img/tft1.png" alt="Logo TFT Grande" class="hero-logo-center" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><circle cx=%22100%22 cy=%22100%22 r=%2290%22 fill=%22%23FFD700%22 opacity=%220.3%22/><text x=%22100%22 y=%22110%22 text-anchor=%22middle%22 font-size=%2240%22 fill=%22white%22>TFT</text></svg>'">
             <div class="hero-titles">
@@ -1019,6 +1048,13 @@
                         <p class="form-obs red">* Campo obrigatório. Utilize o nick exato cadastrado no sistema.</p>
                     </div>
 
+                    <!-- Campo: Email -->
+                    <div class="form-group">
+                        <label for="email">Email para contato *</label>
+                        <input type="email" id="email" name="email" placeholder="seuemail@exemplo.com" required>
+                        <p class="form-obs gray">Usaremos este email para retornar seu contato.</p>
+                    </div>
+
                     <!-- Campo: Patente (ATUALIZADO CONFORME ORGANOGRAMA) -->
                     <div class="form-group">
                         <label for="patente">Patente *</label>
@@ -1109,9 +1145,6 @@
                         <input type="url" id="imagemUrl" name="imagemUrl" placeholder="https://i.imgur.com/exemplo.jpg">
                         <p class="form-obs gray">Cole o link direto da imagem (Imgur, por exemplo).</p>
                         <p class="form-obs red">Formatos aceitos: JPG, PNG, GIF. Certifique-se de que o link é direto (termina em .jpg, .png, etc).</p>
-                        <p class="form-obs gray" style="margin-top: 8px;">
-                            <strong>Como obter:</strong> Faça upload no Imgur.com, clique com botão direito na imagem e selecione "Copiar endereço da imagem".
-                        </p>
                     </div>
 
                     <!-- Botão de Envio -->
@@ -1298,25 +1331,33 @@
         });
 
         // ============================================
-        // ENVIO DO FORMULÁRIO PARA GOOGLE SHEETS
+        // ENVIO DO FORMULÁRIO VIA EMAILJS
         // ============================================
 
         /**
-         * URL do endpoint do Google Apps Script para processamento do formulário.
+         * CONFIGURAÇÃO DO EMAILJS:
          * 
-         * CONFIGURAÇÃO NECESSÁRIA NO GOOGLE APPS SCRIPT:
-         * 1. Acesse https://script.google.com/
-         * 2. Crie um novo projeto
-         * 3. Cole o código do Google Apps Script (fornecido abaixo)
-         * 4. Substitua 'ID_DA_SUA_PLANILHA' pelo ID da sua planilha Google
-         * 5. Implante como Web App (Acesso: Qualquer pessoa)
-         * 6. Copie a URL gerada e substitua abaixo
+         * 1. Acesse https://www.emailjs.com/ e crie uma conta gratuita
+         * 2. Crie um Email Service (conecte seu Gmail, Outlook, etc)
+         * 3. Crie um Email Template com as variáveis:
+         *    - {{nick}}
+         *    - {{email}}
+         *    - {{patente}}
+         *    - {{dataVigente}}
+         *    - {{motivo}}
+         *    - {{descricao}}
+         *    - {{imagemUrl}}
+         * 4. Copie suas credenciais e substitua abaixo:
          */
-        const URL_GAS = 'https://script.google.com/macros/s/AKfycbzJZeNleWy2NWjbczSj7X9RqT3OVT1A6B0Y19n3sYNeXVuputo0gHaFBUu9SlyiGEkc/exec';
+        
+        const EMAILJS_CONFIG = {
+            publicKey: 'YOUR_PUBLIC_KEY',      // Sua Public Key do EmailJS
+            serviceId: 'YOUR_SERVICE_ID',      // ID do seu Email Service
+            templateId: 'YOUR_TEMPLATE_ID'     // ID do seu Email Template
+        };
 
         /**
-         * Função principal de envio do formulário.
-         * Coleta os dados e envia via fetch POST para o Google Apps Script.
+         * Função principal de envio do formulário via EmailJS.
          * @param {Event} event - Evento de submit do formulário
          */
         async function enviarFormulario(event) {
@@ -1329,6 +1370,7 @@
 
             // Coletar dados dos campos
             const nick = document.getElementById('nick').value.trim();
+            const email = document.getElementById('email').value.trim();
             const patente = document.getElementById('patente').value;
             const dataVigente = document.getElementById('dataVigente').value;
             const motivo = document.getElementById('motivo').value;
@@ -1336,8 +1378,15 @@
             const imagemUrl = document.getElementById('imagemUrl').value.trim();
 
             // Validação básica
-            if (!nick || !patente || !motivo || !descricao) {
+            if (!nick || !email || !patente || !motivo || !descricao) {
                 exibirMensagem('Por favor, preencha todos os campos obrigatórios.', 'error');
+                return;
+            }
+
+            // Validação de email
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                exibirMensagem('Por favor, insira um email válido.', 'error');
                 return;
             }
 
@@ -1355,42 +1404,80 @@
             btnEnviar.innerHTML = '<span class="spinner"></span> Enviando...';
 
             try {
-                // Preparar dados para envio
-                const dadosEnvio = {
+                // Preparar template parameters para o EmailJS
+                const templateParams = {
                     nick: nick,
+                    email: email,
                     patente: patente,
                     dataVigente: dataVigente,
                     motivo: motivo,
                     descricao: descricao,
-                    imagemUrl: imagemUrl || 'Nenhuma imagem',
-                    timestamp: new Date().toISOString()
+                    imagemUrl: imagemUrl || 'Nenhuma imagem anexada',
+                    to_email: 'seuemail@exemplo.com' // Email que receberá as mensagens
                 };
 
-                // Enviar dados via fetch POST para o Google Apps Script
-                const resposta = await fetch(URL_GAS, {
-                    method: 'POST',
-                    mode: 'no-cors', // Google Apps Script requer no-cors para deploy web
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(dadosEnvio)
-                });
+                // Enviar email via EmailJS
+                const response = await emailjs.send(
+                    EMAILJS_CONFIG.serviceId,
+                    EMAILJS_CONFIG.templateId,
+                    templateParams
+                );
 
-                // Como usamos no-cors, não podemos ler a resposta diretamente
-                // Assumimos sucesso se não houve exceção no fetch
-                exibirMensagem('✅ Solicitação enviada com sucesso! Os dados foram registrados na planilha.', 'success');
+                // Sucesso
+                exibirMensagem('✅ Mensagem enviada com sucesso! Entraremos em contato em breve.', 'success');
+
+                // Salvar no localStorage também (backup local)
+                salvarMensagemLocalmente(templateParams);
 
                 // Limpar formulário
                 form.reset();
-                preencherDataVigente(); // Re-preenche a data após reset
+                preencherDataVigente();
 
             } catch (erro) {
                 console.error('Erro ao enviar formulário:', erro);
-                exibirMensagem('❌ Erro ao enviar solicitação. Verifique sua conexão e tente novamente.', 'error');
+                
+                // Fallback: salvar apenas no localStorage se EmailJS falhar
+                exibirMensagem('⚠️ EmailJS não configurado. Mensagem salva localmente (modo demonstração).', 'error');
+                
+                const templateParams = {
+                    nick: nick,
+                    email: email,
+                    patente: patente,
+                    dataVigente: dataVigente,
+                    motivo: motivo,
+                    descricao: descricao,
+                    imagemUrl: imagemUrl || 'Nenhuma imagem'
+                };
+                
+                salvarMensagemLocalmente(templateParams);
+                form.reset();
+                preencherDataVigente();
             } finally {
                 // Restaurar botão independente do resultado
                 restaurarBotao();
             }
+        }
+
+        /**
+         * Salva a mensagem no localStorage (backup local).
+         * @param {Object} dados - Dados da mensagem
+         */
+        function salvarMensagemLocalmente(dados) {
+            // Recuperar mensagens existentes
+            let mensagens = JSON.parse(localStorage.getItem('tft_mensagens') || '[]');
+            
+            // Adicionar timestamp e ID
+            dados.id = Date.now();
+            dados.timestamp = new Date().toISOString();
+            dados.lida = false;
+            
+            // Adicionar nova mensagem
+            mensagens.push(dados);
+            
+            // Salvar no localStorage
+            localStorage.setItem('tft_mensagens', JSON.stringify(mensagens));
+            
+            console.log('Mensagem salva localmente:', dados);
         }
 
         /**
@@ -1426,6 +1513,10 @@
         // Preencher data vigente ao carregar a página
         document.addEventListener('DOMContentLoaded', function() {
             preencherDataVigente();
+            
+            // Verificar se há mensagens salvas (para debug)
+            const mensagens = JSON.parse(localStorage.getItem('tft_mensagens') || '[]');
+            console.log(`Total de mensagens salvas localmente: ${mensagens.length}`);
         });
     </script>
 </body>
