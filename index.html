@@ -3,160 +3,1365 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diário TFT - Polícia FEB Habbo</title>
+    <title>Diário Oficial - TFT | Polícia FEB®</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #f5f5dc; color: #111111; scroll-behavior: smooth; }
+        /* ============================================
+           RESET E VARIÁVEIS GLOBAIS
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        header { background: linear-gradient(135deg, #111111, #003366); color: #ffffff; padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.8); position: sticky; top: 0; z-index: 1000; border-bottom: 2px solid #ffd700; }
-        .logo-tft-header { display: flex; align-items: center; gap: 15px; }
-        .img-logo-header { width: 45px; height: 45px; object-fit: contain; }
-        .logo-tft-header h1 { font-size: 18px; text-transform: uppercase; color: #ffd700; }
-        nav ul { list-style: none; display: flex; gap: 20px; }
-        nav a { color: #ffffff; text-decoration: none; font-weight: bold; padding: 8px 15px; border-radius: 5px; transition: 0.3s; }
-        nav a:hover { background-color: rgba(255, 255, 255, 0.1); color: #ffd700; }
-        .btn-login { background-color: #ffd700; color: #111111; border: none; padding: 8px 25px; font-weight: bold; border-radius: 5px; cursor: pointer; }
+        :root {
+            --amarelo: #FFD700;
+            --amarelo-escuro: #B8860B;
+            --preto: #0a0a0a;
+            --branco: #ffffff;
+            --azul: #1a3a6b;
+            --azul-escuro: #0d1f3c;
+            --bege: #f5f0e8;
+            --cinza: #666666;
+            --vermelho: #cc0000;
+            --fonte-principal: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-        .capa-tft { background: radial-gradient(circle at center, #ffdb4d 0%, #d4af37 40%, #8b6508 100%); color: #ffffff; height: 60vh; display: flex; align-items: center; justify-content: center; gap: 50px; border-bottom: 5px solid #111111; }
-        .img-logo-capa { width: 230px; height: 230px; object-fit: contain; filter: drop-shadow(0px 15px 20px rgba(0,0,0,0.7)); }
-        .texto-capa h2 { font-size: 75px; font-family: 'Times New Roman', serif; text-transform: uppercase; }
+        html {
+            scroll-behavior: smooth;
+        }
 
-        .conteudo { padding: 80px 50px; background-color: #ffffff; min-height: 50vh; }
-        .carrossel-container { position: relative; max-width: 1000px; margin: 0 auto 50px auto; overflow: hidden; border-radius: 10px; border: 3px solid #003366; }
-        .carrossel-slides { display: flex; transition: transform 0.5s ease-in-out; }
-        .slide { min-width: 100%; height: 300px; background-size: cover; background-position: center; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; color: white; }
-        .slide::before { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.3); }
-        .slide-content { position: relative; z-index: 2; text-shadow: 2px 2px 8px rgba(0,0,0,1); }
-        .carrossel-btn { position: absolute; top: 50%; background: #003366; color: white; border: 2px solid #ffd700; padding: 10px; cursor: pointer; z-index: 3; }
-        .btn-prev { left: 10px; } .btn-next { right: 10px; }
+        body {
+            font-family: var(--fonte-principal);
+            background-color: var(--bege);
+            color: var(--preto);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-        .atalhos-grid { display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; }
-        .card-atalho { background: #003366; color: white; padding: 30px; border-radius: 10px; width: 280px; text-align: center; text-decoration: none; border-bottom: 5px solid #ffd700; }
-        
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; }
-        .modal-content { background: #f5f5dc; width: 100%; max-width: 550px; border-radius: 8px; padding: 25px; border: 1px solid #d4af37; position: relative; }
-        .modal-content h2 { font-size: 18px; color: #111; margin-bottom: 20px; }
-        .form-label { font-weight: bold; font-size: 14px; margin-top: 10px; display: block; }
-        .input-style { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; }
-        .obs-text { color: #b21f1f; font-size: 12px; margin-top: 5px; }
-        .desc-text { color: #555; font-size: 12px; margin-top: 5px; margin-bottom: 15px; }
-        .btn-enviar { background: #003366; color: white; width: 100%; padding: 12px; margin-top: 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        
-        .btn-fale-conosco { position: fixed; bottom: 30px; right: 30px; background: #003366; color: white; padding: 15px; border-radius: 50px; cursor: pointer; z-index: 999; border: 2px solid #ffd700; }
-        
-        footer { background: #111111; color: #ffffff; padding: 40px 50px; text-align: center; border-top: 5px solid #003366; }
-        .footer-content { display: flex; justify-content: space-around; flex-wrap: wrap; margin-bottom: 20px; }
-        .footer-bottom { border-top: 1px solid #333; padding-top: 15px; font-size: 12px; color: #888; }
+        /* ============================================
+           CABEÇALHO FIXO
+           ============================================ */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: linear-gradient(135deg, var(--preto) 0%, var(--azul-escuro) 100%);
+            border-bottom: 2px solid var(--amarelo);
+            padding: 10px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-left img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+
+        .header-titles h1 {
+            font-size: 1.3rem;
+            color: var(--amarelo);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .header-titles p {
+            font-size: 0.8rem;
+            color: var(--branco);
+            opacity: 0.85;
+            letter-spacing: 0.5px;
+        }
+
+        /* Navegação interna */
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            color: var(--branco);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--amarelo);
+            background-color: rgba(255, 215, 0, 0.1);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: var(--amarelo);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after {
+            width: 80%;
+        }
+
+        /* ============================================
+           HERO / CAPA
+           ============================================ */
+        .hero {
+            margin-top: 72px;
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: radial-gradient(ellipse at center, #f0d060 0%, #8b6914 70%, #3d2e0a 100%);
+            padding: 60px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,215,0,0.05)" stroke-width="0.5"/></svg>') repeat;
+            opacity: 0.3;
+        }
+
+        .hero-logo {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            filter: drop-shadow(0px 15px 20px rgba(0, 0, 0, 0.7));
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 2;
+            animation: floatLogo 4s ease-in-out infinite;
+        }
+
+        @keyframes floatLogo {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero-titles {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-titles h2 {
+            font-size: 3.5rem;
+            color: var(--branco);
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+            font-weight: 800;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .hero-divider {
+            width: 150px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--amarelo), transparent);
+            margin: 15px auto;
+            border-radius: 2px;
+        }
+
+        .hero-titles h3 {
+            font-size: 1.5rem;
+            color: var(--amarelo);
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+
+        /* ============================================
+           SEÇÃO CARROSSEL DE NOTÍCIAS
+           ============================================ */
+        .noticias-section {
+            padding: 80px 20px;
+            background-color: var(--branco);
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--azul-escuro);
+            margin-bottom: 40px;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background-color: var(--amarelo);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        .carrossel-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            height: 400px;
+        }
+
+        .carrossel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('https://i95.servimg.com/u/f95/20/65/42/26/07656210.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .carrossel-slide.active {
+            opacity: 1;
+        }
+
+        /* Filtro escuro sobre a imagem de fundo */
+        .carrossel-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 1;
+        }
+
+        .carrossel-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 40px;
+            max-width: 700px;
+        }
+
+        .carrossel-content h3 {
+            font-size: 1.8rem;
+            color: var(--branco);
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 1);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .carrossel-content p {
+            font-size: 1.1rem;
+            color: var(--branco);
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 1);
+            line-height: 1.7;
+        }
+
+        .carrossel-content .data-noticia {
+            display: inline-block;
+            background-color: var(--amarelo);
+            color: var(--preto);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        /* Indicadores do carrossel */
+        .carrossel-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 3;
+        }
+
+        .carrossel-indicators span {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carrossel-indicators span.active {
+            background-color: var(--amarelo);
+            transform: scale(1.3);
+        }
+
+        /* Setas de navegação */
+        .carrossel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 3;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: var(--branco);
+            border: 2px solid var(--amarelo);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carrossel-btn:hover {
+            background-color: var(--amarelo);
+            color: var(--preto);
+        }
+
+        .carrossel-btn.prev {
+            left: 15px;
+        }
+
+        .carrossel-btn.next {
+            right: 15px;
+        }
+
+        /* ============================================
+           SEÇÃO ATALHOS / CARDS
+           ============================================ */
+        .atalhos-section {
+            padding: 80px 20px;
+            background: linear-gradient(180deg, var(--bege) 0%, #e8e0d0 100%);
+        }
+
+        .atalhos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .atalho-card {
+            background: linear-gradient(135deg, var(--azul) 0%, var(--preto) 100%);
+            border-radius: 12px;
+            padding: 35px 25px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--branco);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .atalho-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .atalho-card:hover::before {
+            opacity: 1;
+        }
+
+        .atalho-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            border-color: var(--amarelo);
+        }
+
+        .atalho-card .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .atalho-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--amarelo);
+            font-weight: 600;
+        }
+
+        .atalho-card p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        /* ============================================
+           BOTÃO FLUTUANTE FALE CONOSCO
+           ============================================ */
+        .fab-contato {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--azul) 0%, var(--azul-escuro) 100%);
+            border: 2px solid var(--amarelo);
+            color: var(--amarelo);
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4); }
+            50% { box-shadow: 0 5px 30px rgba(255, 215, 0, 0.4); }
+            100% { box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4); }
+        }
+
+        .fab-contato:hover {
+            transform: scale(1.1) rotate(10deg);
+            background: var(--amarelo);
+            color: var(--preto);
+        }
+
+        /* ============================================
+           MODAL FALE CONOSCO
+           ============================================ */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--branco);
+            border-radius: 15px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border-top: 4px solid var(--amarelo);
+            animation: modalSlideIn 0.4s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--preto) 0%, var(--azul-escuro) 100%);
+            padding: 25px 30px;
+            border-radius: 11px 11px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-header h2 {
+            color: var(--amarelo);
+            font-size: 1.1rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--branco);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            line-height: 1;
+            padding: 0 5px;
+        }
+
+        .modal-close:hover {
+            color: var(--amarelo);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--azul-escuro);
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: var(--fonte-principal);
+            transition: all 0.3s ease;
+            background-color: #fafafa;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--azul);
+            background-color: var(--branco);
+            box-shadow: 0 0 0 3px rgba(26, 58, 107, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group input[type="file"] {
+            padding: 10px;
+            background-color: var(--branco);
+            cursor: pointer;
+        }
+
+        .form-obs {
+            font-size: 0.75rem;
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+
+        .form-obs.red {
+            color: var(--vermelho);
+            font-weight: 500;
+        }
+
+        .form-obs.gray {
+            color: var(--cinza);
+        }
+
+        .btn-enviar {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--azul);
+            color: var(--branco);
+            border: 2px solid var(--amarelo);
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .btn-enviar:hover {
+            background-color: var(--amarelo);
+            color: var(--preto);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn-enviar:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-enviar .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: var(--amarelo);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Mensagem de sucesso/erro */
+        .form-message {
+            display: none;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .form-message.success {
+            display: block;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .form-message.error {
+            display: block;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* ============================================
+           RODAPÉ
+           ============================================ */
+        footer {
+            background-color: var(--preto);
+            border-top: 3px solid var(--azul);
+            padding: 50px 20px 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            color: var(--amarelo);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .footer-col p,
+        .footer-col a {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-col a:hover {
+            color: var(--amarelo);
+        }
+
+        .footer-col .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .footer-col .footer-logo img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .footer-col .footer-logo span {
+            color: var(--branco);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
+        }
+
+        .footer-bottom p span {
+            color: var(--amarelo);
+            font-weight: 500;
+        }
+
+        /* ============================================
+           RESPONSIVIDADE
+           ============================================ */
+        @media (max-width: 768px) {
+            header {
+                padding: 10px 15px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            nav ul {
+                gap: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero-titles h2 {
+                font-size: 2.2rem;
+            }
+
+            .hero-titles h3 {
+                font-size: 1.1rem;
+            }
+
+            .hero-logo {
+                width: 150px;
+                height: 150px;
+            }
+
+            .carrossel-container {
+                height: 350px;
+            }
+
+            .carrossel-content h3 {
+                font-size: 1.3rem;
+            }
+
+            .modal-content {
+                max-height: 95vh;
+            }
+
+            .modal-body {
+                padding: 20px;
+            }
+
+            .fab-contato {
+                bottom: 20px;
+                right: 20px;
+                width: 55px;
+                height: 55px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-titles h2 {
+                font-size: 1.8rem;
+            }
+
+            .header-titles h1 {
+                font-size: 1rem;
+            }
+
+            .header-titles p {
+                font-size: 0.7rem;
+            }
+
+            .atalhos-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
 
+    <!-- ============================================
+         CABEÇALHO FIXO
+         ============================================ -->
     <header>
-        <div class="logo-tft-header">
-            <img src="img/tft.png" alt="Logo" class="img-logo-header">
-            <div><h1>Tribunal de Fisc. e Transparência</h1><span>Diário Oficial - TFT | FEB®</span></div>
+        <div class="header-left">
+            <img src="img/tft.png" alt="Logo TFT" onerror="this.style.display='none'">
+            <div class="header-titles">
+                <h1>Tribunal de Fisc. e Transparência</h1>
+                <p>Diário Oficial - TFT | FEB®</p>
+            </div>
         </div>
         <nav>
             <ul>
-                <li><a href="index.html">Início</a></li>
-                <li><a href="sobre.html">Sobre Nós</a></li>
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#noticias">Notícias</a></li>
+                <li><a href="sobre.html">Sobre</a></li>
                 <li><a href="membros.html">Membros</a></li>
-                <li><a href="documentos.html">Documentação</a></li>
+                <li><a href="documentos.html">Documentos</a></li>
             </ul>
         </nav>
-        <button class="btn-login" onclick="alert('Em construção')">Login</button>
     </header>
 
-    <div class="capa-tft">
-        <img src="img/tft1.png" alt="Brasão" class="img-logo-capa">
-        <div class="texto-capa"><h2>Tribunal</h2><span>Fiscalização & Transparência</span></div>
-    </div>
-
-    <section class="conteudo">
-        <div class="carrossel-container">
-            <button class="carrossel-btn btn-prev" onclick="mudarSlide(-1)">&#10094;</button>
-            <div class="carrossel-slides" id="slider">
-                <div class="slide" style="background-image: url('https://i95.servimg.com/u/f95/20/65/42/26/07656210.jpg');"><div class="slide-content"><h3>Bem-vindo ao TFT</h3><p>Portal Oficial de Fiscalização.</p></div></div>
-                <div class="slide" style="background-image: url('https://i95.servimg.com/u/f95/20/65/42/26/07656210.jpg');"><div class="slide-content"><h3>Notícias</h3><p>Acompanhe as atualizações.</p></div></div>
-                <div class="slide" style="background-image: url('https://i95.servimg.com/u/f95/20/65/42/26/07656210.jpg');"><div class="slide-content"><h3>Ouvidoria</h3><p>Estamos prontos para ouvir você.</p></div></div>
-            </div>
-            <button class="carrossel-btn btn-next" onclick="mudarSlide(1)">&#10095;</button>
-        </div>
-        <div class="atalhos-grid">
-            <a href="sobre.html" class="card-atalho"><h3>🏛️ Sobre Nós</h3></a>
-            <a href="membros.html" class="card-atalho"><h3>👥 Membros</h3></a>
-            <a href="documentos.html" class="card-atalho"><h3>📄 Documentação</h3></a>
+    <!-- ============================================
+         HERO / CAPA
+         ============================================ -->
+    <section class="hero" id="inicio">
+        <img src="img/tft1.png" alt="Logo TFT Grande" class="hero-logo" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><circle cx=%22100%22 cy=%22100%22 r=%2290%22 fill=%22%23FFD700%22 opacity=%220.3%22/><text x=%22100%22 y=%22110%22 text-anchor=%22middle%22 font-size=%2240%22 fill=%22white%22>TFT</text></svg>'">
+        <div class="hero-titles">
+            <h2>Tribunal</h2>
+            <div class="hero-divider"></div>
+            <h3>Fiscalização & Transparência</h3>
         </div>
     </section>
 
-    <footer>
-        <div class="footer-content">
-            <div style="text-align: left;"><h3>TFT FEB</h3><p>Habbo Hotel BR/PT</p></div>
-            <div><h3>Links Úteis</h3><p><a href="documentos.html" style="color:#fff;">Código de Conduta</a></p></div>
-            <div><h3>Desenvolvimento</h3><p>Sistema exclusivo da Polícia FEB.</p></div>
-        </div>
-        <div class="footer-bottom">&copy; 2026 Tribunal de Fiscalização e Transparência. Desenvolvido por Janaelson667.</div>
-    </footer>
-
-    <a class="btn-fale-conosco" onclick="abrirFaleConosco()">💬 Fale Conosco</a>
-
-    <div id="modalFaleConosco" class="modal-overlay">
-        <div class="modal-content">
-            <span onclick="fecharFaleConosco()" style="float:right; cursor:pointer; font-size:22px; font-weight:bold;">&times;</span>
-            <h2>Canal de Atendimento Tribunal de Fisc. e Transp.</h2>
-            <form id="formFaleConosco" onsubmit="enviarFormulario(event)">
-                <div style="display:flex; gap:10px;">
-                    <div style="flex:1;"><label class="form-label">Seu Nick:</label><input type="text" id="nick" placeholder="Ex: Fulano123" class="input-style" required></div>
-                    <div style="flex:1;"><label class="form-label">Sua Patente:</label><input type="text" id="patente" placeholder="Ex: Sargento" class="input-style" required></div>
+    <!-- ============================================
+         SEÇÃO CARROSSEL DE NOTÍCIAS
+         ============================================ -->
+    <section class="noticias-section" id="noticias">
+        <h2 class="section-title">Últimas Publicações</h2>
+        <div class="carrossel-container">
+            <!-- Slide 1 -->
+            <div class="carrossel-slide active">
+                <div class="carrossel-content">
+                    <span class="data-noticia">06 de Junho, 2026</span>
+                    <h3>Portaria Nº 001/2026 - TFT</h3>
+                    <p>Fica estabelecido o novo regulamento interno do Tribunal de Fiscalização e Transparência, com vigência imediata a todos os membros ativos da corporação.</p>
                 </div>
-                <label class="form-label">Data Vigente:</label><input type="date" id="dataVigente" class="input-style" required readonly>
-                <label class="form-label">Motivo do Contato:</label>
-                <select id="tipoSolicitacao" class="input-style" required>
-                    <option value="">-- Selecione uma opção --</option>
-                    <option value="Dúvida">Dúvida</option><option value="Reclamação">Reclamação</option>
-                    <option value="Sugestão">Sugestão</option><option value="Denúncia">Denúncia</option>
-                    <option value="Casos Financeiros">Casos Financeiros</option>
-                </select>
-                <p class="obs-text">Obs: Caso seja problemas envolvendo o setor de suprimentos, planejamento ou financeiro, pedimos que informe em conjunto o motivo citando o setor que deseja se comunicar.</p>
-                <label class="form-label">Descrição detalhada da situação:</label>
-                <textarea id="descricao" class="input-style" rows="4" placeholder="Escreva aqui..." required></textarea>
-                <p class="desc-text">Gentileza informar toda a situação detalhadamente, para que possa assim ser prosseguido com a solicitação.</p>
-                <label class="form-label">Campo de comprovação (Anexos de imagens):</label>
-                <input type="file" id="anexos" accept="image/*" class="input-style">
-                <p class="desc-text">Gentileza informar todas as comprovações para que seja melhor tratado.</p>
-                <button type="submit" class="btn-enviar">Enviar Solicitação</button>
-            </form>
+            </div>
+            <!-- Slide 2 -->
+            <div class="carrossel-slide">
+                <div class="carrossel-content">
+                    <span class="data-noticia">03 de Junho, 2026</span>
+                    <h3>Relatório Mensal de Atividades</h3>
+                    <p>O Tribunal apresenta o relatório de fiscalização do mês de Maio de 2026, contendo todas as auditorias realizadas e pareceres emitidos neste período.</p>
+                </div>
+            </div>
+            <!-- Slide 3 -->
+            <div class="carrossel-slide">
+                <div class="carrossel-content">
+                    <span class="data-noticia">28 de Maio, 2026</span>
+                    <h3>Convocação Geral - Reunião Ordinária</h3>
+                    <p>Todos os membros com patente superior são convocados para a reunião ordinária que tratará sobre as novas diretrizes de transparência e prestação de contas.</p>
+                </div>
+            </div>
+            <!-- Slide 4 -->
+            <div class="carrossel-slide">
+                <div class="carrossel-content">
+                    <span class="data-noticia">20 de Maio, 2026</span>
+                    <h3>Nota de Esclarecimento</h3>
+                    <p>O Tribunal vem a público esclarecer procedimentos relacionados à denúncia de irregularidades, reforçando o compromisso com a lisura e a legalidade dos atos.</p>
+                </div>
+            </div>
+
+            <!-- Botões de navegação -->
+            <button class="carrossel-btn prev" onclick="mudarSlide(-1)">&#10094;</button>
+            <button class="carrossel-btn next" onclick="mudarSlide(1)">&#10095;</button>
+
+            <!-- Indicadores -->
+            <div class="carrossel-indicators">
+                <span class="active" onclick="irParaSlide(0)"></span>
+                <span onclick="irParaSlide(1)"></span>
+                <span onclick="irParaSlide(2)"></span>
+                <span onclick="irParaSlide(3)"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SEÇÃO ATALHOS / CARDS
+         ============================================ -->
+    <section class="atalhos-section" id="atalhos">
+        <h2 class="section-title">Acesso Rápido</h2>
+        <div class="atalhos-grid">
+            <a href="sobre.html" class="atalho-card">
+                <span class="card-icon">🏛️</span>
+                <h4>Sobre o TFT</h4>
+                <p>Conheça a história, missão e competências do Tribunal de Fiscalização e Transparência.</p>
+            </a>
+            <a href="membros.html" class="atalho-card">
+                <span class="card-icon">👥</span>
+                <h4>Membros</h4>
+                <p>Consulte a lista atualizada de todos os membros ativos e suas respectivas patentes.</p>
+            </a>
+            <a href="documentos.html" class="atalho-card">
+                <span class="card-icon">📋</span>
+                <h4>Documentos</h4>
+                <p>Acesse portarias, regulamentos, relatórios e demais documentos oficiais do Tribunal.</p>
+            </a>
+            <a href="#" class="atalho-card" onclick="abrirModal(); return false;">
+                <span class="card-icon">📩</span>
+                <h4>Fale Conosco</h4>
+                <p>Canal direto de comunicação para denúncias, dúvidas, sugestões e solicitações diversas.</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- ============================================
+         BOTÃO FLUTUANTE FALE CONOSCO (FAB)
+         ============================================ -->
+    <button class="fab-contato" onclick="abrirModal()" title="Fale Conosco">
+        ✉
+    </button>
+
+    <!-- ============================================
+         MODAL FALE CONOSCO
+         ============================================ -->
+    <div class="modal-overlay" id="modalContato">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Canal de Atendimento<br>Tribunal de Fisc. e Transp.</h2>
+                <button class="modal-close" onclick="fecharModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formContato" onsubmit="enviarFormulario(event)">
+                    <!-- Campo: Nick -->
+                    <div class="form-group">
+                        <label for="nick">Nick (Nome no Habbo) *</label>
+                        <input type="text" id="nick" name="nick" placeholder="Digite seu nick no jogo" required>
+                        <p class="form-obs red">* Campo obrigatório. Utilize o nick exato cadastrado no sistema.</p>
+                    </div>
+
+                    <!-- Campo: Patente -->
+                    <div class="form-group">
+                        <label for="patente">Patente *</label>
+                        <select id="patente" name="patente" required>
+                            <option value="">Selecione sua patente</option>
+                            <option value="Conselheiro-Presidente">Conselheiro-Presidente</option>
+                            <option value="Conselheiro-Vice">Conselheiro-Vice</option>
+                            <option value="Auditor-Chefe">Auditor-Chefe</option>
+                            <option value="Auditor-Sênior">Auditor-Sênior</option>
+                            <option value="Auditor">Auditor</option>
+                            <option value="Inspetor-Chefe">Inspetor-Chefe</option>
+                            <option value="Inspetor">Inspetor</option>
+                            <option value="Fiscal">Fiscal</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                        <p class="form-obs gray">Selecione a patente que você ocupa atualmente no órgão.</p>
+                    </div>
+
+                    <!-- Campo: Data Vigente (preenchimento automático via JS) -->
+                    <div class="form-group">
+                        <label for="dataVigente">Data Vigente</label>
+                        <input type="text" id="dataVigente" name="dataVigente" readonly>
+                        <p class="form-obs gray">Data preenchida automaticamente com a data atual do sistema.</p>
+                    </div>
+
+                    <!-- Campo: Motivo do Contato -->
+                    <div class="form-group">
+                        <label for="motivo">Motivo do Contato *</label>
+                        <select id="motivo" name="motivo" required>
+                            <option value="">Selecione o motivo</option>
+                            <option value="Denúncia">Denúncia</option>
+                            <option value="Dúvida">Dúvida</option>
+                            <option value="Sugestão">Sugestão</option>
+                            <option value="Solicitação de Documento">Solicitação de Documento</option>
+                            <option value="Reclamação">Reclamação</option>
+                            <option value="Elogio">Elogio</option>
+                            <option value="Outro Assunto">Outro Assunto</option>
+                        </select>
+                        <p class="obs red">* Escolha o motivo que melhor descreve sua solicitação.</p>
+                    </div>
+
+                    <!-- Campo: Descrição Detalhada -->
+                    <div class="form-group">
+                        <label for="descricao">Descrição Detalhada *</label>
+                        <textarea id="descricao" name="descricao" placeholder="Descreva com detalhes o motivo do seu contato..." required></textarea>
+                        <p class="form-obs red">* Seja claro e objetivo. Informações insuficientes podem atrasar o atendimento.</p>
+                        <p class="form-obs gray">Mínimo de 20 caracteres recomendados para melhor análise.</p>
+                    </div>
+
+                    <!-- Campo: Anexo -->
+                    <div class="form-group">
+                        <label for="anexo">Anexar Arquivo (Opcional)</label>
+                        <input type="file" id="anexo" name="anexo" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx">
+                        <p class="form-obs gray">Formatos aceitos: JPG, PNG, GIF, PDF, DOC. Tamanho máximo: 5MB.</p>
+                        <p class="form-obs red">Não envie dados sensíveis sem necessidade. O anexo será convertido e salvo em nosso sistema.</p>
+                    </div>
+
+                    <!-- Botão de Envio -->
+                    <button type="submit" class="btn-enviar" id="btnEnviar">
+                        Enviar Solicitação
+                    </button>
+
+                    <!-- Mensagem de feedback -->
+                    <div class="form-message" id="formMessage"></div>
+                </form>
+            </div>
         </div>
     </div>
 
+    <!-- ============================================
+         RODAPÉ
+         ============================================ -->
+    <footer>
+        <div class="footer-content">
+            <!-- Coluna 1: Logo/Nome -->
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <img src="img/tft.png" alt="Logo TFT" onerror="this.style.display='none'">
+                    <span>TFT - Polícia FEB®</span>
+                </div>
+                <p>Tribunal de Fiscalização e Transparência. Órgão responsável pela auditoria, fiscalização e promoção da transparência no âmbito da Polícia FEB no Habbo Hotel.</p>
+            </div>
+
+            <!-- Coluna 2: Links -->
+            <div class="footer-col">
+                <h4>Links Importantes</h4>
+                <a href="documentos.html#conduta">📜 Código de Conduta</a>
+                <a href="#" onclick="abrirModal(); return false;">📢 Ouvidoria</a>
+                <a href="sobre.html">🏛️ Sobre o Tribunal</a>
+                <a href="membros.html">👥 Quadro de Membros</a>
+                <a href="documentos.html">📋 Documentos Oficiais</a>
+            </div>
+
+            <!-- Coluna 3: Desenvolvimento -->
+            <div class="footer-col">
+                <h4>Desenvolvimento</h4>
+                <p>Sistema exclusivo da Polícia FEB</p>
+                <p>Plataforma desenvolvida para uso institucional do Tribunal de Fiscalização e Transparência.</p>
+                <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">Todos os direitos reservados à instituição.</p>
+            </div>
+        </div>
+
+        <!-- Rodapé inferior: Copyright -->
+        <div class="footer-bottom">
+            <p>&copy; Copyright, 2026 - Tribunal de Fiscalização e Transparência | Polícia FEB® | <span>Desenvolvido por Janaelson667</span></p>
+        </div>
+    </footer>
+
+    <!-- ============================================
+         JAVASCRIPT
+         ============================================ -->
     <script>
-        function abrirFaleConosco() { document.getElementById('modalFaleConosco').style.display = 'flex'; document.getElementById('dataVigente').value = new Date().toISOString().split('T')[0]; }
-        function fecharFaleConosco() { document.getElementById('modalFaleConosco').style.display = 'none'; }
-        
+        // ============================================
+        // CARROSSEL DE NOTÍCIAS
+        // ============================================
+        let slideAtual = 0;
+        const slides = document.querySelectorAll('.carrossel-slide');
+        const indicadores = document.querySelectorAll('.carrossel-indicators span');
+        const totalSlides = slides.length;
+        let intervaloCarrossel;
+
+        /**
+         * Exibe o slide correspondente ao índice fornecido.
+         * Atualiza a classe 'active' nos slides e indicadores.
+         * @param {number} indice - Índice do slide a ser exibido
+         */
+        function exibirSlide(indice) {
+            // Remove a classe active de todos os slides
+            slides.forEach(slide => slide.classList.remove('active'));
+            indicadores.forEach(ind => ind.classList.remove('active'));
+
+            // Garante que o índice esteja dentro do intervalo válido (loop circular)
+            if (indice >= totalSlides) slideAtual = 0;
+            if (indice < 0) slideAtual = totalSlides - 1;
+
+            // Adiciona a classe active ao slide e indicador atuais
+            slides[slideAtual].classList.add('active');
+            indicadores[slideAtual].classList.add('active');
+        }
+
+        /**
+         * Avança ou retrocede os slides conforme a direção.
+         * @param {number} direcao - 1 para próximo, -1 para anterior
+         */
+        function mudarSlide(direcao) {
+            slideAtual += direcao;
+            exibirSlide(slideAtual);
+            reiniciarIntervalo();
+        }
+
+        /**
+         * Vai diretamente para um slide específico.
+         * @param {number} indice - Índice do slide de destino
+         */
+        function irParaSlide(indice) {
+            slideAtual = indice;
+            exibirSlide(slideAtual);
+            reiniciarIntervalo();
+        }
+
+        /**
+         * Inicia o intervalo automático do carrossel (5 segundos).
+         */
+        function iniciarIntervalo() {
+            intervaloCarrossel = setInterval(() => {
+                slideAtual++;
+                exibirSlide(slideAtual);
+            }, 5000); // 5 segundos
+        }
+
+        /**
+         * Reinicia o intervalo automático (usado após interação manual).
+         */
+        function reiniciarIntervalo() {
+            clearInterval(intervaloCarrossel);
+            iniciarIntervalo();
+        }
+
+        // Inicia o carrossel automaticamente ao carregar a página
+        iniciarIntervalo();
+
+        // ============================================
+        // MODAL FALE CONOSCO
+        // ============================================
+
+        /**
+         * Abre o modal de contato e preenche automaticamente a data vigente.
+         */
+        function abrirModal() {
+            const modal = document.getElementById('modalContato');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Impede scroll do body
+
+            // Preenchimento automático da data vigente
+            preencherDataVigente();
+        }
+
+        /**
+         * Fecha o modal de contato e restaura o scroll do body.
+         */
+        function fecharModal() {
+            const modal = document.getElementById('modalContato');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+
+            // Limpa mensagens de feedback
+            const msg = document.getElementById('formMessage');
+            msg.className = 'form-message';
+            msg.style.display = 'none';
+        }
+
+        /**
+         * Preenche o campo "Data Vigente" com a data atual formatada.
+         */
+        function preencherDataVigente() {
+            const hoje = new Date();
+            const dia = String(hoje.getDate()).padStart(2, '0');
+            const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+            const ano = hoje.getFullYear();
+            const horas = String(hoje.getHours()).padStart(2, '0');
+            const minutos = String(hoje.getMinutes()).padStart(2, '0');
+
+            const dataFormatada = `${dia}/${mes}/${ano} - ${horas}:${minutos}`;
+            document.getElementById('dataVigente').value = dataFormatada;
+        }
+
+        // Fechar modal ao clicar fora do conteúdo (no overlay)
+        document.getElementById('modalContato').addEventListener('click', function(e) {
+            if (e.target === this) {
+                fecharModal();
+            }
+        });
+
+        // Fechar modal com a tecla ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                fecharModal();
+            }
+        });
+
+        // ============================================
+        // ENVIO DO FORMULÁRIO VIA GOOGLE APPS SCRIPT
+        // ============================================
+
+        /**
+         * URL do endpoint do Google Apps Script para processamento do formulário.
+         * O script no GAS deve estar configurado para:
+         * 1. Receber os dados do formulário via POST
+         * 2. Converter o arquivo anexo de Base64 para Blob
+         * 3. Salvar o arquivo na pasta do Google Drive
+         * 4. Registrar todos os dados na Planilha Google vinculada
+         */
+        const URL_GAS = 'https://script.google.com/macros/s/AKfycbz1snLEUKWNo3whGFI90q8xzDPuWLPFYjGtvaD3saa050rBVRaoxkg1XiY8pPSWgyeg/exec';
+
+        /**
+         * Converte um arquivo (File) para string Base64.
+         * Retorna uma Promise com a string Base64 resultante.
+         * @param {File} arquivo - O arquivo a ser convertido
+         * @returns {Promise<string>} - String Base64 do arquivo
+         */
+        function converterArquivoParaBase64(arquivo) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = function() {
+                    // Remove o prefixo data:...;base64, do resultado
+                    const base64 = reader.result.split(',')[1];
+                    resolve(base64);
+                };
+                reader.onerror = function(error) {
+                    reject(error);
+                };
+                reader.readAsDataURL(arquivo);
+            });
+        }
+
+        /**
+         * Função principal de envio do formulário.
+         * Coleta os dados, converte o anexo para Base64 e envia via fetch POST.
+         * @param {Event} event - Evento de submit do formulário
+         */
         async function enviarFormulario(event) {
             event.preventDefault();
-            const btn = document.querySelector('.btn-enviar');
-            btn.innerText = "Enviando...";
-            const payload = {
-                dataVigente: document.getElementById('dataVigente').value, nick: document.getElementById('nick').value,
-                patente: document.getElementById('patente').value, tipoSolicitacao: document.getElementById('tipoSolicitacao').value,
-                descricao: document.getElementById('descricao').value, fileName: "", fileData: ""
-            };
-            const inputArquivo = document.getElementById('anexos');
-            if (inputArquivo.files.length > 0) {
-                const file = inputArquivo.files[0];
-                payload.fileName = file.name;
-                payload.fileData = await new Promise(r => { const reader = new FileReader(); reader.readAsDataURL(file); reader.onload = () => r(reader.result); });
+
+            // Elementos do DOM
+            const btnEnviar = document.getElementById('btnEnviar');
+            const formMessage = document.getElementById('formMessage');
+            const form = document.getElementById('formContato');
+
+            // Coletar dados dos campos
+            const nick = document.getElementById('nick').value.trim();
+            const patente = document.getElementById('patente').value;
+            const dataVigente = document.getElementById('dataVigente').value;
+            const motivo = document.getElementById('motivo').value;
+            const descricao = document.getElementById('descricao').value.trim();
+            const anexoInput = document.getElementById('anexo');
+
+            // Validação básica
+            if (!nick || !patente || !motivo || !descricao) {
+                exibirMensagem('Por favor, preencha todos os campos obrigatórios.', 'error');
+                return;
             }
+
+            // Ativar estado de loading no botão
+            btnEnviar.disabled = true;
+            btnEnviar.innerHTML = '<span class="spinner"></span> Enviando...';
+
             try {
-                await fetch("https://script.google.com/macros/s/AKfycbz1snLEUKWNo3whGFI90q8xzDPuWLPFYjGtvaD3saa050rBVRaoxkg1XiY8pPSWgyeg/exec", { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
-                alert("Enviado com sucesso!"); fecharFaleConosco(); document.getElementById('formFaleConosco').reset();
-            } catch (e) { alert("Erro ao enviar"); }
-            btn.innerText = "Enviar Solicitação";
+                // Preparar dados para envio
+                let dadosEnvio = {
+                    nick: nick,
+                    patente: patente,
+                    dataVigente: dataVigente,
+                    motivo: motivo,
+                    descricao: descricao
+                };
+
+                // Se houver anexo, converter para Base64
+                if (anexoInput.files && anexoInput.files[0]) {
+                    const arquivo = anexoInput.files[0];
+
+                    // Verificar tamanho (máximo 5MB)
+                    if (arquivo.size > 5 * 1024 * 1024) {
+                        exibirMensagem('O arquivo excede o tamanho máximo de 5MB.', 'error');
+                        restaurarBotao();
+                        return;
+                    }
+
+                    // Converter arquivo para Base64
+                    const arquivoBase64 = await converterArquivoParaBase64(arquivo);
+
+                    // Adicionar dados do arquivo ao payload
+                    dadosEnvio.arquivoNome = arquivo.name;
+                    dadosEnvio.arquivoTipo = arquivo.type;
+                    dadosEnvio.arquivoBase64 = arquivoBase64;
+                }
+
+                // Enviar dados via fetch POST para o Google Apps Script
+                const resposta = await fetch(URL_GAS, {
+                    method: 'POST',
+                    mode: 'no-cors', // Google Apps Script requer no-cors para deploy web
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dadosEnvio)
+                });
+
+                // Como usamos no-cors, não podemos ler a resposta diretamente
+                // Assumimos sucesso se não houve exceção no fetch
+                exibirMensagem('✅ Solicitação enviada com sucesso! Seu protocolo será analisado em breve.', 'success');
+
+                // Limpar formulário
+                form.reset();
+                preencherDataVigente(); // Re-preenche a data após reset
+
+            } catch (erro) {
+                console.error('Erro ao enviar formulário:', erro);
+                exibirMensagem('❌ Erro ao enviar solicitação. Verifique sua conexão e tente novamente.', 'error');
+            } finally {
+                // Restaurar botão independente do resultado
+                restaurarBotao();
+            }
         }
-        let slideIndex = 0;
-        function mudarSlide(n) { const slides = document.getElementById('slider'); slideIndex = (slideIndex + n + 3) % 3; slides.style.transform = `translateX(${-slideIndex * 100}%)`; }
-        setInterval(() => mudarSlide(1), 5000);
+
+        /**
+         * Exibe mensagem de feedback (sucesso ou erro) abaixo do botão.
+         * @param {string} texto - Texto da mensagem
+         * @param {string} tipo - 'success' ou 'error'
+         */
+        function exibirMensagem(texto, tipo) {
+            const msg = document.getElementById('formMessage');
+            msg.textContent = texto;
+            msg.className = 'form-message ' + tipo;
+            msg.style.display = 'block';
+
+            // Ocultar mensagem após 8 segundos
+            setTimeout(() => {
+                msg.style.display = 'none';
+            }, 8000);
+        }
+
+        /**
+         * Restaura o botão de envio ao estado original (sem loading).
+         */
+        function restaurarBotao() {
+            const btnEnviar = document.getElementById('btnEnviar');
+            btnEnviar.disabled = false;
+            btnEnviar.innerHTML = 'Enviar Solicitação';
+        }
+
+        // ============================================
+        // INICIALIZAÇÃO
+        // ============================================
+
+        // Preencher data vigente ao carregar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            preencherDataVigente();
+        });
     </script>
 </body>
 </html>
