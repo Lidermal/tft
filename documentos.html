@@ -1,0 +1,2173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentos - Tribunal de Fiscalização e Transparência</title>
+    <style>
+        /* ============================================
+           RESET E VARIÁVEIS GLOBAIS
+           ============================================ */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --amarelo: #FFD700;
+            --amarelo-escuro: #B8860B;
+            --preto: #0a0a0a;
+            --branco: #ffffff;
+            --azul: #1a3a6b;
+            --azul-escuro: #0d1f3c;
+            --bege: #f5f0e8;
+            --cinza: #666666;
+            --vermelho: #cc0000;
+            --verde: #28a745;
+            --fonte-principal: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--fonte-principal);
+            background-color: var(--bege);
+            color: var(--preto);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ============================================
+           CABEÇALHO FIXO - 3 COLUNAS
+           ============================================ */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: linear-gradient(135deg, var(--preto) 0%, var(--azul-escuro) 100%);
+            border-bottom: 2px solid var(--amarelo);
+            padding: 10px 30px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-left {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-login-membros {
+            background: linear-gradient(135deg, var(--verde) 0%, #1e7e34 100%);
+            color: var(--branco);
+            border: 2px solid var(--amarelo);
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-login-membros:hover {
+            background: var(--amarelo);
+            color: var(--preto);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .membro-logado {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            background: rgba(40, 167, 69, 0.2);
+            border: 2px solid var(--verde);
+            padding: 8px 15px;
+            border-radius: 25px;
+            color: var(--branco);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .membro-logado.ativo { display: flex; }
+
+        .membro-logado .avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--verde);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .membro-logado .btn-logout {
+            background: var(--vermelho);
+            color: var(--branco);
+            border: none;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            margin-left: 5px;
+            transition: all 0.3s;
+        }
+
+        .membro-logado .btn-logout:hover { background: #a71d2a; }
+
+        .header-center {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .header-center img {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+            border-radius: 8px;
+            filter: grayscale(100%) opacity(0.6);
+            transition: all 0.3s ease;
+        }
+
+        .header-center img:hover {
+            filter: grayscale(0%) opacity(1);
+            transform: scale(1.05);
+        }
+
+        .header-titles { text-align: center; }
+
+        .header-titles h1 {
+            font-size: 1.3rem;
+            color: var(--amarelo);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .header-titles p {
+            font-size: 0.8rem;
+            color: var(--branco);
+            opacity: 0.85;
+            letter-spacing: 0.5px;
+        }
+
+        .header-right {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            color: var(--branco);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--amarelo);
+            background-color: rgba(255, 215, 0, 0.1);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: var(--amarelo);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after { width: 80%; }
+
+        nav ul li a.ativo {
+            color: var(--amarelo);
+        }
+
+        nav ul li a.ativo::after { width: 80%; }
+
+        /* ============================================
+           HERO DA PÁGINA
+           ============================================ */
+        .hero-documentos {
+            margin-top: 75px;
+            min-height: 40vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--azul-escuro) 0%, var(--preto) 100%);
+            padding: 60px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-documentos::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+        }
+
+        .hero-documentos .breadcrumb {
+            position: relative;
+            z-index: 2;
+            color: var(--amarelo);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .hero-documentos .breadcrumb a {
+            color: var(--branco);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .hero-documentos .breadcrumb a:hover { color: var(--amarelo); }
+
+        .hero-documentos h1 {
+            font-size: 2.8rem;
+            color: var(--amarelo);
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-documentos .divider {
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--amarelo), transparent);
+            margin: 0 auto 20px;
+            border-radius: 2px;
+        }
+
+        .hero-documentos p {
+            font-size: 1.1rem;
+            color: var(--branco);
+            max-width: 700px;
+            position: relative;
+            z-index: 2;
+            opacity: 0.9;
+        }
+
+        /* ============================================
+           SEÇÃO DE DOCUMENTOS
+           ============================================ */
+        .documentos-section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .documentos-intro {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px;
+            background: var(--branco);
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .documentos-intro h2 {
+            font-size: 2rem;
+            color: var(--azul-escuro);
+            margin-bottom: 20px;
+        }
+
+        .documentos-intro p {
+            font-size: 1.05rem;
+            color: var(--cinza);
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .documentos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .documento-card {
+            background: var(--branco);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            border-top: 5px solid var(--amarelo);
+        }
+
+        .documento-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .documento-cover {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, var(--amarelo) 0%, var(--amarelo-escuro) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .documento-cover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></svg>') repeat;
+            opacity: 0.3;
+        }
+
+        .documento-cover img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            z-index: 1;
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+        }
+
+        .documento-content {
+            padding: 30px;
+        }
+
+        .documento-content h3 {
+            font-size: 1.3rem;
+            color: var(--azul-escuro);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .documento-content p {
+            color: var(--cinza);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .documento-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .documento-meta span {
+            background: var(--bege);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: var(--azul-escuro);
+            font-weight: 600;
+        }
+
+        .btn-abrir-documento {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--azul) 0%, var(--azul-escuro) 100%);
+            color: var(--branco);
+            border: 2px solid var(--amarelo);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-abrir-documento:hover {
+            background: var(--amarelo);
+            color: var(--preto);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        /* ============================================
+           MODAL LATERAL (SLIDE DA ESQUERDA)
+           ============================================ */
+        .modal-lateral {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 3000;
+            transition: left 0.4s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-lateral.ativo {
+            left: 0;
+        }
+
+        .modal-conteudo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 90%;
+            max-width: 900px;
+            height: 100%;
+            background: var(--branco);
+            box-shadow: 5px 0 30px rgba(0, 0, 0, 0.3);
+            overflow-y: auto;
+            transition: transform 0.4s ease;
+            transform: translateX(-100%);
+        }
+
+        .modal-lateral.ativo .modal-conteudo {
+            transform: translateX(0);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--amarelo) 0%, var(--amarelo-escuro) 100%);
+            padding: 30px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--azul-escuro);
+        }
+
+        .modal-header h2 {
+            color: var(--preto);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .btn-fechar-modal {
+            background: var(--preto);
+            color: var(--amarelo);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-fechar-modal:hover {
+            background: var(--vermelho);
+            color: var(--branco);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 40px;
+        }
+
+        .documento-texto {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--preto);
+        }
+
+        .documento-texto h1 {
+            font-size: 2rem;
+            color: var(--azul-escuro);
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--amarelo);
+        }
+
+        .documento-texto h2 {
+            font-size: 1.5rem;
+            color: var(--azul);
+            margin: 25px 0 15px;
+        }
+
+        .documento-texto h3 {
+            font-size: 1.2rem;
+            color: var(--azul-escuro);
+            margin: 20px 0 10px;
+        }
+
+        .documento-texto p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .documento-texto ul {
+            margin: 15px 0 15px 30px;
+        }
+
+        .documento-texto ul li {
+            margin-bottom: 8px;
+        }
+
+        .documento-texto strong {
+            color: var(--azul-escuro);
+        }
+
+        .capitulo {
+            background: var(--bege);
+            padding: 20px;
+            border-left: 4px solid var(--amarelo);
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .capitulo h3 {
+            color: var(--azul-escuro);
+            margin-bottom: 10px;
+        }
+
+        .artigo {
+            margin: 15px 0;
+            padding: 15px;
+            background: var(--branco);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .artigo strong {
+            color: var(--amarelo-escuro);
+        }
+
+        /* ============================================
+           RODAPÉ
+           ============================================ */
+        footer {
+            background-color: var(--preto);
+            border-top: 3px solid var(--azul);
+            padding: 50px 20px 0;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            color: var(--amarelo);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .footer-col p,
+        .footer-col a {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-col a:hover { color: var(--amarelo); }
+
+        .footer-col .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .footer-col .footer-logo img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            filter: grayscale(100%) opacity(0.6);
+            transition: all 0.3s ease;
+        }
+
+        .footer-col .footer-logo img:hover {
+            filter: grayscale(0%) opacity(1);
+        }
+
+        .footer-col .footer-logo span {
+            color: var(--branco);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
+        }
+
+        .footer-bottom p span {
+            color: var(--amarelo);
+            font-weight: 500;
+        }
+
+        /* ============================================
+           RESPONSIVIDADE
+           ============================================ */
+        @media (max-width: 900px) {
+            header {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 10px 15px;
+            }
+
+            .header-left,
+            .header-center,
+            .header-right { justify-content: center; }
+
+            nav ul {
+                gap: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .modal-conteudo { width: 100%; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-documentos h1 { font-size: 2rem; }
+            .hero-documentos p { font-size: 1rem; }
+
+            .documentos-grid { grid-template-columns: 1fr; }
+
+            .modal-header h2 { font-size: 1.2rem; }
+            .modal-body { padding: 20px; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-documentos h1 { font-size: 1.6rem; }
+            .documento-content h3 { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+         CABEÇALHO FIXO - 3 COLUNAS
+         ============================================ -->
+    <header>
+        <div class="header-left">
+            <button class="btn-login-membros" id="btnLoginMembros" onclick="abrirModalLoginMembros()">
+                <span class="icon">👤</span>
+                <span>Login TFT</span>
+            </button>
+            <div class="membro-logado" id="membroLogado">
+                <div class="avatar">👤</div>
+                <span id="membroNome">Membro</span>
+                <button class="btn-logout" onclick="fazerLogout()">Sair</button>
+            </div>
+        </div>
+
+        <div class="header-center">
+            <img src="img/tft.png" alt="Logo TFT" onerror="this.style.display='none'">
+            <div class="header-titles">
+                <h1>Tribunal de Fisc. e Transparência</h1>
+                <p>Diário Oficial - TFT | FEB®</p>
+            </div>
+        </div>
+
+        <div class="header-right">
+            <nav>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="membros.html">Membros</a></li>
+                    <li><a href="documentos.html" class="ativo">Documentos</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ============================================
+         HERO DA PÁGINA DOCUMENTOS
+         ============================================ -->
+    <section class="hero-documentos">
+        <div class="breadcrumb">
+            <a href="index.html">Início</a> / <span>Documentos</span>
+        </div>
+        <h1>Conheça Nossos Documentos</h1>
+        <div class="divider"></div>
+        <p>Documentos oficiais, manuais, regulamentos e procedimentos operacionais do Tribunal</p>
+    </section>
+
+    <!-- ============================================
+         SEÇÃO DE DOCUMENTOS
+         ============================================ -->
+    <section class="documentos-section">
+        <div class="documentos-intro">
+            <h2>Central de Documentação</h2>
+            <p>
+                Nesta seção encontram-se todos os documentos oficiais, manuais, regulamentos, procedimentos operacionais e materiais de consulta do Tribunal de Fiscalização e Transparência. Os documentos são atualizados periodicamente para garantir que os membros tenham acesso às informações mais recentes.
+            </p>
+        </div>
+
+        <div class="documentos-grid">
+            <!-- Documento 1: Livro de Conduta Interna e Finanças -->
+            <div class="documento-card">
+                <div class="documento-cover">
+                    <img src="img/capa.png" alt="Capa do Documento">
+                </div>
+                <div class="documento-content">
+                    <h3>[TFT] Livro de Conduta Interna e Finanças</h3>
+                    <p>Estabelece as normas administrativas, disciplinares, operacionais e financeiras do Tribunal, regulamentando a atuação de seus integrantes e os princípios de organização, fiscalização, ética e responsabilidade institucional.</p>
+                    <div class="documento-meta">
+                        <span>📋 Normativo</span>
+                        <span>📖 Conduta</span>
+                        <span>💰 Finanças</span>
+                    </div>
+                    <button class="btn-abrir-documento" onclick="abrirModal('livro-conduta')">
+                        📄 Abrir Documento
+                    </button>
+                </div>
+            </div>
+
+            <!-- Documento 2: Livro Normativo do Sistema Financeiro -->
+            <div class="documento-card">
+                <div class="documento-cover">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23FFD700' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M50 25 L50 55 M35 40 L50 55 L65 40' stroke='%23000' stroke-width='3' fill='none'/%3E%3C/svg%3E" alt="Capa do Documento">
+                </div>
+                <div class="documento-content">
+                    <h3>[TFT] Livro Normativo do Sistema Financeiro</h3>
+                    <p>Estabelece os princípios, normas, diretrizes, competências, procedimentos operacionais, mecanismos de fiscalização e padrões de integridade aplicáveis ao Sistema Financeiro do Tribunal.</p>
+                    <div class="documento-meta">
+                        <span>💵 Financeiro</span>
+                        <span>📊 Normativo</span>
+                        <span>🔍 Fiscalização</span>
+                    </div>
+                    <button class="btn-abrir-documento" onclick="abrirModal('livro-normativo')">
+                        📄 Abrir Documento
+                    </button>
+                </div>
+            </div>
+
+            <!-- Documento 3: Livro de Infrações Financeiras -->
+            <div class="documento-card">
+                <div class="documento-cover">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23FFD700' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M50 25 L50 55 M35 40 L50 55 L65 40' stroke='%23000' stroke-width='3' fill='none'/%3E%3C/svg%3E" alt="Capa do Documento">
+                </div>
+                <div class="documento-content">
+                    <h3>[TFT] Livro de Infrações Financeiras</h3>
+                    <p>Estabelece as infrações, responsabilidades e penalidades aplicáveis às atividades financeiras do TFT, visando garantir disciplina, integridade, transparência e segurança na administração dos recursos institucionais.</p>
+                    <div class="documento-meta">
+                        <span>⚠️ Infrações</span>
+                        <span>⚖️ Penalidades</span>
+                        <span>📋 Disciplina</span>
+                    </div>
+                    <button class="btn-abrir-documento" onclick="abrirModal('livro-infracoes')">
+                        📄 Abrir Documento
+                    </button>
+                </div>
+            </div>
+
+            <!-- Documento 4: Quadro de Reuniões Anual -->
+            <div class="documento-card">
+                <div class="documento-cover">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23FFD700' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M50 25 L50 55 M35 40 L50 55 L65 40' stroke='%23000' stroke-width='3' fill='none'/%3E%3C/svg%3E" alt="Capa do Documento">
+                </div>
+                <div class="documento-content">
+                    <h3>[TFT] Quadro de Reuniões Anual</h3>
+                    <p>Cronograma anual de reuniões setoriais do TFT, organizando oficialmente as reuniões internas dos setores vinculados ao Tribunal, visando alinhamento operacional, fiscalização administrativa e acompanhamento de metas.</p>
+                    <div class="documento-meta">
+                        <span>📅 Reuniões</span>
+                        <span>📆 Cronograma</span>
+                        <span>📋 Planejamento</span>
+                    </div>
+                    <button class="btn-abrir-documento" onclick="abrirModal('quadro-reunioes')">
+                        📄 Abrir Documento
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         MODAIS LATERAIS DOS DOCUMENTOS
+         ============================================ -->
+
+    <!-- Modal 1: Livro de Conduta Interna e Finanças -->
+    <div class="modal-lateral" id="modal-livro-conduta">
+        <div class="modal-conteudo">
+            <div class="modal-header">
+                <h2>📖 Livro de Conduta Interna e Finanças</h2>
+                <button class="btn-fechar-modal" onclick="fecharModal('livro-conduta')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="documento-texto">
+                    <div style="text-align: center; margin-bottom: 40px; padding: 40px; background: linear-gradient(135deg, #FFD700 0%, #B8860B 100%); border-radius: 10px;">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23000' stroke='%23FFD700' stroke-width='2'/%3E%3Cpath d='M50 25 L50 55 M35 40 L50 55 L65 40' stroke='%23FFD700' stroke-width='3' fill='none'/%3E%3C/svg%3E" alt="Logo TFT" style="width: 100px; height: 100px; margin-bottom: 20px;">
+                        <h1 style="color: #000; border: none; margin: 0;">TRIBUNAL DE FISCALIZAÇÃO E TRANSPARÊNCIA</h1>
+                        <h2 style="color: #000; margin: 10px 0 0 0;">LIVRO DE CONDUTA INTERNA E FINANÇAS</h2>
+                    </div>
+
+                    <p style="text-align: center; font-style: italic; margin-bottom: 40px; padding: 20px; background: #f5f0e8; border-radius: 8px;">
+                        O presente Livro de Conduta Interna e Finanças estabelece as normas administrativas, disciplinares, operacionais e financeiras do Tribunal de Fiscalização e Transparência, regulamentando a atuação de seus integrantes, bem como os princípios de organização, fiscalização, ética, responsabilidade institucional e sigilo funcional aplicáveis ao órgão.
+                    </p>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO I - DAS DISPOSIÇÕES INICIAIS</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 1º</strong> O presente Livro disciplina a organização, estrutura hierárquica, atribuições funcionais, áreas administrativas, procedimentos internos, metas institucionais, ingresso, promoções, normas disciplinares e responsabilidades administrativas do Tribunal de Fiscalização e Transparência.
+                            <br><br>
+                            O objetivo principal deste Regimento é garantir padronização administrativa, eficiência operacional, controle organizacional e transparência institucional em todas as atividades desempenhadas pelo órgão.
+                            <br><br>
+                            As normas previstas neste documento possuem caráter obrigatório para todos os integrantes do TFT, independentemente do cargo ocupado.
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 2º</strong> O Tribunal de Fiscalização e Transparência constitui órgão técnico-administrativo especializado na fiscalização institucional, controle financeiro, auditoria interna, análise documental, planejamento estratégico e supervisão operacional.
+                            <br><br>
+                            O TFT possui função preventiva, corretiva e fiscalizadora, buscando assegurar conformidade administrativa, integridade financeira e organização institucional.
+                            <br><br>
+                            Compete ao Tribunal:
+                            <ul>
+                                <li><strong>I – Garantir transparência administrativa:</strong> O Tribunal deverá assegurar que todas as movimentações financeiras, procedimentos internos e decisões administrativas ocorram de forma organizada, documentada e supervisionada.</li>
+                                <li><strong>II – Supervisionar movimentações financeiras:</strong> Toda entrada, saída, investimento ou movimentação econômica institucional poderá ser analisada pelo TFT.</li>
+                                <li><strong>III – Realizar auditorias internas:</strong> O órgão realizará auditorias preventivas e corretivas visando identificar irregularidades, inconsistências ou falhas administrativas.</li>
+                                <li><strong>IV – Elaborar planejamentos estratégicos:</strong> O Tribunal desenvolverá estudos, metas e projeções voltadas ao crescimento e estabilidade institucional.</li>
+                                <li><strong>V – Monitorar investimentos institucionais:</strong> Compete ao TFT supervisionar investimentos administrativos, garantindo responsabilidade financeira e organização econômica.</li>
+                                <li><strong>VI – Organizar prestações de contas:</strong> Todos os registros financeiros deverão possuir documentação, comprovação e organização administrativa adequada.</li>
+                                <li><strong>VII – Fiscalizar procedimentos administrativos:</strong> O órgão poderá supervisionar setores administrativos visando garantir conformidade institucional.</li>
+                                <li><strong>VIII – Auxiliar a Chefia-de-Estado em decisões estratégicas:</strong> O Tribunal poderá emitir pareceres técnicos, relatórios administrativos e análises institucionais.</li>
+                            </ul>
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 3º</strong> O TFT exercerá suas atividades observando os princípios da:
+                            <ul>
+                                <li>I – legalidade administrativa;</li>
+                                <li>II – ética institucional;</li>
+                                <li>III – responsabilidade financeira;</li>
+                                <li>IV – imparcialidade técnica;</li>
+                                <li>V – disciplina administrativa;</li>
+                                <li>VI – sigilo funcional;</li>
+                                <li>VII – transparência organizacional.</li>
+                            </ul>
+                            <em>Parágrafo Único:</em> O descumprimento desses princípios poderá ensejar responsabilização administrativa.
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO II - DA HIERARQUIA INSTITUCIONAL</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 4º</strong> A estrutura hierárquica do Tribunal de Fiscalização e Transparência será composta pelos seguintes cargos:
+                            <ul>
+                                <li>I – Diretor-Geral do TFT (Dir.TFT);</li>
+                                <li>II – Gerente do TFT (Ger.TFT);</li>
+                                <li>III – Coordenador do TFT (Coord.TFT);</li>
+                                <li>IV – Analista do TFT (An.TFT);</li>
+                                <li>V – Assistente do TFT (Ass.TFT).</li>
+                            </ul>
+                            A hierarquia institucional possui finalidade administrativa e organizacional, garantindo disciplina operacional, distribuição adequada de responsabilidades e eficiência no funcionamento do órgão.
+                            <br><br>
+                            Todos os membros deverão respeitar a cadeia hierárquica e cumprir determinações legais emitidas por superiores competentes.
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO III - DA DIRETORIA-GERAL</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 5º</strong> A Diretoria-Geral constitui o mais alto nível da hierarquia operacional do Tribunal de Fiscalização e Transparência.
+                            <br><br>
+                            O Diretor-Geral será responsável pela supervisão integral do órgão, administração das áreas internas, fiscalização institucional e tomada de decisões estratégicas relacionadas ao funcionamento do TFT.
+                            <br><br>
+                            Compete ao Diretor-Geral:
+                            <ul>
+                                <li><strong>I – Administrar integralmente o funcionamento do órgão:</strong> O Diretor deverá supervisionar o funcionamento geral do Tribunal, garantindo organização administrativa, produtividade operacional e cumprimento das normas internas.</li>
+                                <li><strong>II – Supervisionar todas as áreas internas:</strong> Compete à Diretoria acompanhar diretamente o desempenho das áreas de Planejamento, Auditoria, Contabilidade e Compras e Vendas.</li>
+                                <li><strong>III – Aprovar relatórios oficiais:</strong> Todos os relatórios administrativos produzidos pelo Tribunal deverão ser analisados e validados pela Diretoria antes de seu encaminhamento oficial.</li>
+                                <li><strong>IV – Autorizar auditorias extraordinárias:</strong> Sempre que houver suspeitas de irregularidades administrativas, financeiras ou operacionais, a Diretoria poderá determinar auditorias especiais.</li>
+                                <li><strong>V – Convocar reuniões administrativas:</strong> A Diretoria poderá convocar reuniões estratégicas para análise financeira, planejamento institucional e fiscalização de desempenho.</li>
+                                <li><strong>VI – Aplicar penalidades disciplinares:</strong> Compete à Diretoria aplicar advertências, suspensões, exonerações e demais medidas administrativas previstas neste Regimento.</li>
+                                <li><strong>VII – Autorizar investimentos institucionais:</strong> Nenhum investimento administrativo poderá ocorrer sem autorização superior da Diretoria.</li>
+                                <li><strong>VIII – Representar oficialmente o Tribunal:</strong> O Diretor-Geral representará oficialmente o TFT perante a Chefia-de-Estado e demais lideranças institucionais.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO IV - DA GERÊNCIA</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 6º</strong> Os Gerentes serão responsáveis pela administração direta das áreas internas do Tribunal.
+                            <br><br>
+                            A função gerencial possui caráter técnico e operacional, sendo responsável pela organização das equipes, fiscalização das atividades administrativas e acompanhamento das metas institucionais.
+                            <br><br>
+                            Compete aos Gerentes:
+                            <ul>
+                                <li><strong>I – Supervisionar Coordenadores e equipes:</strong> Os Gerentes deverão acompanhar continuamente o desempenho operacional das equipes sob sua responsabilidade.</li>
+                                <li><strong>II – Acompanhar produtividade setorial:</strong> Cada Gerência deverá monitorar resultados administrativos, metas internas e eficiência operacional.</li>
+                                <li><strong>III – Organizar metas administrativas:</strong> Os Gerentes deverão desenvolver objetivos setoriais visando crescimento organizacional e melhoria operacional.</li>
+                                <li><strong>IV – Elaborar relatórios operacionais:</strong> As Gerências deverão produzir relatórios contendo análises administrativas, financeiras e operacionais.</li>
+                                <li><strong>V – Prestar contas à Diretoria-Geral:</strong> Toda atividade relevante deverá ser formalmente comunicada à Diretoria.</li>
+                                <li><strong>VI – Fiscalizar cumprimento das normas internas:</strong> Os Gerentes deverão garantir que todos os membros cumpram este Regimento e demais manuais internos.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO V - DA COORDENAÇÃO</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 7º</strong> A Coordenação atuará como órgão intermediário entre a Gerência e as equipes técnicas do Tribunal.
+                            <br><br>
+                            Os Coordenadores serão responsáveis pela organização operacional diária, distribuição de demandas e acompanhamento da produtividade institucional.
+                            <br><br>
+                            Compete aos Coordenadores:
+                            <ul>
+                                <li><strong>I – Distribuir demandas técnicas:</strong> As atividades administrativas deverão ser organizadas e distribuídas entre Analistas e Assistentes.</li>
+                                <li><strong>II – Acompanhar desempenho operacional:</strong> Compete à Coordenação monitorar qualidade técnica, produtividade e cumprimento de prazos.</li>
+                                <li><strong>III – Supervisionar atividades diárias:</strong> Os Coordenadores deverão garantir organização operacional contínua.</li>
+                                <li><strong>IV – Auxiliar na organização administrativa:</strong> A Coordenação auxiliará diretamente a Gerência na administração institucional.</li>
+                                <li><strong>V – Orientar Analistas e Assistentes:</strong> Os Coordenadores deverão prestar suporte técnico e administrativo às equipes subordinadas.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO VI – DOS ANALISTAS E ASSISTENTES</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 8º</strong> Os Analistas exercerão funções técnicas especializadas relacionadas à fiscalização administrativa, análise financeira, auditoria interna, análise documental e controle operacional.
+                            <br><br>
+                            A atuação dos Analistas deverá ocorrer com imparcialidade, responsabilidade técnica, disciplina administrativa e rigor institucional.
+                            <br><br>
+                            Os Analistas poderão atuar nas seguintes áreas:
+                            <ul>
+                                <li><strong>I – Análise Financeira:</strong> Responsável pela verificação de movimentações econômicas, controle de gastos e análise de registros financeiros.</li>
+                                <li><strong>II – Auditoria Interna:</strong> Responsável pela fiscalização administrativa e identificação de irregularidades institucionais.</li>
+                                <li><strong>III – Prestação de Contas:</strong> Responsável pela organização, conferência e análise de registros financeiros oficiais.</li>
+                                <li><strong>IV – Análise Documental:</strong> Responsável pela verificação de documentos administrativos e conformidade institucional.</li>
+                                <li><strong>V – Padronização de Documentos:</strong> Responsável pela organização estrutural de documentos oficiais e procedimentos administrativos.</li>
+                            </ul>
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 9º</strong> Os Assistentes serão responsáveis pelo suporte operacional e administrativo do Tribunal.
+                            <br><br>
+                            Compete aos Assistentes:
+                            <ul>
+                                <li><strong>I – Organizar documentos internos:</strong> Os Assistentes deverão manter organização documental adequada.</li>
+                                <li><strong>II – Atualizar registros administrativos:</strong> Todos os registros internos deverão permanecer atualizados e organizados.</li>
+                                <li><strong>III – Auxiliar planilhas e controles:</strong> Compete aos Assistentes auxiliar atividades administrativas e financeiras.</li>
+                                <li><strong>IV – Prestar suporte operacional:</strong> Os Assistentes deverão auxiliar Coordenadores, Gerentes e Analistas no funcionamento diário do órgão.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO VII – DAS ÁREAS INTERNAS</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 10</strong> O Tribunal de Fiscalização e Transparência será dividido em áreas administrativas especializadas visando maior eficiência operacional.
+                            <br><br>
+                            As áreas internas serão:
+                        </div>
+
+                        <h3>SEÇÃO I – ÁREA DE PLANEJAMENTO</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 11</strong> A Área de Planejamento será responsável pela elaboração de estratégias financeiras, organizacionais e administrativas do Tribunal.
+                            <br><br>
+                            A área possui função essencial no crescimento institucional, atuando preventivamente na identificação de riscos financeiros e oportunidades estratégicas.
+                            <br><br>
+                            Compete à Área de Planejamento:
+                            <ul>
+                                <li>I – elaborar projeções financeiras;</li>
+                                <li>II – desenvolver metas administrativas;</li>
+                                <li>III – planejar investimentos institucionais;</li>
+                                <li>IV – monitorar arrecadações e despesas;</li>
+                                <li>V – desenvolver estudos estratégicos;</li>
+                                <li>VI – elaborar relatórios de crescimento institucional.</li>
+                            </ul>
+                            Todas as projeções deverão possuir fundamentação técnica e atualização periódica.
+                        </div>
+
+                        <h3>SEÇÃO II – ÁREA DE AUDITORIA</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 12</strong> A Área de Auditoria será responsável pela fiscalização administrativa, financeira e operacional da instituição.
+                            <br><br>
+                            As auditorias poderão possuir caráter preventivo, corretivo, investigativo ou extraordinário.
+                            <br><br>
+                            Compete à Área de Auditoria:
+                            <ul>
+                                <li>I – realizar auditorias internas;</li>
+                                <li>II – analisar documentos administrativos;</li>
+                                <li>III – fiscalizar movimentações financeiras;</li>
+                                <li>IV – identificar irregularidades;</li>
+                                <li>V – elaborar pareceres técnicos;</li>
+                                <li>VI – encaminhar irregularidades à Diretoria.</li>
+                            </ul>
+                            Nenhum setor poderá impedir auditoria devidamente autorizada.
+                        </div>
+
+                        <h3>SEÇÃO III – ÁREA CONTÁBIL</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 13</strong> A Área Contábil será responsável pelo controle financeiro oficial do Tribunal.
+                            <br><br>
+                            A administração contábil deverá observar rigor técnico, organização documental e absoluta transparência administrativa.
+                            <br><br>
+                            Compete à Área Contábil:
+                            <ul>
+                                <li>I – registrar movimentações financeiras;</li>
+                                <li>II – controlar entradas e saídas;</li>
+                                <li>III – organizar planilhas financeiras;</li>
+                                <li>IV – elaborar prestações de contas;</li>
+                                <li>V – supervisionar pagamentos;</li>
+                                <li>VI – controlar investimentos administrativos.</li>
+                            </ul>
+                            a) Os pagamentos institucionais ocorrerão semanalmente.<br>
+                            b) O Gerente Contábil será responsável pela prestação de contas perante a Diretoria-Geral.<br>
+                            c) Toda movimentação financeira deverá possuir comprovação documental formal.
+                        </div>
+
+                        <h3>SEÇÃO IV – ÁREA DE COMPRAS E VENDAS</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 14</strong> A Área de Compras e Vendas será responsável pela administração comercial institucional.
+                            <br><br>
+                            Compete à Área:
+                            <ul>
+                                <li>I – administrar compras institucionais;</li>
+                                <li>II – realizar negociações autorizadas;</li>
+                                <li>III – acompanhar investimentos comerciais;</li>
+                                <li>IV – registrar aquisições;</li>
+                                <li>V – elaborar relatórios comerciais;</li>
+                                <li>VI – controlar fluxo de compras.</li>
+                            </ul>
+                            Nenhuma compra poderá ocorrer sem autorização superior.
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO VIII – DAS METAS E REUNIÕES</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 15</strong> O Tribunal possuirá metas administrativas permanentes voltadas ao fortalecimento institucional.
+                            <br><br>
+                            Constituem objetivos prioritários do TFT:
+                            <ul>
+                                <li><strong>I – Fortalecimento da transparência administrativa:</strong> Garantir clareza, organização e responsabilidade em todos os procedimentos internos.</li>
+                                <li><strong>II – Redução de desperdícios financeiros:</strong> Controlar despesas administrativas e promover utilização eficiente dos recursos.</li>
+                                <li><strong>III – Ampliação da eficiência operacional:</strong> Melhorar produtividade, organização e desempenho técnico.</li>
+                                <li><strong>IV – Crescimento organizacional:</strong> Promover fortalecimento estrutural e desenvolvimento institucional.</li>
+                                <li><strong>V – Sustentabilidade financeira:</strong> Garantir estabilidade econômica e equilíbrio administrativo.</li>
+                                <li><strong>VI – Aprimoramento dos sistemas de controle:</strong> Desenvolver mecanismos mais eficientes de fiscalização institucional.</li>
+                            </ul>
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 16</strong> O Tribunal realizará reuniões periódicas com Superintendentes e lideranças administrativas.
+                            <br><br>
+                            As reuniões terão como finalidade:
+                            <ul>
+                                <li>I – análise financeira;</li>
+                                <li>II – planejamento estratégico;</li>
+                                <li>III – distribuição de investimentos;</li>
+                                <li>IV – fiscalização de resultados;</li>
+                                <li>V – organização operacional;</li>
+                                <li>VI – avaliação administrativa.</li>
+                            </ul>
+                            O valor base destinado para investimentos administrativos será de R$150,00 mensais, podendo sofrer alterações mediante autorização superior.
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO IX – DA CONDUTA E DISCIPLINA</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 17</strong> Todos os membros do Tribunal deverão manter postura ética, profissional e compatível com suas funções.
+                            <br><br>
+                            São deveres dos membros:
+                            <ul>
+                                <li>I – respeitar a hierarquia institucional;</li>
+                                <li>II – agir com imparcialidade;</li>
+                                <li>III – preservar sigilo administrativo;</li>
+                                <li>IV – cumprir ordens legais;</li>
+                                <li>V – proteger informações internas;</li>
+                                <li>VI – agir com responsabilidade institucional.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO X – DOS CRIMES ADMINISTRATIVOS</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 18</strong> Constituem crimes administrativos graves:
+                            <ul>
+                                <li><strong>I – Vazamento de informações sigilosas:</strong> Divulgação não autorizada de relatórios, auditorias, documentos ou registros internos.</li>
+                                <li><strong>II – Fraude documental:</strong> Alteração ou falsificação indevida de documentos institucionais.</li>
+                                <li><strong>III – Corrupção administrativa:</strong> Utilização do cargo para obtenção de vantagens indevidas.</li>
+                                <li><strong>IV – Manipulação financeira:</strong> Alteração irregular de registros financeiros ou prestações de contas.</li>
+                                <li><strong>V – Utilização indevida do cargo:</strong> Uso da função institucional para favorecimento próprio ou de terceiros.</li>
+                                <li><strong>VI – Ocultação de irregularidades:</strong> Omissão proposital de informações relevantes durante fiscalizações.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO XI – DAS PENALIDADES</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 19</strong> As penalidades administrativas aplicáveis aos integrantes do TFT serão:
+                            <ul>
+                                <li>I – Advertência verbal: Aplicada em infrações leves.</li>
+                                <li>II – Advertência formal: Aplicada mediante registro administrativo oficial.</li>
+                                <li>III – Suspensão: Afastamento temporário das funções institucionais.</li>
+                                <li>IV – Afastamento cautelar: Medida preventiva aplicada durante investigações.</li>
+                                <li>V – Exoneração: Remoção definitiva do cargo ocupado.</li>
+                                <li>VI – Exclusão definitiva: Desligamento permanente do Tribunal em casos gravíssimos.</li>
+                            </ul>
+                            A penalidade observará gravidade da infração, reincidência, prejuízo institucional causado e histórico funcional do membro.
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 20</strong> Todos os integrantes do Tribunal de Fiscalização e Transparência ficam sujeitos às normas previstas neste Regimento Interno.
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 21</strong> Os casos omissos serão analisados pela Diretoria-Geral juntamente à Chefia-de-Estado.
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 40px; padding: 30px; background: #f5f0e8; border-radius: 8px;">
+                        <p style="font-style: italic; margin: 0;">
+                            <strong>Este Livro de Conduta possui seus créditos destinados ao Tribunal de Fiscalização e Transparência</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2: Livro Normativo do Sistema Financeiro -->
+    <div class="modal-lateral" id="modal-livro-normativo">
+        <div class="modal-conteudo">
+            <div class="modal-header">
+                <h2>📖 Livro Normativo do Sistema Financeiro</h2>
+                <button class="btn-fechar-modal" onclick="fecharModal('livro-normativo')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="documento-texto">
+                    <div style="text-align: center; margin-bottom: 40px; padding: 40px; background: linear-gradient(135deg, #FFD700 0%, #B8860B 100%); border-radius: 10px;">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23000' stroke='%23FFD700' stroke-width='2'/%3E%3Cpath d='M50 25 L50 55 M35 40 L50 55 L65 40' stroke='%23FFD700' stroke-width='3' fill='none'/%3E%3C/svg%3E" alt="Logo TFT" style="width: 100px; height: 100px; margin-bottom: 20px;">
+                        <h1 style="color: #000; border: none; margin: 0;">TRIBUNAL DE FISCALIZAÇÃO E TRANSPARÊNCIA</h1>
+                        <h2 style="color: #000; margin: 10px 0 0 0;">LIVRO NORMATIVO DO SISTEMA FINANCEIRO</h2>
+                    </div>
+
+                    <p style="text-align: center; font-style: italic; margin-bottom: 40px; padding: 20px; background: #f5f0e8; border-radius: 8px;">
+                        O presente Livro Normativo do Sistema Financeiro estabelece os princípios, normas, diretrizes, competências, procedimentos operacionais, mecanismos de fiscalização e padrões de integridade aplicáveis ao Tribunal de Fiscalização e Transparência.
+                    </p>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO I - DAS DISPOSIÇÕES PRELIMINARES</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 1º</strong> O presente Livro regula oficialmente as práticas de administração financeira, registro contábil, controle de recursos, auditoria institucional e prestação de contas do Sistema Financeiro do Tribunal de Conduta Militar.
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 2º</strong> Todos os membros do Sistema Financeiro possuem obrigação funcional de:
+                            <ul>
+                                <li>I – preservar a integridade dos registros financeiros;</li>
+                                <li>II – executar corretamente os procedimentos administrativos;</li>
+                                <li>III – manter organização documental adequada;</li>
+                                <li>IV – garantir a veracidade das informações registradas;</li>
+                                <li>V – cumprir os prazos estabelecidos pela Gestão do TCM;</li>
+                                <li>VI – colaborar com processos de auditoria, sindicância ou fiscalização.</li>
+                            </ul>
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 3º</strong> Qualquer ato que viole as normas previstas neste Livro sujeitará o responsável às penalidades administrativas, disciplinares e institucionais previstas no Regimento Interno do TCM e demais normas complementares.
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO II - DOS PRINCÍPIOS FINANCEIROS INSTITUCIONAIS</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 4º</strong> O Sistema Financeiro reger-se-á pelos seguintes princípios fundamentais:
+                            <ul>
+                                <li><strong>I – Legalidade:</strong> Todas as operações financeiras deverão observar rigorosamente as normas internas, regulamentos institucionais e determinações da Gestão do TCT.</li>
+                                <li><strong>II – Transparência:</strong> Todo registro financeiro deverá permanecer acessível às autoridades competentes, respeitando os níveis de acesso e sigilo institucional.</li>
+                                <li><strong>III – Rastreabilidade:</strong> Toda movimentação financeira deverá possuir identificação de origem, justificativa, responsável e documentação comprobatória.</li>
+                                <li><strong>IV – Integridade:</strong> Fica vedada qualquer adulteração, ocultação, exclusão irregular ou manipulação de dados financeiros, relatórios ou registros contábeis.</li>
+                                <li><strong>V – Eficiência Administrativa:</strong> Os setores financeiros deverão utilizar métodos organizacionais padronizados, visando otimização operacional e segurança de dados.</li>
+                                <li><strong>VI – Prestação de Contas:</strong> Toda atividade financeira deverá estar sujeita à fiscalização contínua e à emissão periódica de relatórios oficiais.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO III - DA ESTRUTURA ORGANIZACIONAL DO SISTEMA FINANCEIRO</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 5º</strong> O Sistema Financeiro será composto pelas seguintes áreas institucionais:
+                            <ul>
+                                <li>I – Área de Planejamento;</li>
+                                <li>II – Área de Auditoria;</li>
+                                <li>III – Área Contábil;</li>
+                                <li>IV – Área de Compras e Vendas.</li>
+                            </ul>
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 6º</strong> Cada área possuirá competências específicas, responsabilidades próprias e subordinação hierárquica definida pela Diretoria-Geral do Tribunal.
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO IV - DAS COMPETÊNCIAS DAS ÁREAS FINANCEIRAS</h3>
+                        
+                        <h3>SEÇÃO I – ÁREA DE PLANEJAMENTO</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 7º</strong> A Área de Planejamento será responsável pela elaboração de estratégias financeiras, administrativas e organizacionais do Tribunal, atuando preventivamente na identificação de riscos financeiros, crescimento institucional e desenvolvimento estratégico.
+                            <br><br>
+                            Compete à Área de Planejamento:
+                            <ul>
+                                <li>I – elaborar projeções financeiras;</li>
+                                <li>II – desenvolver metas administrativas;</li>
+                                <li>III – planejar investimentos institucionais;</li>
+                                <li>IV – monitorar arrecadações e despesas;</li>
+                                <li>V – desenvolver estudos estratégicos;</li>
+                                <li>VI – elaborar relatórios de crescimento institucional.</li>
+                            </ul>
+                            <strong>Parágrafo único.</strong> Todas as projeções deverão possuir fundamentação técnica, atualização periódica e compatibilidade com as diretrizes institucionais do TCM.
+                        </div>
+
+                        <h3>SEÇÃO II - DA ÁREA DE AUDITORIA</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 8º</strong> A Área de Auditoria será responsável pela fiscalização administrativa, financeira e operacional da instituição.
+                            <br><br>
+                            <strong>§1º</strong> As auditorias poderão possuir caráter:
+                            <ul>
+                                <li>I – preventivo;</li>
+                                <li>II – corretivo;</li>
+                                <li>III – investigativo;</li>
+                                <li>IV – extraordinário.</li>
+                            </ul>
+                            <strong>§2º</strong> Compete à Área de Auditoria:
+                            <ul>
+                                <li>I – realizar auditorias internas;</li>
+                                <li>II – analisar documentos administrativos;</li>
+                                <li>III – fiscalizar movimentações financeiras;</li>
+                                <li>IV – identificar irregularidades;</li>
+                                <li>V – elaborar pareceres técnicos;</li>
+                                <li>VI – encaminhar irregularidades à Diretoria.</li>
+                            </ul>
+                            <strong>§3º</strong> Nenhum setor, cargo ou agente institucional poderá impedir auditoria devidamente autorizada pela Diretoria-Geral ou autoridade competente.
+                        </div>
+
+                        <h3>SEÇÃO III - DA ÁREA CONTÁBIL</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 9º</strong> A Área Contábil será responsável pelo controle financeiro oficial do Tribunal.
+                            <br><br>
+                            <strong>§1º</strong> A administração contábil deverá observar rigor técnico, organização documental, segurança dos registros e absoluta transparência administrativa.
+                            <br><br>
+                            <strong>§2º</strong> Compete à Área Contábil:
+                            <ul>
+                                <li>I – registrar movimentações financeiras;</li>
+                                <li>II – controlar entradas e saídas;</li>
+                                <li>III – organizar planilhas financeiras;</li>
+                                <li>IV – elaborar prestações de contas;</li>
+                                <li>V – supervisionar pagamentos;</li>
+                                <li>VI – controlar investimentos administrativos.</li>
+                            </ul>
+                            <strong>§3º</strong> Os pagamentos institucionais ocorrerão semanalmente, conforme cronograma oficial estabelecido pela Diretoria.<br>
+                            <strong>§4º</strong> O Gerente Contábil será responsável pela prestação de contas perante a Diretoria-Geral.<br>
+                            <strong>§5º</strong> Toda movimentação financeira deverá possuir comprovação documental formal, devidamente registrada nos sistemas oficiais do Tribunal.
+                        </div>
+
+                        <h3>SEÇÃO IV - DA ÁREA DE COMPRAS E VENDAS</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 10</strong> A Área de Compras e Vendas será responsável pela administração comercial institucional.
+                            <br><br>
+                            Compete à Área:
+                            <ul>
+                                <li>I – administrar compras institucionais;</li>
+                                <li>II – realizar negociações autorizadas;</li>
+                                <li>III – acompanhar investimentos comerciais;</li>
+                                <li>IV – registrar aquisições;</li>
+                                <li>V – elaborar relatórios comerciais;</li>
+                                <li>VI – controlar o fluxo de compras institucionais.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO V - DAS NORMAS DE REGISTRO FINANCEIRO</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 11</strong> Todo registro financeiro deverá conter obrigatoriamente:
+                            <ul>
+                                <li>I – data;</li>
+                                <li>II – responsável;</li>
+                                <li>III – justificativa;</li>
+                                <li>IV – valor;</li>
+                                <li>V – comprovação documental.</li>
+                            </ul>
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 12</strong> Nenhuma movimentação financeira poderá ocorrer sem registro prévio nos sistemas oficiais do TFT.
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 13</strong> É expressamente proibida a exclusão de registros financeiros oficiais, permitindo-se apenas correções mediante protocolo formal de ajuste.
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 14</strong> Todo pagamento deverá possuir memória de cálculo e relatório comprobatório.
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 15</strong> Os registros deverão seguir exclusivamente os modelos oficiais padronizados pelo Sistema Financeiro.
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO VI - DO REGISTRO DE ATIVIDADES REMUNERADAS</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 16</strong> O sistema remuneratório observará os seguintes critérios:
+                            <ul>
+                                <li>I – Soldo Fixo;</li>
+                                <li>II – Pontos de bonificações;</li>
+                                <li>III – Adicionais de Ranking.</li>
+                            </ul>
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 17</strong> As atividades deverão ser registradas obrigatoriamente nas seguintes planilhas:
+                            <ul>
+                                <li>I – Planilha de Registro de Funções;</li>
+                                <li>II – Planilha de Registro de Aulas;</li>
+                                <li>III – Planilha Consolidada da Folha Mensal.</li>
+                            </ul>
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 18</strong> Todo agente financeiro deverá possuir identificação institucional única.
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 19</strong> A consolidação final da folha de pagamento competirá à Área Contábil.
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO VII - DA POLÍTICA DE INVESTIMENTOS</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 20</strong> Os aportes financeiros deverão ser registrados oficialmente no Livro de Investimentos.
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 21</strong> O controle de investimentos deverá conter:
+                            <ul>
+                                <li>I – valor aportado;</li>
+                                <li>II – rentabilidade mensal;</li>
+                                <li>III – percentual de lucro;</li>
+                                <li>IV – perdas registradas;</li>
+                                <li>V – reinvestimentos realizados.</li>
+                            </ul>
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 22</strong> Os demonstrativos financeiros deverão integrar obrigatoriamente o relatório mensal do Sistema Financeiro.
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO VIII - DO FLUXO DE CAIXA INSTITUCIONAL</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 23</strong> O fluxo de caixa deverá observar:
+                            <ul>
+                                <li>I – registro diário de entradas e saídas;</li>
+                                <li>II – classificação contábil das operações;</li>
+                                <li>III – consolidação semanal obrigatória;</li>
+                                <li>IV – relatório comparativo mensal;</li>
+                                <li>V – análise anual de desempenho financeiro.</li>
+                            </ul>
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 24</strong> As operações financeiras serão classificadas em:
+                            <ul>
+                                <li>I – receitas internas;</li>
+                                <li>II – receitas externas;</li>
+                                <li>III – pagamentos;</li>
+                                <li>IV – investimentos;</li>
+                                <li>V – custos operacionais.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO IX - DO RELATÓRIO FINANCEIRO MENSAL</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 25</strong> O Relatório Financeiro Mensal deverá conter obrigatoriamente:
+                            <ul>
+                                <li>I – saldo inicial;</li>
+                                <li>II – receita total;</li>
+                                <li>III – despesas totais;</li>
+                                <li>IV – pagamentos efetuados;</li>
+                                <li>V – investimentos realizados;</li>
+                                <li>VI – saldo final;</li>
+                                <li>VII – gráficos e indicadores;</li>
+                                <li>VIII – parecer técnico;</li>
+                                <li>IX – anexos documentais oficiais.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO X - DAS PENALIDADES ADMINISTRATIVAS</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 26</strong> Constituem penalidades aplicáveis no âmbito do Sistema Financeiro:
+                            <ul>
+                                <li>I – Advertência Formal;</li>
+                                <li>II – Suspensão das Funções Financeiras;</li>
+                                <li>III – Destituição do Cargo Financeiro;</li>
+                                <li>IV – Encaminhamento ao Tribunal de Conduta Militar.</li>
+                            </ul>
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 27</strong> Serão consideradas infrações graves:
+                            <ul>
+                                <li>I – manipulação indevida de registros;</li>
+                                <li>II – ocultação de dados;</li>
+                                <li>III – falsificação documental;</li>
+                                <li>IV – fraude financeira;</li>
+                                <li>V – desvio de recursos;</li>
+                                <li>VI – omissão deliberada de informações.</li>
+                            </ul>
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 28</strong> Toda penalidade deverá ser registrada oficialmente em ata, relatório ou procedimento administrativo correspondente.
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO XI - DO PROCESSO DE AUDITORIA</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 29</strong> As auditorias financeiras classificam-se em:
+                            <ul>
+                                <li>I – Auditoria Ordinária;</li>
+                                <li>II – Auditoria Extraordinária;</li>
+                                <li>III – Auditoria Anual Completa.</li>
+                            </ul>
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 30</strong> O relatório de auditoria deverá conter:
+                            <ul>
+                                <li>I – metodologia utilizada;</li>
+                                <li>II – inconsistências encontradas;</li>
+                                <li>III – parecer técnico;</li>
+                                <li>IV – recomendações administrativas;</li>
+                                <li>V – prazo para regularização;</li>
+                                <li>VI – assinatura dos auditores responsáveis.</li>
+                            </ul>
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 31</strong> A Área de Auditoria poderá recomendar:
+                            <ul>
+                                <li>I – abertura de sindicância;</li>
+                                <li>II – instauração de investigação administrativa;</li>
+                                <li>III – afastamento cautelar de responsáveis;</li>
+                                <li>IV – encaminhamento ao Tribunal.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO XII - DAS DISPOSIÇÕES FINAIS</h3>
+                        
+                        <div class="artigo">
+                            <strong>Art. 32</strong> É terminantemente proibido qualquer ato que comprometa a integridade, autenticidade ou segurança dos registros financeiros institucionais.
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 33</strong> A Gestão do Tribunal poderá atualizar, revisar ou complementar este Livro mediante aprovação administrativa oficial.
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 34</strong> Os casos omissos serão resolvidos pela Presidência do TCM, observando o Regimento Interno e os princípios institucionais.
+                        </div>
+
+                        <div class="artigo">
+                            <strong>Art. 35</strong> Este Livro entra em vigor imediatamente na data de sua publicação oficial.
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 40px; padding: 30px; background: #f5f0e8; border-radius: 8px;">
+                        <p style="font-style: italic; margin: 0;">
+                            <strong>Este Livro de Conduta possui seus créditos destinados ao Tribunal de Fiscalização e Transparência</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3: Livro de Infrações Financeiras -->
+    <div class="modal-lateral" id="modal-livro-infracoes">
+        <div class="modal-conteudo">
+            <div class="modal-header">
+                <h2>📖 Livro de Infrações Financeiras</h2>
+                <button class="btn-fechar-modal" onclick="fecharModal('livro-infracoes')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="documento-texto">
+                    <div style="text-align: center; margin-bottom: 40px; padding: 40px; background: linear-gradient(135deg, #FFD700 0%, #B8860B 100%); border-radius: 10px;">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23000' stroke='%23FFD700' stroke-width='2'/%3E%3Cpath d='M50 25 L50 55 M35 40 L50 55 L65 40' stroke='%23FFD700' stroke-width='3' fill='none'/%3E%3C/svg%3E" alt="Logo TFT" style="width: 100px; height: 100px; margin-bottom: 20px;">
+                        <h1 style="color: #000; border: none; margin: 0;">TRIBUNAL DE FISCALIZAÇÃO E TRANSPARÊNCIA</h1>
+                        <h2 style="color: #000; margin: 10px 0 0 0;">LIVRO DE INFRAÇÕES FINANCEIRAS</h2>
+                    </div>
+
+                    <p style="text-align: center; font-style: italic; margin-bottom: 40px; padding: 20px; background: #f5f0e8; border-radius: 8px;">
+                        O presente Livro de Infrações Financeiras estabelece as infrações, responsabilidades e penalidades aplicáveis às atividades financeiras do TFT, visando garantir disciplina, integridade, transparência e segurança na administração dos recursos institucionais.
+                    </p>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO I - ÂMBITO DE APLICAÇÃO</h3>
+                        
+                        <div class="artigo">
+                            As penalidades aqui previstas aplicam-se a todos os militares que atuem direta ou indiretamente em:
+                            <ul>
+                                <li>• Tribunal de Contas Militar (TFT);</li>
+                                <li>• Turnos e Tarefas;</li>
+                                <li>• System e Sistemas internos de registro;</li>
+                                <li>• Processos de folha de pagamento;</li>
+                                <li>• Processos de auditoria;</li>
+                                <li>• Gestão de câmbios relacionados à remuneração, compras, contratos ou investimentos.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO III - CLASSIFICAÇÃO DAS INFRAÇÕES FINANCEIRAS</h3>
+                        
+                        <h3>3.1 Infrações Leves (Financeiras Operacionais)</h3>
+                        
+                        <div class="artigo">
+                            São falhas que prejudicam temporariamente o fluxo financeiro, sem causar danos diretos à instituição.
+                            <br><br>
+                            <strong>Exemplos:</strong>
+                            <ul>
+                                <li>I – atrasos na atualização de planilhas financeiras;</li>
+                                <li>II – registro incompleto de pagamentos ou entradas;</li>
+                                <li>III – erros simples de preenchimento que não alterem valores finais;</li>
+                                <li>IV – perda de prazos internos sem impacto material.</li>
+                            </ul>
+                            <strong>Penalidades possíveis:</strong>
+                            <ul>
+                                <li>I – advertência verbal;</li>
+                                <li>II – orientação técnica obrigatória;</li>
+                                <li>III – registro interno de acompanhamento.</li>
+                            </ul>
+                        </div>
+
+                        <h3>3.2 Infrações Moderadas (Irregularidades de Registro)</h3>
+                        
+                        <div class="artigo">
+                            São ações que afetam o controle financeiro institucional, exigindo intervenção corretiva.
+                            <br><br>
+                            <strong>Exemplos:</strong>
+                            <ul>
+                                <li>I – falta de registro de aulas, horas de base ou entradas;</li>
+                                <li>II – alteração não autorizada de informações em planilhas;</li>
+                                <li>III – falha na conferência de dados financeiros antes do envio de relatórios;</li>
+                                <li>IV – desorganização na guarda de documentos comprobatórios.</li>
+                            </ul>
+                            <strong>Penalidades possíveis:</strong>
+                            <ul>
+                                <li>I – advertência escrita;</li>
+                                <li>II – suspensão de atividades financeiras por até 48 horas;</li>
+                                <li>III – repetição obrigatória de treinamentos internos.</li>
+                            </ul>
+                        </div>
+
+                        <h3>3.3 Infrações Graves (Comprometimento do Controle Interno)</h3>
+                        
+                        <div class="artigo">
+                            São infrações que afetam diretamente o patrimônio financeiro e a integridade administrativa a FEB/TFT.
+                            <br><br>
+                            <strong>Exemplos:</strong>
+                            <ul>
+                                <li>I – manipulação intencional de dados para favorecer equipes ou indivíduos;</li>
+                                <li>II – registro de horas, aulas ou pontos inexistentes;</li>
+                                <li>III – realização de repasses sem autorização superior;</li>
+                                <li>IV – negligência grave em verificações e conferências;</li>
+                                <li>V – recusa em prestar informações ao setor de auditoria.</li>
+                            </ul>
+                            <strong>Penalidades possíveis:</strong>
+                            <ul>
+                                <li>I – suspensão;</li>
+                                <li>II – corte proporcional da remuneração;</li>
+                                <li>III – retirada temporária do cargo;</li>
+                                <li>IV – abertura de processo disciplinar financeiro.</li>
+                            </ul>
+                        </div>
+
+                        <h3>3.4 Infrações Gravíssimas (Fraude e Condutas Dolosas)</h3>
+                        
+                        <div class="artigo">
+                            São infrações que atentam contra a integridade institucional e podem gerar prejuízos financeiros diretos a FEB/TFT.
+                            <br><br>
+                            <strong>Exemplos:</strong>
+                            <ul>
+                                <li>I – tentativa ou prática de fraude em câmbios ou pagamentos;</li>
+                                <li>II – ocultação de informações financeiras;</li>
+                                <li>III – alteração de documentos oficiais;</li>
+                                <li>IV – utilização de recursos institucionais para fins pessoais;</li>
+                                <li>V – apagamento, adulteração ou destruição de registros financeiros;</li>
+                                <li>VI – realização de compras ou vendas institucionais sem documentação obrigatória.</li>
+                            </ul>
+                            <strong>Penalidades possíveis:</strong>
+                            <ul>
+                                <li>I – rebaixamento imediato;</li>
+                                <li>II – desligamento da instituição;</li>
+                                <li>III – bloqueio definitivo do acesso aos sistemas financeiros;</li>
+                                <li>IV – encaminhamento para análise superior visando aplicação de sanções extraordinárias.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO IV - PROCEDIMENTO DE APLICAÇÃO DAS PENALIDADES</h3>
+                        
+                        <h3>4.1 Registro Inicial da Ocorrência</h3>
+                        
+                        <div class="artigo">
+                            Toda irregularidade financeira deverá ser registrada em documento oficial contendo:
+                            <ul>
+                                <li>I – descrição detalhada;</li>
+                                <li>II – evidências;</li>
+                                <li>III – valores envolvidos;</li>
+                                <li>IV – sistema ou planilha afetada;</li>
+                                <li>V – impactos gerados;</li>
+                                <li>VI – responsáveis diretos e indiretos.</li>
+                            </ul>
+                        </div>
+
+                        <h3>4.2 Análise Técnica Preliminar</h3>
+                        
+                        <div class="artigo">
+                            O TCM realizará a verificação inicial da ocorrência, podendo solicitar:
+                            <ul>
+                                <li>I – prints do System;</li>
+                                <li>II – registros da planilha do CTO;</li>
+                                <li>III – comprovantes de transações;</li>
+                                <li>IV – histórico da folha;</li>
+                                <li>V – relatórios do setor envolvido.</li>
+                            </ul>
+                        </div>
+
+                        <h3>4.3 Parecer Financeiro</h3>
+                        
+                        <div class="artigo">
+                            O parecer classificará a infração, definirá penalidades e recomendará ajustes preventivos.
+                        </div>
+
+                        <h3>4.4 Direito de Defesa</h3>
+                        
+                        <div class="artigo">
+                            O militar envolvido poderá apresentar defesa dentro de 48 horas.
+                        </div>
+
+                        <h3>4.5 Homologação</h3>
+                        
+                        <div class="artigo">
+                            A Diretoria Financeira ou a Direção-Geral do GRM decide a penalidade final.
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO V - CRITÉRIOS DE AGRAVAMENTO</h3>
+                        
+                        <div class="artigo">
+                            Serão considerados agravantes:
+                            <ul>
+                                <li>I – reincidência em infrações financeiras;</li>
+                                <li>II – manipulação de dados para benefício próprio;</li>
+                                <li>III – descumprimento deliberado de procedimentos oficiais;</li>
+                                <li>IV – tentativa de enganar ou dificultar auditorias;</li>
+                                <li>V – envolvimento de terceiros para ocultação de irregularidades.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO VI - REGRAS ESSENCIAIS</h3>
+                        
+                        <div class="artigo">
+                            <ul>
+                                <li>I – todo registro financeiro deverá possuir base documental verificável;</li>
+                                <li>II – não será permitida movimentação de valores sem autorização do Gerente Financeiro;</li>
+                                <li>III – nenhum investimento poderá ser executado sem documentação prévia;</li>
+                                <li>IV – toda movimentação envolvendo câmbios deverá ser rastreável;</li>
+                                <li>V – fica proibida qualquer movimentação paralela à Folha de Pagamento oficial;</li>
+                                <li>VI – alterações em planilhas somente poderão ser realizadas por membros autorizados;</li>
+                                <li>VII – falhas de registro deverão ser comunicadas imediatamente ao TFT;</li>
+                                <li>VIII – ocorrências envolvendo pagamentos do TFT deverão ser verificadas mediante registro no formulário oficial de alistamentos e vendas.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>CAPÍTULO VII - DISPOSIÇÕES GERAIS</h3>
+                        
+                        <div class="artigo">
+                            Casos não previstos neste documento serão avaliados pelo Tribunal de Fiscalização e Transparência.
+                            <br><br>
+                            Este documento substitui qualquer forma não oficial de punições financeiras.
+                            <br><br>
+                            O TFT é responsável pela atualização deste quadro.
+                            <br><br>
+                            O cumprimento das normas aqui estabelecidas é obrigatório para todos os envolvidos em atividades financeiras.
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 40px; padding: 30px; background: #f5f0e8; border-radius: 8px;">
+                        <p style="font-style: italic; margin: 0;">
+                            <strong>Este Livro de Conduta possui seus créditos destinados ao Tribunal de Fiscalização e Transparência</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 4: Quadro de Reuniões Anual -->
+    <div class="modal-lateral" id="modal-quadro-reunioes">
+        <div class="modal-conteudo">
+            <div class="modal-header">
+                <h2>📅 Quadro de Reuniões Anual</h2>
+                <button class="btn-fechar-modal" onclick="fecharModal('quadro-reunioes')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="documento-texto">
+                    <div style="text-align: center; margin-bottom: 40px; padding: 40px; background: linear-gradient(135deg, #FFD700 0%, #B8860B 100%); border-radius: 10px;">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23000' stroke='%23FFD700' stroke-width='2'/%3E%3Cpath d='M50 25 L50 55 M35 40 L50 55 L65 40' stroke='%23FFD700' stroke-width='3' fill='none'/%3E%3C/svg%3E" alt="Logo TFT" style="width: 100px; height: 100px; margin-bottom: 20px;">
+                        <h1 style="color: #000; border: none; margin: 0;">TRIBUNAL DE FISCALIZAÇÃO E TRANSPARÊNCIA</h1>
+                        <h2 style="color: #000; margin: 10px 0 0 0;">CRONOGRAMA ANUAL DE REUNIÕES SETORIAIS</h2>
+                    </div>
+
+                    <p style="text-align: center; font-style: italic; margin-bottom: 40px; padding: 20px; background: #f5f0e8; border-radius: 8px;">
+                        O presente quadro possui como finalidade organizar oficialmente as reuniões internas dos setores vinculados ao Tribunal de Fiscalização e Transparência, visando alinhamento operacional, fiscalização administrativa, acompanhamento de metas e supervisão institucional contínua.
+                    </p>
+
+                    <div class="capitulo">
+                        <h3>JANEIRO</h3>
+                        
+                        <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                            <thead>
+                                <tr style="background: var(--amarelo);">
+                                    <th style="border: 2px solid var(--preto); padding: 12px; text-align: left;">SETOR</th>
+                                    <th style="border: 2px solid var(--preto); padding: 12px; text-align: center;">DATA</th>
+                                    <th style="border: 2px solid var(--preto); padding: 12px; text-align: center;">HORÁRIO</th>
+                                    <th style="border: 2px solid var(--preto); padding: 12px; text-align: center;">STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px;">Planejamento Financeiro</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">-</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">20h00</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center; background: #fff3cd;">AGUARDANDO</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px;">Auditoria & Controladoria</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">-</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">20h30</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center; background: #fff3cd;">AGUARDANDO</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px;">Setor Contábil & Finanças</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">-</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">20h00</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center; background: #fff3cd;">AGUARDANDO</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px;">Compras, Vendas e Investimentos</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">-</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">20h30</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center; background: #fff3cd;">AGUARDANDO</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>FEVEREIRO</h3>
+                        
+                        <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                            <thead>
+                                <tr style="background: var(--amarelo);">
+                                    <th style="border: 2px solid var(--preto); padding: 12px; text-align: left;">SETOR</th>
+                                    <th style="border: 2px solid var(--preto); padding: 12px; text-align: center;">DATA</th>
+                                    <th style="border: 2px solid var(--preto); padding: 12px; text-align: center;">HORÁRIO</th>
+                                    <th style="border: 2px solid var(--preto); padding: 12px; text-align: center;">STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px;">Planejamento Financeiro</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">-</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">20h00</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center; background: #fff3cd;">AGUARDANDO</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px;">Auditoria & Controladoria</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">-</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">20h30</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center; background: #fff3cd;">AGUARDANDO</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px;">Setor Contábil & Finanças</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">-</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">20h00</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center; background: #fff3cd;">AGUARDANDO</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px;">Compras, Vendas e Investimentos</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">-</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">20h30</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center; background: #fff3cd;">AGUARDANDO</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>MARÇO</h3>
+                        
+                        <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                            <thead>
+                                <tr style="background: var(--amarelo);">
+                                    <th style="border: 2px solid var(--preto); padding: 12px; text-align: left;">SETOR</th>
+                                    <th style="border: 2px solid var(--preto); padding: 12px; text-align: center;">DATA</th>
+                                    <th style="border: 2px solid var(--preto); padding: 12px; text-align: center;">HORÁRIO</th>
+                                    <th style="border: 2px solid var(--preto); padding: 12px; text-align: center;">STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px;">Planejamento Financeiro</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">-</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">20h00</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center; background: #fff3cd;">AGUARDANDO</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px;">Auditoria & Controladoria</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">-</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">20h30</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center; background: #fff3cd;">AGUARDANDO</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px;">Setor Contábil & Finanças</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">-</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">20h00</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center; background: #fff3cd;">AGUARDANDO</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px;">Compras, Vendas e Investimentos</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">-</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center;">20h30</td>
+                                    <td style="border: 2px solid var(--cinza); padding: 10px; text-align: center; background: #fff3cd;">AGUARDANDO</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="capitulo">
+                        <h3>ABRIL A DEZEMBRO</h3>
+                        
+                        <div class="artigo">
+                            Os demais meses seguirão o mesmo padrão organizacional, mantendo os setores:
+                            <ul>
+                                <li>• Planejamento Financeiro</li>
+                                <li>• Auditoria & Controladoria</li>
+                                <li>• Setor Contábil & Finanças</li>
+                                <li>• Compras, Vendas e Investimentos</li>
+                            </ul>
+                            <br>
+                            <strong>Todas as datas permanecerão em "AGUARDANDO" até definição oficial da Coordenação e Diretoria-Geral do TFT.</strong>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 40px; padding: 30px; background: #f5f0e8; border-radius: 8px;">
+                        <p style="font-style: italic; margin: 0;">
+                            <strong>Este Livro de Conduta possui seus créditos destinados ao Tribunal de Fiscalização e Transparência</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         MODAL LOGIN MEMBROS
+         ============================================ -->
+    <div class="modal-overlay" id="modalLoginMembros">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>👤 Acesso de Membros<br>Tribunal de Fisc. e Transp.</h2>
+                <button class="modal-close" onclick="fecharModalLoginMembros()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="membros-icon">🎖️</div>
+                <div class="membros-info">
+                    <strong>📋 Área do Membro</strong>
+                    Acesse sua área para visualizar documentos, comunicados e informações exclusivas para membros do órgão.
+                </div>
+                <form id="formLoginMembros" onsubmit="realizarLoginMembros(event)">
+                    <div class="form-group">
+                        <label for="membrosNick">Nick (Habbo) *</label>
+                        <input type="text" id="membrosNick" name="nick" placeholder="Digite seu nick no Habbo" required autocomplete="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="membrosSenha">Senha *</label>
+                        <input type="password" id="membrosSenha" name="senha" placeholder="Digite sua senha" required autocomplete="current-password">
+                    </div>
+                    <button type="submit" class="btn-login-membros-modal" id="btnLoginMembros">Acessar Área do Membro</button>
+                    <div class="login-error" id="loginErrorMembros">❌ Nick ou senha incorretos!</div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         RODAPÉ
+         ============================================ -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <img src="img/tft.png" alt="Logo" onerror="this.style.display='none'">
+                    <span>TFT - Polícia FEB®</span>
+                </div>
+                <p>Tribunal de Fiscalização e Transparência.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Links Importantes</h4>
+                <a href="documentos.html">📜 Código de Conduta</a>
+                <a href="index.html#contato">📢 Ouvidoria</a>
+                <a href="index.html#admin">🔐 Área Administrativa</a>
+            </div>
+            <div class="footer-col">
+                <h4>Desenvolvimento</h4>
+                <p>Sistema exclusivo da Polícia FEB</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 TFT | Polícia FEB® | <span>Desenvolvido por Janaelson667</span></p>
+        </div>
+    </footer>
+
+    <!-- ============================================
+         JAVASCRIPT
+         ============================================ -->
+    <script>
+        // ============================================
+        // VERIFICAÇÃO DE LOGIN NO CABEÇALHO
+        // ============================================
+        function verificarLoginMembro() {
+            const logado = localStorage.getItem('tft_membro_logado');
+            const nick = localStorage.getItem('tft_membro_nick');
+            const btnLogin = document.getElementById('btnLoginMembros');
+            const membroLogado = document.getElementById('membroLogado');
+            const membroNome = document.getElementById('membroNome');
+
+            if (logado === 'true' && nick) {
+                btnLogin.style.display = 'none';
+                membroLogado.classList.add('ativo');
+                membroNome.textContent = nick;
+            } else {
+                btnLogin.style.display = 'flex';
+                membroLogado.classList.remove('ativo');
+            }
+        }
+
+        function fazerLogout() {
+            if (confirm('Deseja realmente sair da sua conta?')) {
+                localStorage.removeItem('tft_membro_logado');
+                localStorage.removeItem('tft_membro_nick');
+                localStorage.removeItem('tft_membro_login_time');
+                verificarLoginMembro();
+                alert('Você foi desconectado com sucesso.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', verificarLoginMembro);
+
+        // ============================================
+        // MODAL LOGIN MEMBROS
+        // ============================================
+        const CREDENCIAIS_MEMBROS = { nick: 'membro', senha: 'tft2026' };
+
+        function abrirModalLoginMembros() {
+            document.getElementById('modalLoginMembros').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            document.getElementById('loginErrorMembros').classList.remove('show');
+            document.getElementById('formLoginMembros').reset();
+        }
+
+        function fecharModalLoginMembros() {
+            document.getElementById('modalLoginMembros').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function realizarLoginMembros(event) {
+            event.preventDefault();
+            const nick = document.getElementById('membrosNick').value.trim();
+            const senha = document.getElementById('membrosSenha').value;
+            const btnLogin = document.getElementById('btnLoginMembros');
+            const loginError = document.getElementById('loginErrorMembros');
+
+            if (!nick || !senha) {
+                loginError.textContent = '❌ Preencha nick e senha!';
+                loginError.classList.add('show');
+                return;
+            }
+
+            btnLogin.disabled = true;
+            btnLogin.innerHTML = '<span class="spinner"></span> Verificando...';
+            loginError.classList.remove('show');
+
+            setTimeout(() => {
+                if (nick === CREDENCIAIS_MEMBROS.nick && senha === CREDENCIAIS_MEMBROS.senha) {
+                    localStorage.setItem('tft_membro_logado', 'true');
+                    localStorage.setItem('tft_membro_nick', nick);
+                    localStorage.setItem('tft_membro_login_time', new Date().toISOString());
+                    
+                    alert('✅ Login realizado com sucesso!\n\nBem-vindo, ' + nick + '!');
+                    
+                    btnLogin.disabled = false;
+                    btnLogin.innerHTML = 'Acessar Área do Membro';
+                    fecharModalLoginMembros();
+                    verificarLoginMembro();
+                } else {
+                    loginError.textContent = '❌ Nick ou senha incorretos!';
+                    loginError.classList.add('show');
+                    btnLogin.disabled = false;
+                    btnLogin.innerHTML = 'Acessar Área do Membro';
+                }
+            }, 800);
+        }
+
+        document.getElementById('modalLoginMembros').addEventListener('click', function(e) {
+            if (e.target === this) fecharModalLoginMembros();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                fecharModalLoginMembros();
+            }
+        });
+
+        // ============================================
+        // MODAIS LATERAIS DOS DOCUMENTOS
+        // ============================================
+        function abrirModal(documentoId) {
+            const modal = document.getElementById('modal-' + documentoId);
+            if (modal) {
+                modal.classList.add('ativo');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function fecharModal(documentoId) {
+            const modal = document.getElementById('modal-' + documentoId);
+            if (modal) {
+                modal.classList.remove('ativo');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Fechar modal ao clicar fora
+        document.querySelectorAll('.modal-lateral').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('ativo');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+
+        // Fechar modal com ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-lateral').forEach(modal => {
+                    modal.classList.remove('ativo');
+                });
+                document.body.style.overflow = 'auto';
+            }
+        });
+    </script>
+</body>
+</html>
